@@ -1,0 +1,2897 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Evaluación física inicial con generación y descarga de informe ejecutivo en PDF.">
+  <title>Evaluación física | Informe ejecutivo autocontenido</title>
+
+  <script defer src="https://unpkg.com/lucide@latest" onload="window.lucide?.createIcons?.()"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+          onerror="this.onerror=null;this.src='https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js';"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+          onerror="this.onerror=null;this.src='https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';"></script>
+
+  <style id="tailwind-static">
+/*! tailwindcss v4.1.10 | MIT License | https://tailwindcss.com */
+@layer properties;
+@layer theme, base, components, utilities;
+@layer theme {
+  :root, :host {
+    --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+    --color-emerald-50: oklch(97.9% 0.021 166.113);
+    --color-emerald-300: oklch(84.5% 0.143 164.978);
+    --color-emerald-400: oklch(76.5% 0.177 163.223);
+    --color-emerald-600: oklch(59.6% 0.145 163.225);
+    --color-emerald-950: oklch(26.2% 0.051 172.552);
+    --color-indigo-50: oklch(96.2% 0.018 272.314);
+    --color-indigo-300: oklch(78.5% 0.115 274.713);
+    --color-indigo-500: oklch(58.5% 0.233 277.117);
+    --color-indigo-600: oklch(51.1% 0.262 276.966);
+    --color-indigo-950: oklch(25.7% 0.09 281.288);
+    --color-rose-50: oklch(96.9% 0.015 12.422);
+    --color-rose-300: oklch(81% 0.117 11.638);
+    --color-rose-600: oklch(58.6% 0.253 17.585);
+    --color-rose-950: oklch(27.1% 0.105 12.094);
+    --color-slate-50: oklch(98.4% 0.003 247.858);
+    --color-slate-100: oklch(96.8% 0.007 247.896);
+    --color-slate-200: oklch(92.9% 0.013 255.508);
+    --color-slate-300: oklch(86.9% 0.022 252.894);
+    --color-slate-400: oklch(70.4% 0.04 256.788);
+    --color-slate-500: oklch(55.4% 0.046 257.417);
+    --color-slate-600: oklch(44.6% 0.043 257.281);
+    --color-slate-700: oklch(37.2% 0.044 257.287);
+    --color-slate-800: oklch(27.9% 0.041 260.031);
+    --color-slate-900: oklch(20.8% 0.042 265.755);
+    --color-slate-950: oklch(12.9% 0.042 264.695);
+    --color-white: #fff;
+    --spacing: 0.25rem;
+    --container-2xl: 42rem;
+    --container-3xl: 48rem;
+    --container-5xl: 64rem;
+    --container-7xl: 80rem;
+    --text-xs: 0.75rem;
+    --text-xs--line-height: calc(1 / 0.75);
+    --text-sm: 0.875rem;
+    --text-sm--line-height: calc(1.25 / 0.875);
+    --text-lg: 1.125rem;
+    --text-lg--line-height: calc(1.75 / 1.125);
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: calc(2 / 1.5);
+    --text-4xl: 2.25rem;
+    --text-4xl--line-height: calc(2.5 / 2.25);
+    --text-5xl: 3rem;
+    --text-5xl--line-height: 1;
+    --text-6xl: 3.75rem;
+    --text-6xl--line-height: 1;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    --tracking-tight: -0.025em;
+    --tracking-wide: 0.025em;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    --animate-spin: spin 1s linear infinite;
+    --blur-2xl: 40px;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --default-font-family: var(--font-sans);
+    --default-mono-font-family: var(--font-mono);
+    --color-brand-50: #eef8ff;
+    --color-brand-200: #bce4ff;
+    --color-brand-300: #8ed5ff;
+    --color-brand-400: #59bcff;
+    --color-brand-500: #329cff;
+    --color-brand-600: #1b7cf5;
+    --color-brand-700: #1464e1;
+    --color-brand-800: #1751b6;
+    --color-brand-900: #19488f;
+    --color-brand-950: #142d57;
+  }
+}
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html, :host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji');
+    font-feature-settings: var(--default-font-feature-settings, normal);
+    font-variation-settings: var(--default-font-variation-settings, normal);
+    -webkit-tap-highlight-color: transparent;
+  }
+  hr {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+  abbr:where([title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+  b, strong {
+    font-weight: bolder;
+  }
+  code, kbd, samp, pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+  small {
+    font-size: 80%;
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub {
+    bottom: -0.25em;
+  }
+  sup {
+    top: -0.5em;
+  }
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+  :-moz-focusring {
+    outline: auto;
+  }
+  progress {
+    vertical-align: baseline;
+  }
+  summary {
+    display: list-item;
+  }
+  ol, ul, menu {
+    list-style: none;
+  }
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  button, input, select, optgroup, textarea, ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  :where(select:is([multiple], [size])) optgroup {
+    font-weight: bolder;
+  }
+  :where(select:is([multiple], [size])) optgroup option {
+    padding-inline-start: 20px;
+  }
+  ::file-selector-button {
+    margin-inline-end: 4px;
+  }
+  ::placeholder {
+    opacity: 1;
+  }
+  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+    ::placeholder {
+      color: currentcolor;
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, currentcolor 50%, transparent);
+      }
+    }
+  }
+  textarea {
+    resize: vertical;
+  }
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    min-height: 1lh;
+    text-align: inherit;
+  }
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+  }
+  ::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+    padding-block: 0;
+  }
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+  button, input:where([type='button'], [type='reset'], [type='submit']), ::file-selector-button {
+    appearance: button;
+  }
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    height: auto;
+  }
+  [hidden]:where(:not([hidden='until-found'])) {
+    display: none !important;
+  }
+}
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  .absolute {
+    position: absolute;
+  }
+  .fixed {
+    position: fixed;
+  }
+  .relative {
+    position: relative;
+  }
+  .sticky {
+    position: sticky;
+  }
+  .-inset-5 {
+    inset: calc(var(--spacing) * -5);
+  }
+  .top-0 {
+    top: calc(var(--spacing) * 0);
+  }
+  .top-4 {
+    top: calc(var(--spacing) * 4);
+  }
+  .right-4 {
+    right: calc(var(--spacing) * 4);
+  }
+  .-z-10 {
+    z-index: calc(10 * -1);
+  }
+  .z-50 {
+    z-index: 50;
+  }
+  .z-\[80\] {
+    z-index: 80;
+  }
+  .mx-auto {
+    margin-inline: auto;
+  }
+  .mt-0\.5 {
+    margin-top: calc(var(--spacing) * 0.5);
+  }
+  .mt-1 {
+    margin-top: calc(var(--spacing) * 1);
+  }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
+  .mt-4 {
+    margin-top: calc(var(--spacing) * 4);
+  }
+  .mt-5 {
+    margin-top: calc(var(--spacing) * 5);
+  }
+  .mt-6 {
+    margin-top: calc(var(--spacing) * 6);
+  }
+  .mt-7 {
+    margin-top: calc(var(--spacing) * 7);
+  }
+  .mt-8 {
+    margin-top: calc(var(--spacing) * 8);
+  }
+  .mt-14 {
+    margin-top: calc(var(--spacing) * 14);
+  }
+  .mb-1 {
+    margin-bottom: calc(var(--spacing) * 1);
+  }
+  .mb-2 {
+    margin-bottom: calc(var(--spacing) * 2);
+  }
+  .mb-3 {
+    margin-bottom: calc(var(--spacing) * 3);
+  }
+  .mb-5 {
+    margin-bottom: calc(var(--spacing) * 5);
+  }
+  .mb-7 {
+    margin-bottom: calc(var(--spacing) * 7);
+  }
+  .ml-auto {
+    margin-left: auto;
+  }
+  .block {
+    display: block;
+  }
+  .flex {
+    display: flex;
+  }
+  .grid {
+    display: grid;
+  }
+  .hidden {
+    display: none;
+  }
+  .inline-flex {
+    display: inline-flex;
+  }
+  .h-2 {
+    height: calc(var(--spacing) * 2);
+  }
+  .h-4 {
+    height: calc(var(--spacing) * 4);
+  }
+  .h-5 {
+    height: calc(var(--spacing) * 5);
+  }
+  .h-6 {
+    height: calc(var(--spacing) * 6);
+  }
+  .h-8 {
+    height: calc(var(--spacing) * 8);
+  }
+  .h-9 {
+    height: calc(var(--spacing) * 9);
+  }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
+  .h-11 {
+    height: calc(var(--spacing) * 11);
+  }
+  .h-12 {
+    height: calc(var(--spacing) * 12);
+  }
+  .h-fit {
+    height: fit-content;
+  }
+  .h-full {
+    height: 100%;
+  }
+  .min-h-28 {
+    min-height: calc(var(--spacing) * 28);
+  }
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  .w-1\/4 {
+    width: calc(1/4 * 100%);
+  }
+  .w-4 {
+    width: calc(var(--spacing) * 4);
+  }
+  .w-5 {
+    width: calc(var(--spacing) * 5);
+  }
+  .w-6 {
+    width: calc(var(--spacing) * 6);
+  }
+  .w-8 {
+    width: calc(var(--spacing) * 8);
+  }
+  .w-9 {
+    width: calc(var(--spacing) * 9);
+  }
+  .w-10 {
+    width: calc(var(--spacing) * 10);
+  }
+  .w-11 {
+    width: calc(var(--spacing) * 11);
+  }
+  .w-12 {
+    width: calc(var(--spacing) * 12);
+  }
+  .w-\[min\(92vw\,380px\)\] {
+    width: min(92vw, 380px);
+  }
+  .w-full {
+    width: 100%;
+  }
+  .max-w-2xl {
+    max-width: var(--container-2xl);
+  }
+  .max-w-3xl {
+    max-width: var(--container-3xl);
+  }
+  .max-w-5xl {
+    max-width: var(--container-5xl);
+  }
+  .max-w-7xl {
+    max-width: var(--container-7xl);
+  }
+  .shrink-0 {
+    flex-shrink: 0;
+  }
+  .animate-spin {
+    animation: var(--animate-spin);
+  }
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  .resize-y {
+    resize: vertical;
+  }
+  .flex-col {
+    flex-direction: column;
+  }
+  .flex-col-reverse {
+    flex-direction: column-reverse;
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+  .place-items-center {
+    place-items: center;
+  }
+  .items-center {
+    align-items: center;
+  }
+  .items-end {
+    align-items: flex-end;
+  }
+  .items-start {
+    align-items: flex-start;
+  }
+  .justify-between {
+    justify-content: space-between;
+  }
+  .justify-center {
+    justify-content: center;
+  }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
+  }
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
+  }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
+  }
+  .gap-8 {
+    gap: calc(var(--spacing) * 8);
+  }
+  .gap-10 {
+    gap: calc(var(--spacing) * 10);
+  }
+  .space-y-4 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 4) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .space-y-5 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 5) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 5) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  .rounded-2xl {
+    border-radius: var(--radius-2xl);
+  }
+  .rounded-\[1\.5rem\] {
+    border-radius: 1.5rem;
+  }
+  .rounded-\[1\.75rem\] {
+    border-radius: 1.75rem;
+  }
+  .rounded-\[2rem\] {
+    border-radius: 2rem;
+  }
+  .rounded-full {
+    border-radius: calc(infinity * 1px);
+  }
+  .rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
+  .border-2 {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+  }
+  .border-t {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 1px;
+  }
+  .border-b {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 1px;
+  }
+  .border-brand-200 {
+    border-color: var(--color-brand-200);
+  }
+  .border-slate-200 {
+    border-color: var(--color-slate-200);
+  }
+  .border-slate-200\/70 {
+    border-color: color-mix(in srgb, oklch(92.9% 0.013 255.508) 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-slate-200) 70%, transparent);
+    }
+  }
+  .border-slate-300 {
+    border-color: var(--color-slate-300);
+  }
+  .border-white\/40 {
+    border-color: color-mix(in srgb, #fff 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-white) 40%, transparent);
+    }
+  }
+  .border-white\/50 {
+    border-color: color-mix(in srgb, #fff 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-white) 50%, transparent);
+    }
+  }
+  .border-white\/70 {
+    border-color: color-mix(in srgb, #fff 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-white) 70%, transparent);
+    }
+  }
+  .border-t-white {
+    border-top-color: var(--color-white);
+  }
+  .bg-brand-50 {
+    background-color: var(--color-brand-50);
+  }
+  .bg-brand-600 {
+    background-color: var(--color-brand-600);
+  }
+  .bg-emerald-50 {
+    background-color: var(--color-emerald-50);
+  }
+  .bg-emerald-600 {
+    background-color: var(--color-emerald-600);
+  }
+  .bg-indigo-50 {
+    background-color: var(--color-indigo-50);
+  }
+  .bg-indigo-600 {
+    background-color: var(--color-indigo-600);
+  }
+  .bg-rose-50 {
+    background-color: var(--color-rose-50);
+  }
+  .bg-slate-50 {
+    background-color: var(--color-slate-50);
+  }
+  .bg-slate-100 {
+    background-color: var(--color-slate-100);
+  }
+  .bg-slate-200 {
+    background-color: var(--color-slate-200);
+  }
+  .bg-slate-900 {
+    background-color: var(--color-slate-900);
+  }
+  .bg-white {
+    background-color: var(--color-white);
+  }
+  .bg-white\/60 {
+    background-color: color-mix(in srgb, #fff 60%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 60%, transparent);
+    }
+  }
+  .bg-white\/70 {
+    background-color: color-mix(in srgb, #fff 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 70%, transparent);
+    }
+  }
+  .bg-white\/75 {
+    background-color: color-mix(in srgb, #fff 75%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 75%, transparent);
+    }
+  }
+  .bg-white\/80 {
+    background-color: color-mix(in srgb, #fff 80%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 80%, transparent);
+    }
+  }
+  .bg-white\/85 {
+    background-color: color-mix(in srgb, #fff 85%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 85%, transparent);
+    }
+  }
+  .bg-gradient-to-br {
+    --tw-gradient-position: to bottom right in oklab;
+    background-image: linear-gradient(var(--tw-gradient-stops));
+  }
+  .bg-gradient-to-r {
+    --tw-gradient-position: to right in oklab;
+    background-image: linear-gradient(var(--tw-gradient-stops));
+  }
+  .from-brand-50 {
+    --tw-gradient-from: var(--color-brand-50);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-brand-400\/20 {
+    --tw-gradient-from: color-mix(in srgb, #59bcff 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-from: color-mix(in oklab, var(--color-brand-400) 20%, transparent);
+    }
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-brand-500 {
+    --tw-gradient-from: var(--color-brand-500);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-brand-600 {
+    --tw-gradient-from: var(--color-brand-600);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-indigo-50 {
+    --tw-gradient-to: var(--color-indigo-50);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-indigo-500\/20 {
+    --tw-gradient-to: color-mix(in srgb, oklch(58.5% 0.233 277.117) 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-to: color-mix(in oklab, var(--color-indigo-500) 20%, transparent);
+    }
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-indigo-600 {
+    --tw-gradient-to: var(--color-indigo-600);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .p-4 {
+    padding: calc(var(--spacing) * 4);
+  }
+  .p-5 {
+    padding: calc(var(--spacing) * 5);
+  }
+  .p-6 {
+    padding: calc(var(--spacing) * 6);
+  }
+  .px-3 {
+    padding-inline: calc(var(--spacing) * 3);
+  }
+  .px-4 {
+    padding-inline: calc(var(--spacing) * 4);
+  }
+  .px-5 {
+    padding-inline: calc(var(--spacing) * 5);
+  }
+  .px-6 {
+    padding-inline: calc(var(--spacing) * 6);
+  }
+  .py-1 {
+    padding-block: calc(var(--spacing) * 1);
+  }
+  .py-1\.5 {
+    padding-block: calc(var(--spacing) * 1.5);
+  }
+  .py-2\.5 {
+    padding-block: calc(var(--spacing) * 2.5);
+  }
+  .py-3 {
+    padding-block: calc(var(--spacing) * 3);
+  }
+  .py-5 {
+    padding-block: calc(var(--spacing) * 5);
+  }
+  .py-8 {
+    padding-block: calc(var(--spacing) * 8);
+  }
+  .pt-6 {
+    padding-top: calc(var(--spacing) * 6);
+  }
+  .pt-10 {
+    padding-top: calc(var(--spacing) * 10);
+  }
+  .pb-5 {
+    padding-bottom: calc(var(--spacing) * 5);
+  }
+  .pb-20 {
+    padding-bottom: calc(var(--spacing) * 20);
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-4xl {
+    font-size: var(--text-4xl);
+    line-height: var(--tw-leading, var(--text-4xl--line-height));
+  }
+  .text-lg {
+    font-size: var(--text-lg);
+    line-height: var(--tw-leading, var(--text-lg--line-height));
+  }
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+  .leading-6 {
+    --tw-leading: calc(var(--spacing) * 6);
+    line-height: calc(var(--spacing) * 6);
+  }
+  .leading-8 {
+    --tw-leading: calc(var(--spacing) * 8);
+    line-height: calc(var(--spacing) * 8);
+  }
+  .leading-\[1\.08\] {
+    --tw-leading: 1.08;
+    line-height: 1.08;
+  }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
+  .font-extrabold {
+    --tw-font-weight: var(--font-weight-extrabold);
+    font-weight: var(--font-weight-extrabold);
+  }
+  .font-semibold {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+  .tracking-\[\.16em\] {
+    --tw-tracking: .16em;
+    letter-spacing: .16em;
+  }
+  .tracking-\[\.18em\] {
+    --tw-tracking: .18em;
+    letter-spacing: .18em;
+  }
+  .tracking-tight {
+    --tw-tracking: var(--tracking-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+  .tracking-wide {
+    --tw-tracking: var(--tracking-wide);
+    letter-spacing: var(--tracking-wide);
+  }
+  .text-brand-600 {
+    color: var(--color-brand-600);
+  }
+  .text-brand-700 {
+    color: var(--color-brand-700);
+  }
+  .text-emerald-600 {
+    color: var(--color-emerald-600);
+  }
+  .text-indigo-600 {
+    color: var(--color-indigo-600);
+  }
+  .text-rose-600 {
+    color: var(--color-rose-600);
+  }
+  .text-slate-400 {
+    color: var(--color-slate-400);
+  }
+  .text-slate-500 {
+    color: var(--color-slate-500);
+  }
+  .text-slate-600 {
+    color: var(--color-slate-600);
+  }
+  .text-slate-700 {
+    color: var(--color-slate-700);
+  }
+  .text-slate-900 {
+    color: var(--color-slate-900);
+  }
+  .text-slate-950 {
+    color: var(--color-slate-950);
+  }
+  .text-white {
+    color: var(--color-white);
+  }
+  .uppercase {
+    text-transform: uppercase;
+  }
+  .shadow-card {
+    --tw-shadow: 0 12px 30px -18px var(--tw-shadow-color, rgba(15, 23, 42, .35));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-lg {
+    --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-soft {
+    --tw-shadow: 0 20px 50px -24px var(--tw-shadow-color, rgba(15, 23, 42, .25));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-brand-600\/20 {
+    --tw-shadow-color: color-mix(in srgb, #1b7cf5 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-brand-600) 20%, transparent) var(--tw-shadow-alpha), transparent);
+    }
+  }
+  .blur-2xl {
+    --tw-blur: blur(var(--blur-2xl));
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .backdrop-blur {
+    --tw-backdrop-blur: blur(8px);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  }
+  .transition {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-colors {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-300 {
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+  }
+  .hover\:-translate-y-0\.5 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-translate-y: calc(var(--spacing) * -0.5);
+        translate: var(--tw-translate-x) var(--tw-translate-y);
+      }
+    }
+  }
+  .hover\:border-brand-300 {
+    &:hover {
+      @media (hover: hover) {
+        border-color: var(--color-brand-300);
+      }
+    }
+  }
+  .hover\:bg-brand-50\/40 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in srgb, #eef8ff 40%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-brand-50) 40%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:bg-brand-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-brand-700);
+      }
+    }
+  }
+  .hover\:bg-slate-50 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-slate-50);
+      }
+    }
+  }
+  .hover\:bg-slate-800 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-slate-800);
+      }
+    }
+  }
+  .hover\:bg-white {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-white);
+      }
+    }
+  }
+  .focus\:ring-brand-500 {
+    &:focus {
+      --tw-ring-color: var(--color-brand-500);
+    }
+  }
+  .disabled\:cursor-wait {
+    &:disabled {
+      cursor: wait;
+    }
+  }
+  .disabled\:opacity-70 {
+    &:disabled {
+      opacity: 70%;
+    }
+  }
+  .sm\:inline {
+    @media (width >= 40rem) {
+      display: inline;
+    }
+  }
+  .sm\:w-auto {
+    @media (width >= 40rem) {
+      width: auto;
+    }
+  }
+  .sm\:grid-cols-3 {
+    @media (width >= 40rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .sm\:grid-cols-\[1fr_auto\] {
+    @media (width >= 40rem) {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  .sm\:flex-row {
+    @media (width >= 40rem) {
+      flex-direction: row;
+    }
+  }
+  .sm\:items-center {
+    @media (width >= 40rem) {
+      align-items: center;
+    }
+  }
+  .sm\:justify-between {
+    @media (width >= 40rem) {
+      justify-content: space-between;
+    }
+  }
+  .sm\:p-8 {
+    @media (width >= 40rem) {
+      padding: calc(var(--spacing) * 8);
+    }
+  }
+  .sm\:px-6 {
+    @media (width >= 40rem) {
+      padding-inline: calc(var(--spacing) * 6);
+    }
+  }
+  .sm\:py-8 {
+    @media (width >= 40rem) {
+      padding-block: calc(var(--spacing) * 8);
+    }
+  }
+  .sm\:text-5xl {
+    @media (width >= 40rem) {
+      font-size: var(--text-5xl);
+      line-height: var(--tw-leading, var(--text-5xl--line-height));
+    }
+  }
+  .md\:col-span-2 {
+    @media (width >= 48rem) {
+      grid-column: span 2 / span 2;
+    }
+  }
+  .md\:grid-cols-2 {
+    @media (width >= 48rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .lg\:sticky {
+    @media (width >= 64rem) {
+      position: sticky;
+    }
+  }
+  .lg\:top-24 {
+    @media (width >= 64rem) {
+      top: calc(var(--spacing) * 24);
+    }
+  }
+  .lg\:grid-cols-\[1\.1fr_\.9fr\] {
+    @media (width >= 64rem) {
+      grid-template-columns: 1.1fr .9fr;
+    }
+  }
+  .lg\:grid-cols-\[260px_minmax\(0\,1fr\)\] {
+    @media (width >= 64rem) {
+      grid-template-columns: 260px minmax(0,1fr);
+    }
+  }
+  .lg\:px-8 {
+    @media (width >= 64rem) {
+      padding-inline: calc(var(--spacing) * 8);
+    }
+  }
+  .lg\:pt-16 {
+    @media (width >= 64rem) {
+      padding-top: calc(var(--spacing) * 16);
+    }
+  }
+  .lg\:text-6xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-6xl);
+      line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+  }
+  .dark\:block {
+    &:where(.dark, .dark *) {
+      display: block;
+    }
+  }
+  .dark\:hidden {
+    &:where(.dark, .dark *) {
+      display: none;
+    }
+  }
+  .dark\:border-brand-800\/70 {
+    &:where(.dark, .dark *) {
+      border-color: color-mix(in srgb, #1751b6 70%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix(in oklab, var(--color-brand-800) 70%, transparent);
+      }
+    }
+  }
+  .dark\:border-brand-900\/70 {
+    &:where(.dark, .dark *) {
+      border-color: color-mix(in srgb, #19488f 70%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix(in oklab, var(--color-brand-900) 70%, transparent);
+      }
+    }
+  }
+  .dark\:border-slate-600 {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-slate-600);
+    }
+  }
+  .dark\:border-slate-700 {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-slate-700);
+    }
+  }
+  .dark\:border-slate-800 {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-slate-800);
+    }
+  }
+  .dark\:border-slate-800\/80 {
+    &:where(.dark, .dark *) {
+      border-color: color-mix(in srgb, oklch(27.9% 0.041 260.031) 80%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix(in oklab, var(--color-slate-800) 80%, transparent);
+      }
+    }
+  }
+  .dark\:bg-brand-950\/50 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, #142d57 50%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-brand-950) 50%, transparent);
+      }
+    }
+  }
+  .dark\:bg-brand-950\/60 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, #142d57 60%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-brand-950) 60%, transparent);
+      }
+    }
+  }
+  .dark\:bg-emerald-950\/60 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(26.2% 0.051 172.552) 60%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-emerald-950) 60%, transparent);
+      }
+    }
+  }
+  .dark\:bg-indigo-950\/60 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(25.7% 0.09 281.288) 60%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-indigo-950) 60%, transparent);
+      }
+    }
+  }
+  .dark\:bg-rose-950\/60 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(27.1% 0.105 12.094) 60%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-rose-950) 60%, transparent);
+      }
+    }
+  }
+  .dark\:bg-slate-700 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-slate-700);
+    }
+  }
+  .dark\:bg-slate-800 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-slate-800);
+    }
+  }
+  .dark\:bg-slate-800\/70 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(27.9% 0.041 260.031) 70%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-slate-800) 70%, transparent);
+      }
+    }
+  }
+  .dark\:bg-slate-800\/80 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(27.9% 0.041 260.031) 80%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-slate-800) 80%, transparent);
+      }
+    }
+  }
+  .dark\:bg-slate-900 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-slate-900);
+    }
+  }
+  .dark\:bg-slate-900\/50 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 50%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-slate-900) 50%, transparent);
+      }
+    }
+  }
+  .dark\:bg-slate-900\/70 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 70%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-slate-900) 70%, transparent);
+      }
+    }
+  }
+  .dark\:bg-slate-900\/75 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 75%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-slate-900) 75%, transparent);
+      }
+    }
+  }
+  .dark\:bg-slate-950 {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-slate-950);
+    }
+  }
+  .dark\:bg-slate-950\/30 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in srgb, oklch(12.9% 0.042 264.695) 30%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-slate-950) 30%, transparent);
+      }
+    }
+  }
+  .dark\:bg-white {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-white);
+    }
+  }
+  .dark\:from-brand-950\/40 {
+    &:where(.dark, .dark *) {
+      --tw-gradient-from: color-mix(in srgb, #142d57 40%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-gradient-from: color-mix(in oklab, var(--color-brand-950) 40%, transparent);
+      }
+      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    }
+  }
+  .dark\:to-indigo-950\/30 {
+    &:where(.dark, .dark *) {
+      --tw-gradient-to: color-mix(in srgb, oklch(25.7% 0.09 281.288) 30%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-gradient-to: color-mix(in oklab, var(--color-indigo-950) 30%, transparent);
+      }
+      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    }
+  }
+  .dark\:text-brand-300 {
+    &:where(.dark, .dark *) {
+      color: var(--color-brand-300);
+    }
+  }
+  .dark\:text-brand-400 {
+    &:where(.dark, .dark *) {
+      color: var(--color-brand-400);
+    }
+  }
+  .dark\:text-emerald-300 {
+    &:where(.dark, .dark *) {
+      color: var(--color-emerald-300);
+    }
+  }
+  .dark\:text-emerald-400 {
+    &:where(.dark, .dark *) {
+      color: var(--color-emerald-400);
+    }
+  }
+  .dark\:text-indigo-300 {
+    &:where(.dark, .dark *) {
+      color: var(--color-indigo-300);
+    }
+  }
+  .dark\:text-rose-300 {
+    &:where(.dark, .dark *) {
+      color: var(--color-rose-300);
+    }
+  }
+  .dark\:text-slate-100 {
+    &:where(.dark, .dark *) {
+      color: var(--color-slate-100);
+    }
+  }
+  .dark\:text-slate-200 {
+    &:where(.dark, .dark *) {
+      color: var(--color-slate-200);
+    }
+  }
+  .dark\:text-slate-300 {
+    &:where(.dark, .dark *) {
+      color: var(--color-slate-300);
+    }
+  }
+  .dark\:text-slate-400 {
+    &:where(.dark, .dark *) {
+      color: var(--color-slate-400);
+    }
+  }
+  .dark\:text-slate-900 {
+    &:where(.dark, .dark *) {
+      color: var(--color-slate-900);
+    }
+  }
+  .dark\:text-white {
+    &:where(.dark, .dark *) {
+      color: var(--color-white);
+    }
+  }
+  .dark\:hover\:border-brand-700 {
+    &:where(.dark, .dark *) {
+      &:hover {
+        @media (hover: hover) {
+          border-color: var(--color-brand-700);
+        }
+      }
+    }
+  }
+  .dark\:hover\:bg-slate-100 {
+    &:where(.dark, .dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--color-slate-100);
+        }
+      }
+    }
+  }
+  .dark\:hover\:bg-slate-700 {
+    &:where(.dark, .dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--color-slate-700);
+        }
+      }
+    }
+  }
+}
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-gradient-position {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-via {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-to {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-via-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+@property --tw-gradient-via-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+@property --tw-gradient-to-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-translate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-space-y-reverse: 0;
+      --tw-border-style: solid;
+      --tw-gradient-position: initial;
+      --tw-gradient-from: #0000;
+      --tw-gradient-via: #0000;
+      --tw-gradient-to: #0000;
+      --tw-gradient-stops: initial;
+      --tw-gradient-via-stops: initial;
+      --tw-gradient-from-position: 0%;
+      --tw-gradient-via-position: 50%;
+      --tw-gradient-to-position: 100%;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-tracking: initial;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
+      --tw-backdrop-blur: initial;
+      --tw-backdrop-brightness: initial;
+      --tw-backdrop-contrast: initial;
+      --tw-backdrop-grayscale: initial;
+      --tw-backdrop-hue-rotate: initial;
+      --tw-backdrop-invert: initial;
+      --tw-backdrop-opacity: initial;
+      --tw-backdrop-saturate: initial;
+      --tw-backdrop-sepia: initial;
+      --tw-duration: initial;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-translate-z: 0;
+    }
+  }
+}
+
+  </style>
+
+  <style>
+
+    /* Respaldo local: la interfaz no depende de Tailwind CDN ni de Google Fonts. */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { width: 100%; margin: 0; }
+    body { overflow-x: hidden; }
+    [data-lucide] { flex: 0 0 auto; }
+
+    :root { color-scheme: light; }
+    .dark { color-scheme: dark; }
+
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    .app-background {
+      background:
+        radial-gradient(circle at 8% 0%, rgba(50,156,255,.16), transparent 28rem),
+        radial-gradient(circle at 92% 10%, rgba(99,102,241,.13), transparent 24rem),
+        linear-gradient(180deg, #f8fbff 0%, #f8fafc 45%, #eef2f7 100%);
+    }
+
+    .dark .app-background {
+      background:
+        radial-gradient(circle at 8% 0%, rgba(50,156,255,.14), transparent 28rem),
+        radial-gradient(circle at 92% 10%, rgba(99,102,241,.12), transparent 24rem),
+        linear-gradient(180deg, #07101f 0%, #0f172a 48%, #111827 100%);
+    }
+
+    .glass {
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .dark .glass { background: rgba(15,23,42,.78); }
+
+    .field {
+      width: 100%;
+      border-radius: .85rem;
+      border: 1px solid rgb(203 213 225);
+      background: rgba(255,255,255,.95);
+      padding: .78rem .95rem;
+      color: rgb(15 23 42);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background-color .2s;
+    }
+
+    .field:hover { border-color: rgb(148 163 184); }
+    .field:focus {
+      border-color: rgb(27 124 245);
+      box-shadow: 0 0 0 4px rgba(50,156,255,.14);
+    }
+
+    .dark .field {
+      border-color: rgb(71 85 105);
+      background: rgba(30,41,59,.9);
+      color: white;
+    }
+
+    .dark .field:hover { border-color: rgb(100 116 139); }
+    .field::placeholder { color: rgb(148 163 184); }
+    .field:disabled { cursor: not-allowed; opacity: .55; }
+
+    .choice-card input:checked + div {
+      border-color: rgb(27 124 245);
+      background: rgba(50,156,255,.09);
+      box-shadow: 0 0 0 3px rgba(50,156,255,.10);
+    }
+
+    .choice-card input:focus-visible + div {
+      outline: 3px solid rgba(50,156,255,.28);
+      outline-offset: 2px;
+    }
+
+    .step-panel { display: none; }
+    .step-panel.active { display: block; animation: panelIn .25s ease both; }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-dot.active {
+      color: white;
+      background: rgb(27 124 245);
+      border-color: rgb(27 124 245);
+      box-shadow: 0 0 0 5px rgba(50,156,255,.12);
+    }
+
+    .step-dot.complete {
+      color: white;
+      background: rgb(16 185 129);
+      border-color: rgb(16 185 129);
+    }
+
+    .report-shell {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: white;
+      color: #111827;
+      box-shadow: 0 24px 80px -36px rgba(15,23,42,.6);
+    }
+
+    .apa-document {
+      position: relative;
+      box-sizing: border-box;
+      min-height: 297mm;
+      padding: 20mm 20mm 20mm 30mm;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #111;
+      background: #fff;
+    }
+
+    .apa-document.pdf-export {
+      width: 160mm;
+      min-height: auto;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    .apa-document h1,
+    .apa-document h2,
+    .apa-document h3,
+    .apa-document p,
+    .apa-document li,
+    .apa-document td,
+    .apa-document th { font-family: Arial, Helvetica, sans-serif; }
+
+    .apa-document h1 {
+      margin: 0;
+      font-size: 11pt;
+      line-height: 1.5;
+      font-weight: 700;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: .035em;
+    }
+
+    .apa-document h2 {
+      margin: .85rem 0 .3rem;
+      padding-bottom: .18rem;
+      border-bottom: 1px solid #64748b;
+      font-size: 11pt;
+      line-height: 1.5;
+      font-weight: 700;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    .apa-document h3 {
+      margin: .55rem 0 .2rem;
+      font-size: 11pt;
+      line-height: 1.5;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .apa-document p {
+      margin: 0;
+      text-align: left;
+      text-indent: 0;
+    }
+
+    .apa-document .no-indent,
+    .apa-document .center,
+    .apa-document .right { text-indent: 0; }
+    .apa-document .center { text-align: center; }
+    .apa-document .right { text-align: right; }
+
+    .executive-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: .55rem;
+      padding-bottom: .45rem;
+      border-bottom: 2px solid #111827;
+    }
+
+    .executive-meta {
+      margin: .1rem 0 0;
+      color: #475569;
+      font-size: 11pt;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .executive-list {
+      margin: .2rem 0 .55rem 1.1rem;
+      padding-left: .55rem;
+      list-style-type: disc;
+    }
+
+    .executive-list li {
+      margin: .08rem 0;
+      padding-left: .12rem;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .executive-list.compact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 1.4rem;
+      row-gap: .02rem;
+    }
+
+    .executive-list strong { font-weight: 700; }
+
+    .apa-callout {
+      margin: .55rem 0;
+      padding: .45rem .65rem;
+      border-left: 3px solid #475569;
+      background: #f8fafc;
+      line-height: 1.5;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .signature-table {
+      width: 100%;
+      margin-top: 1.6rem;
+      border-collapse: collapse;
+      line-height: 1.35;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .signature-table td {
+      width: 46%;
+      padding-top: 1.6rem;
+      text-align: center;
+      border-top: 1px solid #111;
+    }
+
+    .signature-table td.spacer {
+      width: 8%;
+      border-top: 0;
+    }
+
+    .page-break-before {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .toast { animation: toastIn .2s ease both; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .report-shell {
+        width: 100%;
+        min-height: auto;
+      }
+      .apa-document {
+        min-height: auto;
+        padding: 1.15rem;
+        font-size: 11pt;
+      }
+      .executive-list.compact-grid { grid-template-columns: 1fr; }
+    }
+
+    @page {
+      size: A4;
+      margin: 20mm 20mm 20mm 30mm;
+    }
+
+    @media print {
+      html, body { width: 210mm; background: white !important; }
+      #appView, #previewToolbar, #toastContainer { display: none !important; }
+      #reportView { display: block !important; padding: 0 !important; background: white !important; }
+      .report-shell { width: auto; min-height: auto; margin: 0; box-shadow: none; }
+      .apa-document { width: auto; min-height: auto; padding: 0; font-size: 11pt; line-height: 1.5; }
+      .executive-list.compact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+
+<body class="app-background text-slate-900 dark:text-slate-100 transition-colors duration-300">
+  <div id="toastContainer" class="fixed right-4 top-4 z-[80] flex w-[min(92vw,380px)] flex-col gap-3"></div>
+
+  <header class="sticky top-0 z-50 border-b border-white/50 dark:border-slate-800/80 glass">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#inicio" class="flex items-center gap-3" aria-label="Ir al inicio">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand-500 to-indigo-600 text-white shadow-card">
+          <i data-lucide="activity" class="h-5 w-5"></i>
+        </span>
+      </a>
+
+      <div class="flex items-center gap-2">
+        <span id="saveStatus" class="hidden text-xs text-slate-500 sm:inline dark:text-slate-400">Guardado automático activo</span>
+        <button id="themeToggle" type="button" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white/80 text-slate-600 transition hover:-translate-y-0.5 hover:bg-white dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300" aria-label="Cambiar tema">
+          <i data-lucide="moon" class="h-5 w-5 dark:hidden"></i>
+          <i data-lucide="sun" class="hidden h-5 w-5 dark:block"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="appView">
+    <main id="inicio" class="mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8 lg:pt-16">
+      <section class="grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]">
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[.16em] text-brand-700 dark:border-brand-800/70 dark:bg-brand-950/50 dark:text-brand-300">
+            <i data-lucide="file-check-2" class="h-4 w-4"></i>
+            Informe PDF descargable
+          </span>
+          <h1 class="mt-5 max-w-3xl text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl">
+            Evaluación física clara, moderna y lista para documentar.
+          </h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+            Registra la condición inicial del cliente, revisa los resultados y descarga un informe ejecutivo en PDF, diseñado para facilitar el seguimiento del entrenador.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#evaluacion" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-3 font-bold text-white shadow-lg shadow-brand-600/20 transition hover:-translate-y-0.5 hover:bg-brand-700">
+              Iniciar evaluación
+              <i data-lucide="arrow-down" class="h-4 w-4"></i>
+            </a>
+            <button id="clearDraftButton" type="button" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white/80 px-5 py-3 font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:bg-white dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200">
+              <i data-lucide="rotate-ccw" class="h-4 w-4"></i>
+              Limpiar borrador
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="absolute -inset-5 -z-10 rounded-[2rem] bg-gradient-to-br from-brand-400/20 to-indigo-500/20 blur-2xl"></div>
+          <div class="rounded-[1.75rem] border border-white/70 bg-white/85 p-6 shadow-soft backdrop-blur dark:border-slate-700 dark:bg-slate-900/75 sm:p-8">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-brand-600 dark:text-brand-400">Resumen del proceso</p>
+                <h2 class="mt-1 text-2xl font-bold">De datos a informe</h2>
+              </div>
+              <span class="grid h-12 w-12 place-items-center rounded-2xl bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                <i data-lucide="clipboard-pulse" class="h-6 w-6"></i>
+              </span>
+            </div>
+
+            <div class="mt-7 space-y-4">
+              <div class="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/70">
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600 font-bold text-white">1</span>
+                <div><strong>Registra</strong><p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Datos personales, composición, actividad y antecedentes.</p></div>
+              </div>
+              <div class="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/70">
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600 font-bold text-white">2</span>
+                <div><strong>Revisa</strong><p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Visualiza el informe antes de exportarlo.</p></div>
+              </div>
+              <div class="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/70">
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-emerald-600 font-bold text-white">3</span>
+                <div><strong>Descarga</strong><p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Obtén el documento final en PDF con un clic.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="evaluacion" class="mt-14 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <aside class="h-fit rounded-2xl border border-white/70 bg-white/75 p-5 shadow-card backdrop-blur dark:border-slate-700 dark:bg-slate-900/70 lg:sticky lg:top-24">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[.18em] text-brand-600 dark:text-brand-400">Progreso</p>
+              <p id="progressLabel" class="mt-1 text-sm text-slate-500 dark:text-slate-400">Paso 1 de 4</p>
+            </div>
+            <span id="progressPercent" class="text-lg font-extrabold">25%</span>
+          </div>
+          <div class="mt-4 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+            <div id="progressBar" class="h-full w-1/4 rounded-full bg-gradient-to-r from-brand-500 to-indigo-600 transition-all duration-300"></div>
+          </div>
+
+          <ol class="mt-6 space-y-5" aria-label="Etapas del formulario">
+            <li class="flex items-start gap-3" data-step-item="1">
+              <span class="step-dot active grid h-8 w-8 shrink-0 place-items-center rounded-full border border-slate-300 bg-white text-sm font-bold text-slate-500 transition dark:border-slate-600 dark:bg-slate-800">1</span>
+              <div><strong class="block text-sm">Datos básicos</strong><span class="text-xs text-slate-500 dark:text-slate-400">Cliente y responsable</span></div>
+            </li>
+            <li class="flex items-start gap-3" data-step-item="2">
+              <span class="step-dot grid h-8 w-8 shrink-0 place-items-center rounded-full border border-slate-300 bg-white text-sm font-bold text-slate-500 transition dark:border-slate-600 dark:bg-slate-800">2</span>
+              <div><strong class="block text-sm">Composición</strong><span class="text-xs text-slate-500 dark:text-slate-400">Peso, estatura e IMC</span></div>
+            </li>
+            <li class="flex items-start gap-3" data-step-item="3">
+              <span class="step-dot grid h-8 w-8 shrink-0 place-items-center rounded-full border border-slate-300 bg-white text-sm font-bold text-slate-500 transition dark:border-slate-600 dark:bg-slate-800">3</span>
+              <div><strong class="block text-sm">Hábitos y salud</strong><span class="text-xs text-slate-500 dark:text-slate-400">Actividad y antecedentes</span></div>
+            </li>
+            <li class="flex items-start gap-3" data-step-item="4">
+              <span class="step-dot grid h-8 w-8 shrink-0 place-items-center rounded-full border border-slate-300 bg-white text-sm font-bold text-slate-500 transition dark:border-slate-600 dark:bg-slate-800">4</span>
+              <div><strong class="block text-sm">Objetivo y consentimiento</strong><span class="text-xs text-slate-500 dark:text-slate-400">Cierre de la evaluación</span></div>
+            </li>
+          </ol>
+        </aside>
+
+        <form id="evaluationForm" novalidate class="rounded-[1.5rem] border border-white/70 bg-white/85 p-5 shadow-soft backdrop-blur dark:border-slate-700 dark:bg-slate-900/75 sm:p-8">
+          <div class="step-panel active" data-step="1">
+            <div class="mb-7 flex items-start justify-between gap-4 border-b border-slate-200 pb-5 dark:border-slate-700">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-[.18em] text-brand-600 dark:text-brand-400">Paso 1</span>
+                <h2 class="mt-1 text-2xl font-extrabold">Datos básicos de la evaluación</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">La información marcada con asterisco es obligatoria.</p>
+              </div>
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-950/60 dark:text-brand-300"><i data-lucide="user-round" class="h-5 w-5"></i></span>
+            </div>
+
+            <div class="grid gap-5 md:grid-cols-2">
+              <div class="md:col-span-2">
+                <label for="nombre" class="mb-2 block text-sm font-semibold">Nombre completo del cliente *</label>
+                <input id="nombre" name="nombre" class="field" type="text" autocomplete="name" placeholder="Ej. Laura Martínez Gómez" required>
+              </div>
+              <div>
+                <label for="fechaEvaluacion" class="mb-2 block text-sm font-semibold">Fecha de evaluación *</label>
+                <input id="fechaEvaluacion" name="fechaEvaluacion" class="field" type="date" required>
+              </div>
+              <div>
+                <label for="edad" class="mb-2 block text-sm font-semibold">Edad *</label>
+                <input id="edad" name="edad" class="field" type="number" min="12" max="100" inputmode="numeric" placeholder="Ej. 28" required>
+              </div>
+              <div>
+                <label for="sexo" class="mb-2 block text-sm font-semibold">Sexo registrado *</label>
+                <select id="sexo" name="sexo" class="field" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Otro">Otro</option>
+                  <option value="Prefiere no responder">Prefiere no responder</option>
+                </select>
+              </div>
+              <div>
+                <label for="evaluador" class="mb-2 block text-sm font-semibold">Nombre del evaluador *</label>
+                <input id="evaluador" name="evaluador" class="field" type="text" placeholder="Profesional responsable" required>
+              </div>
+              <div>
+                <label for="institucion" class="mb-2 block text-sm font-semibold">Institución, gimnasio o consultorio</label>
+                <input id="institucion" name="institucion" class="field" type="text" placeholder="Nombre de la organización">
+              </div>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="2">
+            <div class="mb-7 flex items-start justify-between gap-4 border-b border-slate-200 pb-5 dark:border-slate-700">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-[.18em] text-brand-600 dark:text-brand-400">Paso 2</span>
+                <h2 class="mt-1 text-2xl font-extrabold">Composición corporal inicial</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">El IMC se calcula automáticamente y funciona únicamente como indicador de tamizaje.</p>
+              </div>
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300"><i data-lucide="scale" class="h-5 w-5"></i></span>
+            </div>
+
+            <div class="grid gap-5 md:grid-cols-2">
+              <div>
+                <label for="estatura" class="mb-2 block text-sm font-semibold">Estatura en centímetros *</label>
+                <input id="estatura" name="estatura" class="field" type="number" min="100" max="250" step="0.1" inputmode="decimal" placeholder="Ej. 175" required>
+              </div>
+              <div>
+                <label for="peso" class="mb-2 block text-sm font-semibold">Peso actual en kilogramos *</label>
+                <input id="peso" name="peso" class="field" type="number" min="25" max="350" step="0.1" inputmode="decimal" placeholder="Ej. 74.5" required>
+              </div>
+              <div>
+                <label for="pesoObjetivo" class="mb-2 block text-sm font-semibold">Peso objetivo en kilogramos *</label>
+                <input id="pesoObjetivo" name="pesoObjetivo" class="field" type="number" min="25" max="350" step="0.1" inputmode="decimal" placeholder="Ej. 68" required>
+              </div>
+              <div>
+                <label for="perimetroCintura" class="mb-2 block text-sm font-semibold">Perímetro de cintura en centímetros</label>
+                <input id="perimetroCintura" name="perimetroCintura" class="field" type="number" min="30" max="250" step="0.1" inputmode="decimal" placeholder="Dato opcional">
+              </div>
+
+              <div class="md:col-span-2 grid gap-4 rounded-2xl border border-brand-200 bg-gradient-to-br from-brand-50 to-indigo-50 p-5 dark:border-brand-900/70 dark:from-brand-950/40 dark:to-indigo-950/30 sm:grid-cols-[1fr_auto] sm:items-center">
+                <div>
+                  <p class="text-xs font-bold uppercase tracking-[.16em] text-brand-700 dark:text-brand-300">Índice de masa corporal</p>
+                  <div class="mt-2 flex flex-wrap items-end gap-3">
+                    <strong id="imcDisplay" class="text-4xl font-extrabold text-slate-950 dark:text-white">—</strong>
+                    <span id="imcStatus" class="mb-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">Ingresa peso y estatura</span>
+                  </div>
+                </div>
+                <div class="rounded-xl bg-white/70 px-4 py-3 text-sm text-slate-600 dark:bg-slate-900/50 dark:text-slate-300">
+                  <span class="block text-xs uppercase tracking-wide text-slate-400">Variación hacia la meta</span>
+                  <strong id="weightDifference" class="mt-1 block text-lg text-slate-900 dark:text-white">—</strong>
+                </div>
+                <input id="imcValue" name="imcValue" type="hidden">
+                <input id="imcClassification" name="imcClassification" type="hidden">
+              </div>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="3">
+            <div class="mb-7 flex items-start justify-between gap-4 border-b border-slate-200 pb-5 dark:border-slate-700">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-[.18em] text-brand-600 dark:text-brand-400">Paso 3</span>
+                <h2 class="mt-1 text-2xl font-extrabold">Actividad, salud y antecedentes</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">Registra información relevante para orientar la prescripción y las remisiones necesarias.</p>
+              </div>
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-rose-50 text-rose-600 dark:bg-rose-950/60 dark:text-rose-300"><i data-lucide="heart-pulse" class="h-5 w-5"></i></span>
+            </div>
+
+            <fieldset>
+              <legend class="mb-3 text-sm font-semibold">Frecuencia de entrenamiento actual *</legend>
+              <div class="grid gap-3 sm:grid-cols-3">
+                <label class="choice-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="frecuencia" value="Poca o ninguna: 0 a 1 día por semana" required>
+                  <div class="h-full rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-brand-300 hover:bg-brand-50/40 dark:border-slate-700 dark:bg-slate-800/70 dark:hover:border-brand-700">
+                    <span class="block font-extrabold">0–1 días</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">Poca o ninguna</span>
+                  </div>
+                </label>
+                <label class="choice-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="frecuencia" value="Moderada: 2 a 3 días por semana">
+                  <div class="h-full rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-brand-300 hover:bg-brand-50/40 dark:border-slate-700 dark:bg-slate-800/70 dark:hover:border-brand-700">
+                    <span class="block font-extrabold">2–3 días</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">Frecuencia moderada</span>
+                  </div>
+                </label>
+                <label class="choice-card cursor-pointer">
+                  <input class="sr-only" type="radio" name="frecuencia" value="Alta: 4 o más días por semana">
+                  <div class="h-full rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-brand-300 hover:bg-brand-50/40 dark:border-slate-700 dark:bg-slate-800/70 dark:hover:border-brand-700">
+                    <span class="block font-extrabold">4+ días</span><span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">Frecuencia alta</span>
+                  </div>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="mt-6">
+              <label for="sedentarismo" class="mb-2 block text-sm font-semibold">Nivel de sedentarismo diario *</label>
+              <select id="sedentarismo" name="sedentarismo" class="field" required>
+                <option value="">Selecciona una opción</option>
+                <option value="1/5: Muy activo; permanece en movimiento gran parte del día">1 — Muy activo</option>
+                <option value="2/5: Activo; presenta movimiento frecuente durante el día">2 — Activo</option>
+                <option value="3/5: Intermedio; combina periodos sentado y de pie">3 — Intermedio</option>
+                <option value="4/5: Sedentario; permanece sentado la mayor parte del día">4 — Sedentario</option>
+                <option value="5/5: Muy sedentario; presenta poca interrupción del tiempo sentado">5 — Muy sedentario</option>
+              </select>
+            </div>
+
+            <div class="mt-6 grid gap-5 md:grid-cols-2">
+              <div>
+                <label for="condicionesMedicas" class="mb-2 block text-sm font-semibold">Condiciones médicas diagnosticadas</label>
+                <textarea id="condicionesMedicas" name="condicionesMedicas" class="field min-h-28 resize-y" placeholder="Escribe “Ninguna reportada” cuando corresponda"></textarea>
+              </div>
+              <div>
+                <label for="medicamentos" class="mb-2 block text-sm font-semibold">Medicamentos actuales</label>
+                <textarea id="medicamentos" name="medicamentos" class="field min-h-28 resize-y" placeholder="Nombre, dosis o indicación relevante"></textarea>
+              </div>
+              <div>
+                <label for="lesiones" class="mb-2 block text-sm font-semibold">Lesiones, dolor o limitaciones de movilidad</label>
+                <textarea id="lesiones" name="lesiones" class="field min-h-28 resize-y" placeholder="Zona, intensidad, antigüedad y movimientos afectados"></textarea>
+              </div>
+              <div>
+                <label for="suplementos" class="mb-2 block text-sm font-semibold">Suplementos deportivos o nutricionales</label>
+                <textarea id="suplementos" name="suplementos" class="field min-h-28 resize-y" placeholder="Ej. creatina, proteína, multivitamínico"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="4">
+            <div class="mb-7 flex items-start justify-between gap-4 border-b border-slate-200 pb-5 dark:border-slate-700">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-[.18em] text-brand-600 dark:text-brand-400">Paso 4</span>
+                <h2 class="mt-1 text-2xl font-extrabold">Objetivo, observaciones y consentimiento</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">Estos datos se incorporarán en la síntesis y las recomendaciones del informe.</p>
+              </div>
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300"><i data-lucide="badge-check" class="h-5 w-5"></i></span>
+            </div>
+
+            <div class="grid gap-5">
+              <div>
+                <label for="objetivoPrincipal" class="mb-2 block text-sm font-semibold">Objetivo principal *</label>
+                <select id="objetivoPrincipal" name="objetivoPrincipal" class="field" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="Reducción de grasa corporal y mejora de la composición corporal">Reducción de grasa corporal</option>
+                  <option value="Aumento de masa muscular y fuerza">Aumento de masa muscular</option>
+                  <option value="Mejora de la capacidad cardiorrespiratoria">Capacidad cardiorrespiratoria</option>
+                  <option value="Mejora de la movilidad, estabilidad y condición funcional">Movilidad y condición funcional</option>
+                  <option value="Preparación física orientada a rendimiento deportivo">Rendimiento deportivo</option>
+                  <option value="Mantenimiento de la salud y el bienestar general">Salud y bienestar general</option>
+                </select>
+              </div>
+              <div>
+                <label for="objetivoDetalle" class="mb-2 block text-sm font-semibold">Descripción concreta de la meta *</label>
+                <textarea id="objetivoDetalle" name="objetivoDetalle" class="field min-h-28 resize-y" placeholder="Ej. reducir 6 kg en 16 semanas, mejorar adherencia y entrenar cuatro días por semana" required></textarea>
+              </div>
+              <div>
+                <label for="observaciones" class="mb-2 block text-sm font-semibold">Observaciones profesionales</label>
+                <textarea id="observaciones" name="observaciones" class="field min-h-28 resize-y" placeholder="Hallazgos, restricciones o aspectos que deben vigilarse"></textarea>
+              </div>
+
+              <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/70">
+                <input id="consentimiento" name="consentimiento" type="checkbox" class="mt-1 h-5 w-5 rounded border-slate-300 text-brand-600 focus:ring-brand-500" required>
+                <span class="text-sm leading-6 text-slate-600 dark:text-slate-300">
+                  Confirmo que la información registrada fue revisada y autorizo su uso para elaborar este informe de evaluación física. Entiendo que el documento no sustituye una valoración médica. *
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="mt-8 flex flex-col-reverse gap-3 border-t border-slate-200 pt-6 dark:border-slate-700 sm:flex-row sm:items-center sm:justify-between">
+            <button id="prevButton" type="button" class="hidden items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+              <i data-lucide="arrow-left" class="h-4 w-4"></i>
+              Anterior
+            </button>
+
+            <div class="ml-auto flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <button id="nextButton" type="button" class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-6 py-3 font-bold text-white transition hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100">
+                Continuar
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </button>
+              <button id="generateButton" type="submit" class="hidden items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 px-6 py-3 font-bold text-white shadow-lg shadow-brand-600/20 transition hover:-translate-y-0.5">
+                <i data-lucide="file-text" class="h-5 w-5"></i>
+                Generar informe
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-200/70 bg-white/60 py-8 text-center text-sm text-slate-500 backdrop-blur dark:border-slate-800 dark:bg-slate-950/30 dark:text-slate-400">
+      <p>Evaluación física · Informe ejecutivo descargable · 2026</p>
+    </footer>
+  </div>
+
+  <section id="reportView" class="hidden min-h-screen bg-slate-100 px-3 py-5 dark:bg-slate-950 sm:px-6 sm:py-8">
+    <div id="previewToolbar" class="mx-auto mb-5 flex max-w-5xl flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-card dark:border-slate-700 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <span class="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 dark:text-emerald-400">
+          <i data-lucide="circle-check-big" class="h-4 w-4"></i>
+          Informe generado correctamente
+        </span>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Revísalo y descarga el archivo PDF final.</p>
+      </div>
+      <div class="flex flex-col gap-2 sm:flex-row">
+        <button id="editReportButton" type="button" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+          <i data-lucide="pencil" class="h-4 w-4"></i>
+          Editar datos
+        </button>
+        <button id="printReportButton" type="button" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+          <i data-lucide="printer" class="h-4 w-4"></i>
+          Imprimir
+        </button>
+        <button id="downloadReportButton" type="button" class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 px-5 py-2.5 font-bold text-white shadow-lg shadow-brand-600/20 transition hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-70">
+          <i data-lucide="download" class="h-5 w-5"></i>
+          Descargar informe PDF
+        </button>
+      </div>
+    </div>
+
+    <div id="reportDocument" class="report-shell apa-document" aria-label="Vista previa del informe"></div>
+  </section>
+
+  <script>
+    const form = document.getElementById('evaluationForm');
+    const panels = [...document.querySelectorAll('.step-panel')];
+    const stepItems = [...document.querySelectorAll('[data-step-item]')];
+    const nextButton = document.getElementById('nextButton');
+    const prevButton = document.getElementById('prevButton');
+    const generateButton = document.getElementById('generateButton');
+    const reportDocument = document.getElementById('reportDocument');
+    const STORAGE_KEY = 'evaluationReportDraftV3';
+    let currentStep = 1;
+
+    // Acceso tolerante al almacenamiento: algunos visores de archivos bloquean localStorage.
+    function safeStorageGet(key) {
+      try { return window.localStorage.getItem(key); } catch (_) { return null; }
+    }
+
+    function safeStorageSet(key, value) {
+      try { window.localStorage.setItem(key, value); return true; } catch (_) { return false; }
+    }
+
+    function safeStorageRemove(key) {
+      try { window.localStorage.removeItem(key); return true; } catch (_) { return false; }
+    }
+
+    const todayISO = new Date().toISOString().split('T')[0];
+    document.getElementById('fechaEvaluacion').value = todayISO;
+
+    function initializeTheme() {
+      const saved = safeStorageGet('evaluationTheme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.toggle('dark', saved ? saved === 'dark' : prefersDark);
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      safeStorageSet('evaluationTheme', isDark ? 'dark' : 'light');
+    });
+
+    function showToast(message, type = 'success') {
+      const styles = {
+        success: 'border-emerald-200 bg-white text-slate-800 dark:border-emerald-800 dark:bg-slate-900 dark:text-white',
+        warning: 'border-amber-200 bg-white text-slate-800 dark:border-amber-800 dark:bg-slate-900 dark:text-white',
+        error: 'border-rose-200 bg-white text-slate-800 dark:border-rose-800 dark:bg-slate-900 dark:text-white'
+      };
+      const icons = { success: 'circle-check-big', warning: 'triangle-alert', error: 'circle-x' };
+      const toast = document.createElement('div');
+      toast.className = `toast flex items-start gap-3 rounded-2xl border p-4 shadow-soft ${styles[type]}`;
+      toast.innerHTML = `<i data-lucide="${icons[type]}" class="mt-0.5 h-5 w-5 shrink-0"></i><p class="text-sm leading-6">${escapeHTML(message)}</p>`;
+      document.getElementById('toastContainer').appendChild(toast);
+      window.lucide?.createIcons?.();
+      setTimeout(() => toast.remove(), 3800);
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function safeText(value, fallback = 'No reportado') {
+      const cleaned = String(value ?? '').trim();
+      return escapeHTML(cleaned || fallback);
+    }
+
+    function formatDateLong(dateString) {
+      if (!dateString) return 'Fecha no reportada';
+      const date = new Date(`${dateString}T12:00:00`);
+      return new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+    }
+
+    function fileSafeName(value) {
+      return String(value || 'cliente')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .slice(0, 60) || 'cliente';
+    }
+
+    function updateStepUI() {
+      panels.forEach(panel => panel.classList.toggle('active', Number(panel.dataset.step) === currentStep));
+      stepItems.forEach(item => {
+        const n = Number(item.dataset.stepItem);
+        const dot = item.querySelector('.step-dot');
+        dot.classList.toggle('active', n === currentStep);
+        dot.classList.toggle('complete', n < currentStep);
+        if (n < currentStep) dot.innerHTML = '<i data-lucide="check" class="h-4 w-4"></i>';
+        else dot.textContent = n;
+      });
+
+      const percent = currentStep * 25;
+      document.getElementById('progressLabel').textContent = `Paso ${currentStep} de 4`;
+      document.getElementById('progressPercent').textContent = `${percent}%`;
+      document.getElementById('progressBar').style.width = `${percent}%`;
+
+      prevButton.classList.toggle('hidden', currentStep === 1);
+      prevButton.classList.toggle('inline-flex', currentStep !== 1);
+      nextButton.classList.toggle('hidden', currentStep === 4);
+      generateButton.classList.toggle('hidden', currentStep !== 4);
+      generateButton.classList.toggle('inline-flex', currentStep === 4);
+      window.lucide?.createIcons?.();
+    }
+
+    function getStepFields(step) {
+      return [...panels[step - 1].querySelectorAll('input, select, textarea')];
+    }
+
+    function validateCurrentStep() {
+      const fields = getStepFields(currentStep);
+      for (const field of fields) {
+        if (!field.checkValidity()) {
+          field.reportValidity();
+          field.focus({ preventScroll: false });
+          showToast('Completa los campos obligatorios antes de continuar.', 'warning');
+          return false;
+        }
+      }
+      return true;
+    }
+
+    nextButton.addEventListener('click', () => {
+      if (!validateCurrentStep()) return;
+      currentStep = Math.min(4, currentStep + 1);
+      updateStepUI();
+      document.getElementById('evaluationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    prevButton.addEventListener('click', () => {
+      currentStep = Math.max(1, currentStep - 1);
+      updateStepUI();
+      document.getElementById('evaluationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    function classifyIMC(imc) {
+      if (!Number.isFinite(imc)) return { label: '', style: '' };
+      if (imc < 18.5) return { label: 'Bajo peso', style: 'border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-800 dark:bg-sky-950/50 dark:text-sky-300' };
+      if (imc < 25) return { label: 'Intervalo de referencia', style: 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300' };
+      if (imc < 30) return { label: 'Sobrepeso', style: 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-300' };
+      return { label: 'Obesidad', style: 'border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-800 dark:bg-rose-950/50 dark:text-rose-300' };
+    }
+
+    function calculateMetrics() {
+      const heightCm = Number(document.getElementById('estatura').value);
+      const weight = Number(document.getElementById('peso').value);
+      const target = Number(document.getElementById('pesoObjetivo').value);
+      const imcDisplay = document.getElementById('imcDisplay');
+      const status = document.getElementById('imcStatus');
+      const difference = document.getElementById('weightDifference');
+
+      if (heightCm > 0 && weight > 0) {
+        const imc = weight / ((heightCm / 100) ** 2);
+        const rounded = imc.toFixed(1);
+        const classification = classifyIMC(imc);
+        imcDisplay.textContent = rounded;
+        status.textContent = classification.label;
+        status.className = `mb-1 rounded-full border px-3 py-1 text-xs font-bold ${classification.style}`;
+        document.getElementById('imcValue').value = rounded;
+        document.getElementById('imcClassification').value = classification.label;
+      } else {
+        imcDisplay.textContent = '—';
+        status.textContent = 'Ingresa peso y estatura';
+        status.className = 'mb-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400';
+        document.getElementById('imcValue').value = '';
+        document.getElementById('imcClassification').value = '';
+      }
+
+      if (weight > 0 && target > 0) {
+        const delta = target - weight;
+        if (Math.abs(delta) < 0.05) difference.textContent = 'Meta actual alcanzada';
+        else if (delta < 0) difference.textContent = `Reducir ${Math.abs(delta).toFixed(1)} kg`;
+        else difference.textContent = `Aumentar ${delta.toFixed(1)} kg`;
+      } else {
+        difference.textContent = '—';
+      }
+    }
+
+    ['estatura', 'peso', 'pesoObjetivo'].forEach(id => document.getElementById(id).addEventListener('input', calculateMetrics));
+
+    function formToObject() {
+      const data = new FormData(form);
+      return Object.fromEntries(data.entries());
+    }
+
+    function saveDraft() {
+      const data = formToObject();
+      safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+      const status = document.getElementById('saveStatus');
+      status.textContent = 'Borrador guardado';
+      clearTimeout(saveDraft.timer);
+      saveDraft.timer = setTimeout(() => status.textContent = 'Guardado automático activo', 1200);
+    }
+
+    function restoreDraft() {
+      const raw = safeStorageGet(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        Object.entries(data).forEach(([name, value]) => {
+          const fields = form.querySelectorAll(`[name="${CSS.escape(name)}"]`);
+          fields.forEach(field => {
+            if (field.type === 'radio' || field.type === 'checkbox') field.checked = field.value === value || value === 'on';
+            else field.value = value;
+          });
+        });
+        if (!document.getElementById('fechaEvaluacion').value) document.getElementById('fechaEvaluacion').value = todayISO;
+        calculateMetrics();
+        showToast('Se restauró el borrador guardado en este navegador.');
+      } catch (error) {
+        console.warn('No se pudo restaurar el borrador:', error);
+      }
+    }
+
+    form.addEventListener('input', saveDraft);
+    form.addEventListener('change', saveDraft);
+
+    document.getElementById('clearDraftButton').addEventListener('click', () => {
+      const confirmed = window.confirm('¿Deseas borrar todos los datos guardados del formulario?');
+      if (!confirmed) return;
+      safeStorageRemove(STORAGE_KEY);
+      form.reset();
+      document.getElementById('fechaEvaluacion').value = todayISO;
+      currentStep = 1;
+      calculateMetrics();
+      updateStepUI();
+      showToast('El borrador fue eliminado.');
+    });
+
+    function buildInterpretationBullets(data) {
+      const current = Number(data.peso);
+      const target = Number(data.pesoObjetivo);
+      const delta = target - current;
+      const bullets = [];
+
+      bullets.push(`IMC inicial: ${safeText(data.imcValue)} kg/m², con clasificación de referencia: ${safeText(data.imcClassification)}.`);
+      if (Math.abs(delta) < .05) bullets.push('Meta de peso: mantenimiento del registro actual.');
+      else if (delta < 0) bullets.push(`Meta de peso: reducción de ${Math.abs(delta).toFixed(1)} kg frente al valor inicial.`);
+      else bullets.push(`Meta de peso: aumento de ${delta.toFixed(1)} kg frente al valor inicial.`);
+      bullets.push(`Actividad actual: ${safeText(data.frecuencia)}.`);
+      bullets.push(`Sedentarismo informado: ${safeText(data.sedentarismo)}.`);
+      bullets.push('Lectura profesional: integrar estos indicadores con la técnica de movimiento, la tolerancia al esfuerzo, la recuperación y los antecedentes reportados.');
+      return bullets;
+    }
+
+    function buildRecommendations(data) {
+      const recs = [];
+      recs.push('Definir una programación progresiva, coherente con la experiencia previa, la frecuencia disponible y la respuesta individual al esfuerzo.');
+      recs.push('Registrar periódicamente peso, medidas, adherencia y percepción del esfuerzo para valorar tendencias, no cambios aislados.');
+      if ((data.lesiones || '').trim() || (data.condicionesMedicas || '').trim() || (data.medicamentos || '').trim()) {
+        recs.push('Revisar los antecedentes reportados antes de prescribir ejercicios de mayor intensidad y solicitar valoración médica o fisioterapéutica cuando existan síntomas, restricciones o dudas clínicas.');
+      } else {
+        recs.push('Mantener vigilancia de dolor, mareo, dificultad respiratoria inusual u otros signos de alarma durante el entrenamiento y suspender la sesión cuando aparezcan.');
+      }
+      recs.push('Alinear el plan de entrenamiento y nutrición con el objetivo principal, evitando metas rápidas que comprometan la adherencia, la recuperación o la salud.');
+      return recs;
+    }
+
+    function generateReportHTML(data) {
+      const institution = safeText(data.institucion, 'No reportada');
+      const waist = data.perimetroCintura ? `${safeText(data.perimetroCintura)} cm` : 'No reportado';
+      const recommendations = buildRecommendations(data);
+      const interpretation = buildInterpretationBullets(data);
+      const currentWeight = Number(data.peso);
+      const targetWeight = Number(data.pesoObjetivo);
+      const delta = targetWeight - currentWeight;
+      const goalDirection = Math.abs(delta) < .05
+        ? 'Mantener el peso actual'
+        : delta < 0
+          ? `Reducir ${Math.abs(delta).toFixed(1)} kg`
+          : `Aumentar ${delta.toFixed(1)} kg`;
+
+      return `
+        <div class="executive-header avoid-break">
+          <div>
+            <h1>Informe ejecutivo de evaluación física</h1>
+            <p class="no-indent"><strong>Persona evaluada:</strong> ${safeText(data.nombre)}</p>
+          </div>
+          <p class="executive-meta"><strong>Fecha:</strong><br>${formatDateLong(data.fechaEvaluacion)}</p>
+        </div>
+
+        <section class="avoid-break">
+          <h2>1. Datos generales y control</h2>
+          <ul class="executive-list compact-grid">
+            <li><strong>Edad:</strong> ${safeText(data.edad)} años.</li>
+            <li><strong>Sexo registrado:</strong> ${safeText(data.sexo)}.</li>
+            <li><strong>Evaluador:</strong> ${safeText(data.evaluador)}.</li>
+            <li><strong>Institución:</strong> ${institution}.</li>
+          </ul>
+        </section>
+
+        <section class="avoid-break">
+          <h2>2. Indicadores corporales iniciales</h2>
+          <ul class="executive-list compact-grid">
+            <li><strong>Estatura:</strong> ${safeText(data.estatura)} cm.</li>
+            <li><strong>Peso actual:</strong> ${safeText(data.peso)} kg.</li>
+            <li><strong>Peso objetivo:</strong> ${safeText(data.pesoObjetivo)} kg.</li>
+            <li><strong>Variación esperada:</strong> ${goalDirection}.</li>
+            <li><strong>Perímetro de cintura:</strong> ${waist}.</li>
+            <li><strong>IMC:</strong> ${safeText(data.imcValue)} kg/m².</li>
+            <li><strong>Clasificación de referencia:</strong> ${safeText(data.imcClassification)}.</li>
+          </ul>
+        </section>
+
+        <section class="avoid-break">
+          <h2>3. Actividad y comportamiento sedentario</h2>
+          <ul class="executive-list">
+            <li><strong>Frecuencia de entrenamiento:</strong> ${safeText(data.frecuencia)}.</li>
+            <li><strong>Nivel de sedentarismo:</strong> ${safeText(data.sedentarismo)}.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. Salud, antecedentes y precauciones</h2>
+          <ul class="executive-list">
+            <li><strong>Condiciones médicas:</strong> ${safeText(data.condicionesMedicas, 'Ninguna reportada')}.</li>
+            <li><strong>Medicamentos actuales:</strong> ${safeText(data.medicamentos, 'Ninguno reportado')}.</li>
+            <li><strong>Lesiones, dolor o limitaciones:</strong> ${safeText(data.lesiones, 'Ninguna reportada')}.</li>
+            <li><strong>Suplementación:</strong> ${safeText(data.suplementos, 'Ninguna reportada')}.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>5. Objetivo y criterio de intervención</h2>
+          <ul class="executive-list">
+            <li><strong>Objetivo principal:</strong> ${safeText(data.objetivoPrincipal)}.</li>
+            <li><strong>Meta concreta:</strong> ${safeText(data.objetivoDetalle)}.</li>
+            ${interpretation.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </section>
+
+        <section>
+          <h2>6. Recomendaciones iniciales</h2>
+          <ul class="executive-list">
+            ${recommendations.map(item => `<li>${safeText(item)}</li>`).join('')}
+          </ul>
+        </section>
+
+        <section>
+          <h2>7. Variables prioritarias de seguimiento</h2>
+          <ul class="executive-list compact-grid">
+            <li>Asistencia y cumplimiento semanal.</li>
+            <li>Respuesta al esfuerzo y recuperación.</li>
+            <li>Evolución del peso y medidas seleccionadas.</li>
+            <li>Dolor, molestias o limitaciones nuevas.</li>
+            <li>Progresión de cargas y calidad técnica.</li>
+            <li>Avance frente a la meta definida.</li>
+          </ul>
+        </section>
+
+        <section class="avoid-break">
+          <h2>8. Observaciones del entrenador</h2>
+          <ul class="executive-list">
+            <li>${safeText(data.observaciones, 'No se registraron observaciones adicionales.')}.</li>
+          </ul>
+        </section>
+
+        <div class="apa-callout">
+          <strong>Alcance:</strong> informe de seguimiento físico inicial. No sustituye valoración médica, fisioterapéutica o nutricional cuando sea requerida.
+        </div>
+
+        <table class="signature-table">
+          <tr>
+            <td>Firma de la persona evaluada</td>
+            <td class="spacer"></td>
+            <td>Firma del evaluador</td>
+          </tr>
+        </table>
+      `;
+    }
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!validateCurrentStep() || !form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      calculateMetrics();
+      const data = formToObject();
+      reportDocument.innerHTML = generateReportHTML(data);
+      document.getElementById('appView').classList.add('hidden');
+      document.getElementById('reportView').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      safeStorageSet(STORAGE_KEY, JSON.stringify(data));
+      window.lucide?.createIcons?.();
+    });
+
+    document.getElementById('editReportButton').addEventListener('click', () => {
+      document.getElementById('reportView').classList.add('hidden');
+      document.getElementById('appView').classList.remove('hidden');
+      document.getElementById('evaluationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    document.getElementById('printReportButton').addEventListener('click', () => window.print());
+
+    /**
+     * Busca una franja clara cerca del final de la página para no cortar
+     * renglones o viñetas durante la división vertical del lienzo.
+     */
+    function findSafeCanvasCut(canvas, startY, idealEndY) {
+      if (idealEndY >= canvas.height) return canvas.height;
+
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      const searchBack = Math.min(220, Math.floor((idealEndY - startY) * 0.18));
+      const minimumY = Math.max(startY + 140, idealEndY - searchBack);
+      const sampleStepX = Math.max(5, Math.floor(canvas.width / 220));
+      let blankRun = 0;
+
+      for (let y = idealEndY; y >= minimumY; y -= 1) {
+        const row = context.getImageData(0, y, canvas.width, 1).data;
+        let nonWhite = 0;
+        let samples = 0;
+
+        for (let x = 0; x < canvas.width; x += sampleStepX) {
+          const i = x * 4;
+          const alpha = row[i + 3];
+          if (alpha > 15 && (row[i] < 244 || row[i + 1] < 244 || row[i + 2] < 244)) nonWhite += 1;
+          samples += 1;
+        }
+
+        if (nonWhite / Math.max(samples, 1) < 0.01) {
+          blankRun += 1;
+          if (blankRun >= 7) return y + 3;
+        } else {
+          blankRun = 0;
+        }
+      }
+
+      return idealEndY;
+    }
+
+    /**
+     * Captura una copia interna creada por html2canvas. El documento visible
+     * nunca cambia de ancho, posición ni alineación durante la descarga.
+     */
+    async function renderReportCanvasForPdf() {
+      await document.fonts?.ready;
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+      const cssPixelsPerMillimeter = 96 / 25.4;
+      const contentWidthPx = Math.round(160 * cssPixelsPerMillimeter);
+
+      return window.html2canvas(reportDocument, {
+        scale: 2.25,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: '#ffffff',
+        logging: false,
+        scrollX: 0,
+        scrollY: 0,
+        width: contentWidthPx,
+        windowWidth: Math.max(1200, contentWidthPx + 120),
+        onclone: clonedDocument => {
+          clonedDocument.documentElement.classList.remove('dark');
+          clonedDocument.body.style.background = '#ffffff';
+
+          const clone = clonedDocument.getElementById('reportDocument');
+          const cloneView = clonedDocument.getElementById('reportView');
+          const cloneToolbar = clonedDocument.getElementById('previewToolbar');
+
+          if (cloneView) {
+            cloneView.classList.remove('hidden');
+            cloneView.style.display = 'block';
+            cloneView.style.padding = '0';
+            cloneView.style.margin = '0';
+            cloneView.style.background = '#ffffff';
+          }
+          if (cloneToolbar) cloneToolbar.style.display = 'none';
+
+          if (clone) {
+            clone.className = 'apa-document';
+            Object.assign(clone.style, {
+              display: 'block',
+              position: 'relative',
+              left: '0',
+              top: '0',
+              width: '160mm',
+              minWidth: '160mm',
+              maxWidth: '160mm',
+              minHeight: '0',
+              height: 'auto',
+              margin: '0',
+              padding: '0',
+              overflow: 'visible',
+              boxSizing: 'border-box',
+              boxShadow: 'none',
+              transform: 'none',
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              fontSize: '11pt',
+              lineHeight: '1.5',
+              color: '#111111',
+              background: '#ffffff'
+            });
+
+            clone.querySelectorAll('.executive-list.compact-grid').forEach(grid => {
+              grid.style.display = 'grid';
+              grid.style.gridTemplateColumns = 'repeat(2, minmax(0, 1fr))';
+            });
+          }
+        }
+      });
+    }
+
+    function addReportCanvasToPdf(canvas, pdf) {
+      const pageWidthMm = 210;
+      const pageHeightMm = 297;
+      const margins = { top: 20, right: 20, bottom: 20, left: 30 };
+      const contentWidthMm = 160;
+      const contentHeightMm = 257;
+      const mmPerPixel = contentWidthMm / canvas.width;
+      const idealPageHeightPx = Math.max(1, Math.floor(contentHeightMm / mmPerPixel));
+
+      let sourceY = 0;
+      let pageIndex = 0;
+
+      while (sourceY < canvas.height) {
+        const idealEndY = Math.min(canvas.height, sourceY + idealPageHeightPx);
+        let safeEndY = findSafeCanvasCut(canvas, sourceY, idealEndY);
+        if (safeEndY <= sourceY) safeEndY = idealEndY;
+
+        const sliceHeight = Math.max(1, safeEndY - sourceY);
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = sliceHeight;
+
+        const context = pageCanvas.getContext('2d');
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+        context.drawImage(
+          canvas,
+          0, sourceY, canvas.width, sliceHeight,
+          0, 0, canvas.width, sliceHeight
+        );
+
+        if (pageIndex > 0) pdf.addPage('a4', 'portrait');
+
+        const renderedHeightMm = Math.min(contentHeightMm, sliceHeight * mmPerPixel);
+        pdf.addImage(
+          pageCanvas.toDataURL('image/jpeg', 0.98),
+          'JPEG',
+          margins.left,
+          margins.top,
+          contentWidthMm,
+          renderedHeightMm,
+          undefined,
+          'FAST'
+        );
+
+        sourceY = safeEndY;
+        pageIndex += 1;
+      }
+
+      const totalPages = pdf.internal.getNumberOfPages();
+      for (let page = 1; page <= totalPages; page += 1) {
+        pdf.setPage(page);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(8);
+        pdf.setTextColor(70);
+        pdf.text(`${page} de ${totalPages}`, pageWidthMm - margins.right, pageHeightMm - 8, { align: 'right' });
+      }
+    }
+
+    document.getElementById('downloadReportButton').addEventListener('click', async () => {
+      const button = document.getElementById('downloadReportButton');
+      const original = button.innerHTML;
+      const data = formToObject();
+
+      button.disabled = true;
+      button.innerHTML = '<span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span> Preparando PDF...';
+
+      const JsPdfConstructor = window.jspdf?.jsPDF;
+      if (typeof window.html2canvas !== 'function' || typeof JsPdfConstructor !== 'function') {
+        showToast('No se cargaron las herramientas del PDF. Se abrirá la impresión como alternativa.', 'warning');
+        button.disabled = false;
+        button.innerHTML = original;
+        window.print();
+        window.lucide?.createIcons?.();
+        return;
+      }
+
+      try {
+        const canvas = await renderReportCanvasForPdf();
+        const pdf = new JsPdfConstructor({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+          compress: true,
+          putOnlyUsedFonts: true
+        });
+
+        addReportCanvasToPdf(canvas, pdf);
+        pdf.save(`Informe_Evaluacion_Fisica_${fileSafeName(data.nombre)}.pdf`);
+        showToast('El informe se descargó sin modificar ni deformar la vista previa.');
+      } catch (error) {
+        console.error(error);
+        showToast('No fue posible generar el PDF. Se abrirá la impresión como alternativa.', 'error');
+        window.print();
+      } finally {
+        button.disabled = false;
+        button.innerHTML = original;
+        window.lucide?.createIcons?.();
+      }
+    });
+
+    initializeTheme();
+    restoreDraft();
+    calculateMetrics();
+    updateStepUI();
+    window.lucide?.createIcons?.();
+  </script>
+</body>
+</html>
