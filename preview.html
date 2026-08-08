@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Brigada de pescados · Guía de trabajo</title>
+  <style>
+    :root{--ink:#172033;--muted:#667085;--line:#e5e7eb;--blue:#1769e0;--soft:#f6f7f9;--green:#087a55;--gold:#9a5b11}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fff;color:var(--ink);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    .top{max-width:720px;margin:auto;padding:11px 14px}.titleline{display:flex;justify-content:space-between;align-items:center;gap:10px}.titleline strong{font-size:16px}.titleline span{font-size:12px;color:var(--muted)}
+    nav{display:flex;gap:7px;margin-top:9px;overflow:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}nav a{flex:0 0 auto;text-decoration:none;color:#475467;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;background:#fff}
+    main{max-width:720px;margin:auto;padding:15px 14px 70px}.brief{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}.brief div{background:var(--soft);border-radius:13px;padding:10px}.brief b{display:block;font-size:14px}.brief small{color:var(--muted)}
+    .yield{border-left:4px solid var(--blue);background:#eef5ff;border-radius:0 12px 12px 0;padding:10px 12px;margin-bottom:14px;font-size:13px}.yield b{display:block}.yield p{margin:3px 0 0;color:#41516d}
+    .route{border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:16px}.route h2{font-size:16px;margin:0 0 8px}.route ol{margin:0;padding-left:24px}.route li{padding:4px 0;color:#475467}.route li::marker{color:var(--blue);font-weight:900}
+    .person-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:16px;scroll-margin-top:105px}.person-head{padding:14px;background:var(--soft);display:flex;justify-content:space-between;align-items:end;gap:10px}.person-head small{display:block;color:var(--blue);font-weight:850;text-transform:uppercase;letter-spacing:.04em}.person-head h2{font-size:20px;margin:2px 0 0}.person-head span{font-size:12px;color:var(--muted);text-align:right}
+    .tasks{padding:0 12px 4px}.task{display:grid;grid-template-columns:27px 1fr;gap:9px;width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;text-align:left;padding:12px 0;color:inherit;font:inherit}.task:last-child{border-bottom:0}.box{width:23px;height:23px;border:2px solid #cbd1da;border-radius:7px;display:grid;place-items:center;color:#fff}.task.done .box{background:var(--green);border-color:var(--green)}.task.done .copy{opacity:.5}.task.done strong{text-decoration:line-through}.meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.time{font-size:11px;color:var(--muted);font-weight:850}.qty{font-size:10px;padding:3px 6px;border-radius:999px;background:#edf7f2;color:#06704d;font-weight:900}.recipe{font-size:10px;padding:3px 6px;border-radius:999px;background:#fff5e7;color:var(--gold);font-weight:900}.copy strong{display:block;font-size:14px}.copy p{margin:2px 0 0;color:var(--muted);font-size:12px}
+    .footer-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px}.progress{color:var(--muted);font-size:12px}.reset{border:0;background:none;color:var(--blue);font:inherit;font-weight:800;padding:8px}
+  </style>
+</head>
+<body>
+<header><div class="top"><div class="titleline"><strong>Guía de trabajo · Pescados</strong><span>Presentación 9:00 a. m.</span></div><nav><a href="#orden">Orden</a><a href="#santiago">Santiago</a><a href="#julian">Julián</a><a href="#andrea">Andrea</a><a href="#angela">Ángela</a></nav></div></header>
+<main>
+  <section class="brief"><div><b>7:30</b><small>Inicio</small></div><div><b>4 platos</b><small>2 por receta</small></div><div><b>8:55</b><small>Control final</small></div></section>
+  <section class="yield"><b>Porciones de pescado</b><p>Meta: 620 g limpios. Cocción unilateral: 2 filetes con piel de 160 g. Bastones: 300 g, divididos en 2 porciones de 150 g. Ajustar proporcionalmente si cambia el rendimiento.</p></section>
+  <section class="route" id="orden"><h2>Orden general</h2><ol><li>Organizar el mise en place de las dos recetas.</li><li>Limpiar y porcionar el pescado.</li><li>Preparar el flan de zanahoria.</li><li>Preparar la salsa de hierbas.</li><li>Preparar la salsa tártara.</li><li>Rebozar, cocinar, freír y emplatar.</li></ol></section>
+
+  <article class="person-card" id="santiago">
+    <div class="person-head"><div><small>Líder · Pescado y salsas</small><h2>Santiago</h2></div><span>Ambas recetas</span></div>
+    <div class="tasks">
+      <button class="task" data-id="s1"><span class="box"></span><span class="copy"><span class="meta"><span class="time">7:30–8:00</span><span class="recipe">AMBAS</span><span class="qty">620 g limpios</span></span><strong>Limpiar y porcionar el pescado</strong><p>Separar 2 × 160 g con piel y 2 × 150 g en bastones.</p></span></button>
+      <button class="task" data-id="s2"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:00–8:20</span><span class="recipe">BASTONES</span><span class="qty">70 g · 35 g/plato</span></span><strong>Preparar la salsa tártara con Andrea</strong><p>Santiago inicia la base; Andrea se incorpora al terminar el flan. Conservar fría.</p></span></button>
+      <button class="task" data-id="s3"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:20–8:42</span><span class="recipe">AMBAS</span><span class="qty">2 filetes + 300 g</span></span><strong>Rebozar bastones y cocinar filetes</strong><p>Entregar los bastones listos a Julián; cocinar los filetes por la piel.</p></span></button>
+    </div>
+  </article>
+
+  <article class="person-card" id="julian">
+    <div class="person-head"><div><small>Salsa y fritura</small><h2>Julián</h2></div><span>Ambas recetas</span></div>
+    <div class="tasks">
+      <button class="task" data-id="j1"><span class="box"></span><span class="copy"><span class="meta"><span class="time">7:30–8:20</span><span class="recipe">UNILATERAL</span><span class="qty">60 g · 30 g/plato</span></span><strong>Preparar la salsa de hierbas con Ángela</strong><p>Julián adelanta la base; Ángela se incorpora al acabado y añade las hojas al final.</p></span></button>
+      <button class="task" data-id="j2"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:00–8:35</span><span class="recipe">BASTONES</span><span class="qty">360 g · 180 g/plato</span></span><strong>Cortar y freír las papas</strong><p>Hacer dos cocciones para lograr exterior crocante.</p></span></button>
+      <button class="task" data-id="j3"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:35–8:48</span><span class="recipe">BASTONES</span><span class="qty">300 g · 2 porciones</span></span><strong>Hacer la fritura profunda del pescado</strong><p>Freír por tandas a 175–180 °C y entregar de inmediato.</p></span></button>
+    </div>
+  </article>
+
+  <article class="person-card" id="andrea">
+    <div class="person-head"><div><small>Flan y presentación</small><h2>Andrea</h2></div><span>Ambas recetas</span></div>
+    <div class="tasks">
+      <button class="task" data-id="a1"><span class="box"></span><span class="copy"><span class="meta"><span class="time">7:30–8:10</span><span class="recipe">UNILATERAL</span><span class="qty">180 g · 2 × 90 g</span></span><strong>Preparar el flan con Ángela</strong><p>Andrea procesa la mezcla, sazona y controla la textura.</p></span></button>
+      <button class="task" data-id="a2"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:10–8:20</span><span class="recipe">BASTONES</span><span class="qty">70 g · 35 g/plato</span></span><strong>Terminar la salsa tártara con Santiago</strong><p>Ajustar sazón y reservar fría para los 2 platos de bastones.</p></span></button>
+      <button class="task" data-id="a3"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:35–8:55</span><span class="recipe">AMBAS</span><span class="qty">4 platos</span></span><strong>Emplatar con Ángela</strong><p>Andrea monta los 2 platos de cocción unilateral.</p></span></button>
+    </div>
+  </article>
+
+  <article class="person-card" id="angela">
+    <div class="person-head"><div><small>Flan y presentación</small><h2>Ángela</h2></div><span>Ambas recetas</span></div>
+    <div class="tasks">
+      <button class="task" data-id="g1"><span class="box"></span><span class="copy"><span class="meta"><span class="time">7:30–8:10</span><span class="recipe">UNILATERAL</span><span class="qty">2 moldes de 90 g</span></span><strong>Preparar el flan con Andrea</strong><p>Ángela alista moldes, baño María y controla la cocción.</p></span></button>
+      <button class="task" data-id="g2"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:10–8:20</span><span class="recipe">UNILATERAL</span><span class="qty">60 g · 30 g/plato</span></span><strong>Terminar la salsa de hierbas con Julián</strong><p>Añadir las hierbas al final, ajustar sazón y conservar el color.</p></span></button>
+      <button class="task" data-id="g3"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:35–8:55</span><span class="recipe">AMBAS</span><span class="qty">4 platos</span></span><strong>Emplatar con Andrea</strong><p>Ángela monta los 2 platos de bastones con papas y tártara.</p></span></button>
+    </div>
+  </article>
+
+  <div class="footer-actions"><span class="progress" id="progress"></span><button class="reset" id="reset">Reiniciar marcas</button></div>
+</main>
+<script>
+  const tasks=[...document.querySelectorAll('.task')];
+  const key=id=>'guia-pescados:v4:'+id;
+  function update(){let n=0;tasks.forEach(t=>{const done=localStorage.getItem(key(t.dataset.id))==='1';t.classList.toggle('done',done);t.querySelector('.box').textContent=done?'✓':'';if(done)n++});document.querySelector('#progress').textContent=`${n} de ${tasks.length} tareas completadas`;}
+  tasks.forEach(t=>t.addEventListener('click',()=>{localStorage.setItem(key(t.dataset.id),t.classList.contains('done')?'0':'1');update()}));
+  document.querySelector('#reset').addEventListener('click',()=>{tasks.forEach(t=>localStorage.removeItem(key(t.dataset.id)));update()});update();
+</script>
+</body>
+</html>
