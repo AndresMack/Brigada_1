@@ -17,10 +17,11 @@
     .person-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:16px;scroll-margin-top:105px}.person-head{padding:14px;background:var(--soft);display:flex;justify-content:space-between;align-items:end;gap:10px}.person-head small{display:block;color:var(--blue);font-weight:850;text-transform:uppercase;letter-spacing:.04em}.person-head h2{font-size:20px;margin:2px 0 0}.person-head span{font-size:12px;color:var(--muted);text-align:right}
     .tasks{padding:0 12px 4px}.task{display:grid;grid-template-columns:27px 1fr;gap:9px;width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;text-align:left;padding:12px 0;color:inherit;font:inherit}.task:last-child{border-bottom:0}.box{width:23px;height:23px;border:2px solid #cbd1da;border-radius:7px;display:grid;place-items:center;color:#fff}.task.done .box{background:var(--green);border-color:var(--green)}.task.done .copy{opacity:.5}.task.done strong{text-decoration:line-through}.meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.time{font-size:11px;color:var(--muted);font-weight:850}.qty{font-size:10px;padding:3px 6px;border-radius:999px;background:#edf7f2;color:#06704d;font-weight:900}.recipe{font-size:10px;padding:3px 6px;border-radius:999px;background:#fff5e7;color:var(--gold);font-weight:900}.copy strong{display:block;font-size:14px}.copy p{margin:2px 0 0;color:var(--muted);font-size:12px}
     .footer-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px}.progress{color:var(--muted);font-size:12px}.reset{border:0;background:none;color:var(--blue);font:inherit;font-weight:800;padding:8px}
+    .preps{scroll-margin-top:105px;margin-top:22px}.section-title{margin:0 0 5px;font-size:22px}.section-note{margin:0 0 13px;color:var(--muted);font-size:13px}.prep{border:1px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden;background:#fff}.prep summary{cursor:pointer;list-style:none;padding:13px 14px;font-weight:850;display:flex;justify-content:space-between;gap:10px;align-items:center}.prep summary::-webkit-details-marker{display:none}.prep summary span{font-size:11px;color:var(--blue);white-space:nowrap}.prep[open] summary{background:var(--soft);border-bottom:1px solid var(--line)}.prep-body{padding:13px 14px}.prep h3{font-size:13px;margin:0 0 7px}.ingredients{display:grid;grid-template-columns:1fr auto;gap:5px 12px;margin-bottom:13px;font-size:12px}.ingredients b{text-align:right;color:#344054}.steps{margin:0;padding-left:21px}.steps li{padding:3px 0;color:#475467;font-size:12px}.tip{margin:11px 0 0;padding:8px 10px;border-radius:10px;background:#eef5ff;color:#365173;font-size:11px}
   </style>
 </head>
 <body>
-<header><div class="top"><div class="titleline"><strong>Guía de trabajo · Pescados</strong><span>Presentación 9:00 a. m.</span></div><nav><a href="#orden">Orden</a><a href="#santiago">Santiago</a><a href="#julian">Julián</a><a href="#andrea">Andrea</a><a href="#angela">Ángela</a></nav></div></header>
+<header><div class="top"><div class="titleline"><strong>Guía de trabajo · Pescados</strong><span>Presentación 9:00 a. m.</span></div><nav><a href="#orden">Orden</a><a href="#santiago">Santiago</a><a href="#julian">Julián</a><a href="#andrea">Andrea</a><a href="#angela">Ángela</a><a href="#preparaciones">Preparaciones</a></nav></div></header>
 <main>
   <section class="brief"><div><b>7:30</b><small>Inicio</small></div><div><b>4 platos</b><small>2 por receta</small></div><div><b>8:55</b><small>Control final</small></div></section>
   <section class="yield"><b>Porciones de pescado</b><p>Meta: 620 g limpios. Cocción unilateral: 2 filetes con piel de 160 g. Bastones: 300 g, divididos en 2 porciones de 150 g. Ajustar proporcionalmente si cambia el rendimiento.</p></section>
@@ -61,6 +62,53 @@
       <button class="task" data-id="g3"><span class="box"></span><span class="copy"><span class="meta"><span class="time">8:35–8:55</span><span class="recipe">AMBAS</span><span class="qty">4 platos</span></span><strong>Emplatar con Andrea</strong><p>Ángela monta los 2 platos de bastones con papas y tártara.</p></span></button>
     </div>
   </article>
+
+  <section class="preps" id="preparaciones">
+    <h2 class="section-title">Preparaciones</h2>
+    <p class="section-note">Ingredientes de la ficha base. Abrir únicamente la preparación que se necesite consultar.</p>
+
+    <details class="prep">
+      <summary>1. Salsa tártara <span>Santiago + Andrea</span></summary>
+      <div class="prep-body"><h3>Ingredientes</h3><div class="ingredients">
+        <span>Huevo</span><b>1 unidad</b><span>Mostaza francesa</span><b>5 g</b><span>Aceite de girasol</span><b>100 ml</b><span>Vinagre o zumo de limón</span><b>10 ml</b><span>Alcaparras picadas</span><b>20 g</b><span>Pepinillos picados</span><b>20 g</b><span>Perejil picado</span><b>10 g</b><span>Huevo duro picado</span><b>1 unidad</b><span>Cebolla ocañera</span><b>20 g</b><span>Sal</span><b>c/n</b>
+      </div><h3>Paso a paso</h3><ol class="steps"><li>Licuar el huevo, la mostaza, el ácido y la sal.</li><li>Agregar el aceite en hilo hasta formar la mayonesa.</li><li>Incorporar alcaparras, pepinillos, perejil, huevo duro y cebolla finamente picados.</li><li>Corregir la sazón y reservar en frío.</li></ol><p class="tip">Para 2 platos: servir aproximadamente 35 g por plato.</p></div>
+    </details>
+
+    <details class="prep">
+      <summary>2. Salsa de hierbas <span>Julián + Ángela</span></summary>
+      <div class="prep-body"><h3>Ingredientes</h3><div class="ingredients">
+        <span>Mantequilla</span><b>70 g</b><span>Perejil</span><b>50 g</b><span>Tomillo</span><b>10 g</b><span>Sal</span><b>c/n</b><span>Pimienta negra</span><b>c/n</b>
+      </div><h3>Paso a paso</h3><ol class="steps"><li>Fundir la mantequilla a fuego bajo sin dejar que espume.</li><li>Picar finamente el perejil y obtener una brizna de tomillo.</li><li>Retirar del fuego, añadir las hierbas y mezclar.</li><li>Salpimentar y mantener tibia.</li></ol><p class="tip">Añadir las hierbas al final para conservar el color. Usar cerca de 30 g por plato.</p></div>
+    </details>
+
+    <details class="prep">
+      <summary>3. Flan de zanahoria <span>Andrea + Ángela</span></summary>
+      <div class="prep-body"><h3>Ingredientes</h3><div class="ingredients">
+        <span>Zanahoria rallada</span><b>100 g</b><span>Huevos</span><b>2 unidades</b><span>Crema de leche</span><b>100 ml</b><span>Leche</span><b>100 ml</b><span>Azúcar blanca</span><b>10 g</b><span>Sal y pimienta</span><b>c/n</b><span>Canela y nuez moscada</span><b>c/n</b><span>Mantequilla para moldes</span><b>c/n</b>
+      </div><h3>Paso a paso</h3><ol class="steps"><li>Precalentar el horno a 150 °C y preparar el baño María.</li><li>Mezclar huevos, crema, leche, azúcar y condimentos.</li><li>Agregar la zanahoria y mezclar hasta uniformar.</li><li>Engrasar los moldes y llenar hasta tres cuartas partes.</li><li>Hornear al baño María hasta que el centro esté firme.</li></ol><p class="tip">Preparar 2 flanes de aproximadamente 90 g para los platos unilaterales.</p></div>
+    </details>
+
+    <details class="prep">
+      <summary>4. Pescado en cocción unilateral <span>Santiago</span></summary>
+      <div class="prep-body"><h3>Ingredientes</h3><div class="ingredients">
+        <span>Filetes de pescado con piel</span><b>2 × 160 g</b><span>Mantequilla clarificada</span><b>c/n</b><span>Sal y pimienta</span><b>c/n</b>
+      </div><h3>Paso a paso</h3><ol class="steps"><li>Secar muy bien los filetes y sazonar.</li><li>Calentar la sartén con mantequilla clarificada a fuego medio.</li><li>Colocar el pescado por el lado de la piel y presionar unos segundos para evitar que se curve.</li><li>Tapar y cocinar por un solo lado; finalizar brevemente en horno si hace falta.</li></ol><p class="tip">La piel debe quedar crocante y la carne jugosa. No cubrir la piel con salsa al emplatar.</p></div>
+    </details>
+
+    <details class="prep">
+      <summary>5. Bastones y rebozado <span>Santiago + Julián</span></summary>
+      <div class="prep-body"><h3>Ingredientes</h3><div class="ingredients">
+        <span>Pescado sin piel</span><b>300 g</b><span>Harina</span><b>150 g</b><span>Fécula</span><b>50 g</b><span>Cerveza fría</span><b>100 ml</b><span>Huevo</span><b>1 unidad</b><span>Sal y pimienta</span><b>c/n</b><span>Aceite para freír</span><b>c/n</b>
+      </div><h3>Paso a paso</h3><ol class="steps"><li>Cortar el pescado en bastones uniformes y mantenerlo frío.</li><li>Mezclar harina, fécula, sal y pimienta.</li><li>Batir aparte el huevo con la cerveza fría e incorporar a los secos.</li><li>Pasar los bastones por el rebozado y freír a 175–180 °C.</li><li>Escurrir sobre papel absorbente y salar de inmediato.</li></ol><p class="tip">Dividir en 2 porciones de 150 g. Mezclar el rebozado poco antes de freír para que quede ligero.</p></div>
+    </details>
+
+    <details class="prep">
+      <summary>6. Papas fritas <span>Julián</span></summary>
+      <div class="prep-body"><h3>Ingredientes</h3><div class="ingredients">
+        <span>Papa sabanera</span><b>2 unidades · 360–400 g</b><span>Aceite para freír</span><b>c/n</b><span>Sal</span><b>c/n</b>
+      </div><h3>Paso a paso</h3><ol class="steps"><li>Lavar, pelar y cortar bastones de aproximadamente 5 mm × 6 cm.</li><li>Reservar en agua; luego colar y secar completamente.</li><li>Blanquear en aceite a 140–150 °C, escurrir y reservar.</li><li>Terminar a 180–190 °C hasta dorar y dejar crocantes.</li><li>Escurrir y salar.</li></ol><p class="tip">Servir aproximadamente 180–200 g por plato de bastones.</p></div>
+    </details>
+  </section>
 
   <div class="footer-actions"><span class="progress" id="progress"></span><button class="reset" id="reset">Reiniciar marcas</button></div>
 </main>
