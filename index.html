@@ -18,10 +18,11 @@
     .tasks{padding:0 12px 4px}.task{display:grid;grid-template-columns:27px 1fr;gap:9px;width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;text-align:left;padding:12px 0;color:inherit;font:inherit}.task:last-child{border-bottom:0}.box{width:23px;height:23px;border:2px solid #cbd1da;border-radius:7px;display:grid;place-items:center;color:#fff}.task.done .box{background:var(--green);border-color:var(--green)}.task.done .copy{opacity:.5}.task.done strong{text-decoration:line-through}.meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.time{font-size:11px;color:var(--muted);font-weight:850}.qty{font-size:10px;padding:3px 6px;border-radius:999px;background:#edf7f2;color:#06704d;font-weight:900}.recipe{font-size:10px;padding:3px 6px;border-radius:999px;background:#fff5e7;color:var(--gold);font-weight:900}.copy strong{display:block;font-size:14px}.copy p{margin:2px 0 0;color:var(--muted);font-size:12px}
     .footer-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px}.progress{color:var(--muted);font-size:12px}.reset{border:0;background:none;color:var(--blue);font:inherit;font-weight:800;padding:8px}
     .preps{scroll-margin-top:105px;margin-top:22px}.section-title{margin:0 0 5px;font-size:22px}.section-note{margin:0 0 13px;color:var(--muted);font-size:13px}.prep{border:1px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden;background:#fff}.prep summary{cursor:pointer;list-style:none;padding:13px 14px;font-weight:850;display:flex;justify-content:space-between;gap:10px;align-items:center}.prep summary::-webkit-details-marker{display:none}.prep summary span{font-size:11px;color:var(--blue);white-space:nowrap}.prep[open] summary{background:var(--soft);border-bottom:1px solid var(--line)}.prep-body{padding:13px 14px}.prep h3{font-size:13px;margin:0 0 7px}.ingredients{display:grid;grid-template-columns:1fr auto;gap:5px 12px;margin-bottom:13px;font-size:12px}.ingredients b{text-align:right;color:#344054}.steps{margin:0;padding-left:21px}.steps li{padding:3px 0;color:#475467;font-size:12px}.tip{margin:11px 0 0;padding:8px 10px;border-radius:10px;background:#eef5ff;color:#365173;font-size:11px}
+    .sketches{scroll-margin-top:105px;margin-top:28px}.sketch-grid{display:grid;gap:14px}.sketch{margin:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}.sketch img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--soft)}.sketch figcaption{padding:12px 14px}.sketch b{display:block;font-size:14px}.sketch span{display:block;margin-top:3px;color:var(--muted);font-size:12px}@media(min-width:620px){.sketch-grid{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
-<header><div class="top"><div class="titleline"><strong>Guía de trabajo · Pescados</strong><span>Presentación 9:00 a. m.</span></div><nav><a href="#orden">Orden</a><a href="#santiago">Santiago</a><a href="#julian">Julián</a><a href="#andrea">Andrea</a><a href="#angela">Ángela</a><a href="#preparaciones">Preparaciones</a></nav></div></header>
+<header><div class="top"><div class="titleline"><strong>Guía de trabajo · Pescados</strong><span>Presentación 9:00 a. m.</span></div><nav><a href="#orden">Orden</a><a href="#santiago">Santiago</a><a href="#julian">Julián</a><a href="#andrea">Andrea</a><a href="#angela">Ángela</a><a href="#preparaciones">Preparaciones</a><a href="#boceto">Boceto</a></nav></div></header>
 <main>
   <section class="brief"><div><b>7:30</b><small>Inicio</small></div><div><b>4 platos</b><small>2 por receta</small></div><div><b>8:55</b><small>Control final</small></div></section>
   <section class="yield"><b>Porciones de pescado</b><p>Meta: 620 g limpios. Cocción unilateral: 2 filetes con piel de 160 g. Bastones: 300 g, divididos en 2 porciones de 150 g. Ajustar proporcionalmente si cambia el rendimiento.</p></section>
@@ -108,6 +109,21 @@
         <span>Papa sabanera</span><b>2 unidades · 360–400 g</b><span>Aceite para freír</span><b>c/n</b><span>Sal</span><b>c/n</b>
       </div><h3>Paso a paso</h3><ol class="steps"><li>Lavar, pelar y cortar bastones de aproximadamente 5 mm × 6 cm.</li><li>Reservar en agua; luego colar y secar completamente.</li><li>Blanquear en aceite a 140–150 °C, escurrir y reservar.</li><li>Terminar a 180–190 °C hasta dorar y dejar crocantes.</li><li>Escurrir y salar.</li></ol><p class="tip">Servir aproximadamente 180–200 g por plato de bastones.</p></div>
     </details>
+  </section>
+
+  <section class="sketches" id="boceto">
+    <h2 class="section-title">Boceto</h2>
+    <p class="section-note">Referencia visual para el emplatado final de las dos preparaciones.</p>
+    <div class="sketch-grid">
+      <figure class="sketch">
+        <img src="pescado_coccion_unilateral.png" alt="Boceto del pescado de mar en cocción unilateral con flan de zanahoria y salsa de hierbas" loading="lazy">
+        <figcaption><b>Pescado en cocción unilateral</b><span>Piel crocante hacia arriba, flan de zanahoria definido y salsa de hierbas sin cubrir la piel.</span></figcaption>
+      </figure>
+      <figure class="sketch">
+        <img src="fish_and_chips.png" alt="Boceto de bastones redondos de pescado con papas fritas y salsa tártara" loading="lazy">
+        <figcaption><b>Bastones de pescado · Fish and chips</b><span>Rebozado dorado y crujiente, papas fritas y salsa tártara servida aparte.</span></figcaption>
+      </figure>
+    </div>
   </section>
 
   <div class="footer-actions"><span class="progress" id="progress"></span><button class="reset" id="reset">Reiniciar marcas</button></div>
