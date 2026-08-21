@@ -1,126 +1,683 @@
-<!doctype html>
+from pathlib import Path
+import base64, json, os
+
+out = Path("/mnt/data/brigada_2_recetas_mobile_v3.html")
+
+def to_data_uri(path):
+    p = Path(path)
+    if not p.exists():
+        return ""
+    mime = "image/png" if p.suffix.lower() == ".png" else "image/jpeg"
+    return f"data:{mime};base64," + base64.b64encode(p.read_bytes()).decode("ascii")
+
+img_r1 = to_data_uri("/mnt/data/guía_de_emplatado_lingote_dorado_de_pescado.png")
+img_r2 = to_data_uri("/mnt/data/a_clean_professional_culinary_plating_infographic.png")
+
+recipes = {
+    "r1": {
+        "name": "Receta 1 · Lingote dorado de pescado",
+        "short": "Lingote",
+        "subtitle": "Lingote de pescado de mar con mousseline de salmón, beurre blanc de limón y tomillo, puré de papa con clorofila y vegetales contemporáneos.",
+        "critical": "Sabor del pescado: usar como referencia 5 g de sal fina por 500 g de pescado blanco (1 %). Mezclar con ralladura fina de limón, distribuir por ambas caras y refrigerar 15–20 minutos. No agregar jugo de limón en esta etapa.",
+        "image": img_r1,
+        "image_alt": "Guía de emplatado del lingote dorado de pescado",
+        "people": {
+            "angela": {
+                "name": "Ángela",
+                "role": "Responsable principal del pescado y armado/cocción del lingote",
+                "badge": "Pescado",
+                "tasks": [
+                    {
+                        "title": "Revisar y acondicionar el pescado",
+                        "detail": "Trabajar sobre bandeja fría. Revisar cada filete al tacto, retirar espinas con pinza, recortar bordes irregulares y secar con papel absorbente.",
+                        "tip": "No lavar el pescado bajo el grifo. El exceso de agua dificulta el dorado y diluye el sabor."
+                    },
+                    {
+                        "title": "Sazonar el pescado con precisión",
+                        "detail": "Para 500 g de pescado blanco, pesar 5 g de sal fina. Mezclar con ralladura fina de limón y una cantidad moderada de pimienta blanca. Distribuir de forma uniforme por ambas caras.",
+                        "tip": "Pesar la sal da consistencia. El pescado necesita una sazón perceptible porque irá acompañado de puré y una salsa untuosa."
+                    },
+                    {
+                        "title": "Reposar en frío",
+                        "detail": "Cubrir los filetes y refrigerar entre 15 y 20 minutos a 0–4 °C. Después del reposo, secar suavemente cualquier humedad superficial.",
+                        "tip": "La sal penetra y la ralladura perfuma. No usar jugo de limón aquí para no modificar prematuramente la textura."
+                    },
+                    {
+                        "title": "Preparar las piezas para el lingote",
+                        "detail": "Seleccionar dos piezas de tamaño y grosor similares. Alinear los filetes y recortar solo lo necesario para obtener una forma rectangular limpia.",
+                        "tip": "La regularidad ayuda a que el relleno quede centrado y la cocción sea pareja."
+                    },
+                    {
+                        "title": "Armar el lingote con la mousseline de Sofía",
+                        "detail": "Extender una pieza, colocar una capa uniforme de mousseline de aproximadamente 6–8 mm, dejando un pequeño margen libre en los bordes. Cubrir con la segunda pieza y presionar con delicadeza.",
+                        "tip": "No excederse con el relleno: demasiada mousseline se sale durante el dorado."
+                    },
+                    {
+                        "title": "Compactar y enfriar el lingote",
+                        "detail": "Envolver firmemente con película únicamente para darle forma. Refrigerar 10–15 minutos y retirar completamente la película antes de cocinar.",
+                        "tip": "El segundo paso por frío estabiliza el conjunto y facilita un dorado mucho más limpio."
+                    },
+                    {
+                        "title": "Dorar en mantequilla y tomillo",
+                        "detail": "Secar la superficie, calentar la sartén y añadir mantequilla con tomillo. Dorar primero la cara de presentación sin mover hasta obtener color uniforme. Girar con cuidado y bañar con la mantequilla espumosa.",
+                        "tip": "La mantequilla debe espumar, no quemarse. El aroma tostado es parte importante del sabor final."
+                    },
+                    {
+                        "title": "Finalizar la cocción",
+                        "detail": "Terminar en horno a 150–160 °C hasta alcanzar aproximadamente 63 °C en el centro. Retirar y reposar 2 minutos antes de cortar.",
+                        "tip": "Usar termómetro es más preciso que depender solo del tiempo."
+                    },
+                    {
+                        "title": "Corte de presentación",
+                        "detail": "Cortar un extremo del lingote en diagonal para dejar visible el pescado blanco y la mousseline de salmón. Limpiar el corte antes del pase.",
+                        "tip": "La sección interior debe verse definida, húmeda y sin exceso de relleno."
+                    }
+                ]
+            },
+            "sofia": {
+                "name": "Sofía",
+                "role": "Mousseline de salmón + apoyo directo de Ángela",
+                "badge": "Mousseline",
+                "tasks": [
+                    {
+                        "title": "Enfriar la estación de mousseline",
+                        "detail": "Mantener salmón, crema, clara de huevo, bowl y cuchilla bien fríos. Tener todo pesado antes de procesar.",
+                        "tip": "El frío protege la emulsión y evita una textura granulosa o separada."
+                    },
+                    {
+                        "title": "Pesar y sazonar el salmón",
+                        "detail": "Limpiar 100 g de salmón y mantenerlo refrigerado. Añadir aproximadamente 1,5–2 g de sal fina y una pequeña cantidad de pimienta blanca.",
+                        "tip": "La sal al inicio ayuda a extraer proteínas y mejora la capacidad de ligar la mousseline."
+                    },
+                    {
+                        "title": "Procesar el salmón",
+                        "detail": "Procesar el salmón frío hasta obtener una pasta homogénea y ligeramente pegajosa. Detener si el vaso empieza a calentarse.",
+                        "tip": "Procesar en intervalos cortos conserva mejor la temperatura."
+                    },
+                    {
+                        "title": "Incorporar clara y crema",
+                        "detail": "Añadir primero la clara de huevo y después la crema muy fría, poco a poco, hasta obtener una mezcla fina, cremosa y firme.",
+                        "tip": "No verter toda la crema de una vez; una incorporación gradual favorece una emulsión estable."
+                    },
+                    {
+                        "title": "Perfumar con limón",
+                        "detail": "Agregar ralladura muy fina de limón, evitando completamente la parte blanca. Probar una mínima cantidad de la mezcla cocida aparte para verificar sazón.",
+                        "tip": "La ralladura aporta perfume sin introducir acidez que pueda romper la emulsión."
+                    },
+                    {
+                        "title": "Tamizar y enfriar",
+                        "detail": "Pasar la mousseline por tamiz para obtener una textura más fina. Cubrir y refrigerar alrededor de 10 minutos antes del armado.",
+                        "tip": "Debe sostenerse sobre una cuchara; si está demasiado fluida, enfriar antes de usar."
+                    },
+                    {
+                        "title": "Apoyar a Ángela durante el armado",
+                        "detail": "Entregar la mousseline fría, ayudar a mantener alineadas las piezas y asistir en el envolvimiento del lingote sin intervenir en la decisión final de sazón o cocción.",
+                        "tip": "Ángela conserva el control del pescado; Sofía se concentra en la calidad del relleno y el apoyo técnico."
+                    }
+                ]
+            },
+            "santiago": {
+                "name": "Santiago",
+                "role": "Puré de papa con clorofila de espinaca",
+                "badge": "Puré",
+                "tasks": [
+                    {
+                        "title": "Cocinar la papa desde agua fría",
+                        "detail": "Pelar y cortar las papas en tamaños uniformes. Empezar desde agua fría con sal y cocinar hasta que estén completamente tiernas.",
+                        "tip": "La cocción uniforme evita zonas duras y facilita un puré sin grumos."
+                    },
+                    {
+                        "title": "Cocer y enfriar la espinaca",
+                        "detail": "Cocer la espinaca brevemente a la inglesa y enfriar rápidamente para fijar el color.",
+                        "tip": "No sobrecocer; el verde intenso es clave en la presentación."
+                    },
+                    {
+                        "title": "Extraer y concentrar la clorofila",
+                        "detail": "Procesar la espinaca con poca agua de cocción, tamizar y llevar el líquido a fuego muy bajo hasta concentrar el color.",
+                        "tip": "Usar poca agua evita una reducción larga que pueda volver el sabor vegetal amargo."
+                    },
+                    {
+                        "title": "Prensar la papa",
+                        "detail": "Escurrir muy bien la papa y pasarla caliente por prensa o pasapurés.",
+                        "tip": "No licuar: el almidón se vuelve gomoso."
+                    },
+                    {
+                        "title": "Montar con mantequilla",
+                        "detail": "Incorporar mantequilla poco a poco, mezclando con suavidad hasta obtener textura sedosa.",
+                        "tip": "El puré debe ser untuoso, pero suficientemente firme para formar una lágrima limpia."
+                    },
+                    {
+                        "title": "Agregar clorofila y ajustar sazón",
+                        "detail": "Incorporar la clorofila gradualmente hasta lograr un verde intenso. Ajustar sal y pimienta.",
+                        "tip": "Debe tener sabor propio, aunque ligeramente menos salado que el pescado."
+                    },
+                    {
+                        "title": "Mantener listo para el pase",
+                        "detail": "Reservar al baño María con película en contacto. Revisar textura y sazón inmediatamente antes de emplatar.",
+                        "tip": "Si necesita ajuste, usar una pequeña cantidad de mantequilla caliente y no agua."
+                    }
+                ]
+            },
+            "julian": {
+                "name": "Julián",
+                "role": "Beurre blanc cítrico + vegetales contemporáneos",
+                "badge": "Salsa + vegetales",
+                "tasks": [
+                    {
+                        "title": "Iniciar la reducción del beurre blanc",
+                        "detail": "Reducir vino blanco, fumet y tomillo a fuego medio hasta concentrar claramente el sabor. Retirar el tomillo.",
+                        "tip": "La reducción debe tener carácter antes de agregar lácteos."
+                    },
+                    {
+                        "title": "Añadir crema",
+                        "detail": "Incorporar crema y reducir suavemente hasta que cubra ligeramente el dorso de una cuchara.",
+                        "tip": "La salsa debe mantenerse ligera; no buscar la densidad de la antigua salsa normanda."
+                    },
+                    {
+                        "title": "Montar con mantequilla fría",
+                        "detail": "Bajar el fuego e incorporar mantequilla fría en cubos, batiendo de manera continua. Evitar hervor fuerte después de emulsionar.",
+                        "tip": "La temperatura excesiva separa la salsa."
+                    },
+                    {
+                        "title": "Terminar con limón",
+                        "detail": "Fuera del fuego, agregar jugo de limón gradualmente. Ajustar sal y pimienta blanca hasta obtener un equilibrio entre untuosidad y frescura.",
+                        "tip": "La acidez debe limpiar el paladar después de la mousseline y el puré."
+                    },
+                    {
+                        "title": "Preparar cintas de zucchini y zanahoria",
+                        "detail": "Con pelador o mandolina, obtener cintas largas y finas de zucchini y zanahoria. Mantenerlas separadas y secas.",
+                        "tip": "Las cintas dan una apariencia contemporánea y se cocinan en segundos, conservando textura."
+                    },
+                    {
+                        "title": "Preparar apio crujiente",
+                        "detail": "Cortar el apio en láminas finas al sesgo y mantenerlo unos minutos en agua con hielo. Escurrir y secar perfectamente antes del pase.",
+                        "tip": "El apio aporta el crujiente que contrasta con puré, pescado y salsa."
+                    },
+                    {
+                        "title": "Marcar la cebolla larga",
+                        "detail": "Cortar la cebolla larga en segmentos de 5–6 cm y dorarla rápidamente en sartén muy caliente con una película mínima de mantequilla hasta obtener zonas tostadas.",
+                        "tip": "El tostado aporta sabor y una estética más actual que una simple cocción a la inglesa."
+                    },
+                    {
+                        "title": "Saltear las cintas al momento",
+                        "detail": "En sartén caliente con poca mantequilla, saltear primero la zanahoria y luego añadir el zucchini. Cocinar solo hasta que se vuelvan flexibles, sin perder color ni firmeza.",
+                        "tip": "No deben quedar blandas; la intención es una textura al dente."
+                    },
+                    {
+                        "title": "Formar el nido de vegetales",
+                        "detail": "Fuera del fuego, mezclar suavemente las cintas con el apio crujiente. Enrollarlas con pinza para formar un pequeño nido y acompañar con la cebolla marcada.",
+                        "tip": "El volumen vertical aporta altura al plato sin necesidad de tornear ningún vegetal."
+                    },
+                    {
+                        "title": "Ajuste final",
+                        "detail": "Terminar los vegetales con sal, pimienta y una cantidad mínima de ralladura o unas gotas de limón.",
+                        "tip": "El toque cítrico conecta la guarnición con la salsa sin hacer que todos los elementos sepan igual."
+                    }
+                ]
+            }
+        },
+        "plating": [
+            "Trazar una lágrima de puré de papa con clorofila de espinaca.",
+            "Apoyar el lingote sobre la zona más gruesa del puré, dejando visible la superficie dorada.",
+            "Servir el beurre blanc alrededor y parcialmente bajo el pescado; no cubrir el dorado.",
+            "Formar un pequeño nido vertical con las cintas de zucchini y zanahoria, incorporar el apio crujiente y apoyar la cebolla larga marcada.",
+            "Finalizar el lingote con brotes y una cantidad mínima de ralladura de limón."
+        ]
+    },
+    "r2": {
+        "name": "Receta 2 · Sopa de pescado estilo bullabesa",
+        "short": "Bullabesa",
+        "subtitle": "Bullabesa con mero, pargo y corvina, papas nature, tomates cherry, crostones con rouille y queso emmental.",
+        "critical": "Ángela mantiene el control exclusivo de los tres pescados. Santiago elabora la rouille y luego apoya a Julián con los crostones. Sofía trabaja las guarniciones.",
+        "image": img_r2,
+        "image_alt": "Guía de emplatado de la sopa de pescado estilo bullabesa",
+        "people": {
+            "angela": {
+                "name": "Ángela",
+                "role": "Pescados · mero, pargo y corvina",
+                "badge": "Pescado",
+                "tasks": [
+                    {"title":"Acondicionar las porciones","detail":"Revisar, retirar espinas, secar y organizar mero, pargo y corvina por separado.","tip":"El pescado debe entrar seco a la sartén para dorar mejor."},
+                    {"title":"Sazonar","detail":"Aplicar sal y pimienta de forma uniforme inmediatamente antes de cocinar.","tip":"Sazonar de forma pareja evita zonas insípidas."},
+                    {"title":"Dorar","detail":"Calentar aceite de oliva y dorar cada pescado por su mejor cara de presentación. El pargo inicia por la piel.","tip":"No mover la pieza hasta que se libere fácilmente."},
+                    {"title":"Girar y completar color","detail":"Girar cuidadosamente y dorar los lados restantes sin romper las piezas.","tip":"Usar espátula amplia."},
+                    {"title":"Terminar con la sopa","detail":"Añadir la sopa caliente, tapar y cocinar a fuego bajo entre 5 y 10 minutos según grosor.","tip":"La sopa caliente evita cortar la cocción."},
+                    {"title":"Controlar punto y reservar","detail":"Retirar al alcanzar el punto adecuado y mantener caliente solo el tiempo necesario antes del emplatado.","tip":"Evitar esperas largas que resequen el pescado."}
+                ]
+            },
+            "santiago": {
+                "name": "Santiago",
+                "role": "Rouille + apoyo de crostones",
+                "badge": "Rouille",
+                "tasks": [
+                    {"title":"Cocinar la papa","detail":"Lavar, pelar y cocinar desde agua fría hasta que quede completamente tierna.","tip":"Escurrir muy bien."},
+                    {"title":"Elaborar la base","detail":"Pisar la papa e integrar yema, ajo y páprika.","tip":"No trabajar con la papa excesivamente caliente."},
+                    {"title":"Emulsionar","detail":"Añadir aceite de oliva poco a poco y ajustar sazón.","tip":"Agregar el aceite en hilo."},
+                    {"title":"Reservar la rouille","detail":"Cubrir y mantener lista para montar los crostones.","tip":"Evitar que forme costra."},
+                    {"title":"Apoyar con baguette","detail":"Cortar baguette, rociar con aceite y hornear aproximadamente 5 minutos a 180 °C.","tip":"Borde crujiente y centro ligeramente tierno."},
+                    {"title":"Montar y gratinar","detail":"Colocar rouille, cubrir con emmental y gratinar justo antes del servicio.","tip":"Servir el crostón recién gratinado."}
+                ]
+            },
+            "julian": {
+                "name": "Julián",
+                "role": "Sopa estilo bullabesa + crostones",
+                "badge": "Bullabesa",
+                "tasks": [
+                    {"title":"Preparar aromáticos","detail":"Cortar tomate, cebolla e hinojo; preparar ajo y anís.","tip":"Dejar todo listo antes del dorado."},
+                    {"title":"Dorar cabezas y recortes","detail":"Trabajar en aceite de oliva hasta desarrollar fondo y aroma.","tip":"Evitar quemar residuos pequeños."},
+                    {"title":"Incorporar verduras","detail":"Agregar vegetales y cocinar hasta que empiecen a ablandarse.","tip":"Raspar el fondo."},
+                    {"title":"Desglasar con vino","detail":"Añadir vino blanco y reducir.","tip":"Esperar a que baje el aroma alcohólico."},
+                    {"title":"Agregar fumet y aromáticos","detail":"Incorporar fumet y cocinar aproximadamente 1 hora a fuego bajo.","tip":"Evitar hervor violento."},
+                    {"title":"Procesar y colar","detail":"Procesar, colar y rectificar sazón.","tip":"Buscar sabor profundo pero limpio."},
+                    {"title":"Mantener caliente","detail":"Reservar a temperatura de servicio.","tip":"Revisar sal con la sopa caliente."},
+                    {"title":"Coordinar crostones","detail":"Trabajar con Santiago para servir baguette, rouille y emmental gratinados.","tip":"El crostón entra al plato al final."}
+                ]
+            },
+            "sofia": {
+                "name": "Sofía",
+                "role": "Papas nature + tomates cherry fritos",
+                "badge": "Guarniciones",
+                "tasks": [
+                    {"title":"Preparar papas","detail":"Lavar, pelar y dar forma uniforme a las papas según la receta.","tip":"Uniformidad = cocción pareja."},
+                    {"title":"Cocinar en fumet","detail":"Cocinar con fumet, sal y pimienta entre 10 y 15 minutos.","tip":"Conservar estructura."},
+                    {"title":"Terminar las papas","detail":"Retirar, mantener calientes y terminar con aceite de oliva.","tip":"No excederse con la grasa."},
+                    {"title":"Preparar tomates","detail":"Lavar y hacer un corte superficial en cruz.","tip":"El corte facilita la apertura de la piel."},
+                    {"title":"Freír brevemente","detail":"Sumergir hasta que la piel comience a desprenderse.","tip":"Mantener pulpa entera y jugosa."},
+                    {"title":"Reservar para el pase","detail":"Escurrir y mantener calientes sin aplastarlos.","tip":"Agregar al final."}
+                ]
+            }
+        },
+        "plating": [
+            "Servir la bullabesa caliente como base.",
+            "Distribuir mero, pargo y corvina sobre la sopa.",
+            "Acomodar las papas en la parte superior.",
+            "Ubicar los tomates cherry fritos en un costado.",
+            "Colocar el crostón con rouille y emmental gratinado al lado opuesto.",
+            "Finalizar con hierbas o cebollín y un toque de aceite de oliva."
+        ]
+    }
+}
+
+data_json = json.dumps(recipes, ensure_ascii=False)
+
+html_doc = f"""<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Guía de trabajo · Pescados II</title>
-  <style>
-    :root{--ink:#17202a;--muted:#667085;--line:#e6e8ec;--blue:#1769e0;--soft:#f5f8fc;--green:#147d64;--orange:#d66a18}
-    *{box-sizing:border-box} body{margin:0;background:#fff;color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-    .wrap{max-width:820px;margin:auto;padding:16px}.head{padding-bottom:10px}.head h1{font-size:21px;margin:0 0 3px}.head p{margin:0;color:var(--muted);font-size:13px}
-    nav{display:flex;gap:7px;overflow:auto;padding-bottom:2px}.tab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-weight:650;color:#344054}.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-    main{padding-top:18px;padding-bottom:50px}.view{display:none}.view.active{display:block}.hero{background:linear-gradient(135deg,#f8fbff,#fff);border:1px solid #dce8f8;border-radius:18px;padding:16px;margin-bottom:15px}.hero strong{display:block;font-size:18px}.hero small{color:var(--muted)}
-    h2{font-size:19px;margin:22px 0 10px}h3{font-size:16px;margin:0}.step,.person,.recipe{border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0;background:#fff;box-shadow:0 5px 18px rgba(16,24,40,.045)}
-    .step-top{display:flex;gap:10px;align-items:flex-start}.num{display:grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:#eaf2ff;color:var(--blue);font-weight:800}.time{font-weight:750;color:var(--blue);font-size:13px}.task{display:grid;grid-template-columns:24px 1fr;gap:8px;margin-top:10px;padding-top:9px;border-top:1px solid #f0f1f3}.task input{width:18px;height:18px;accent-color:var(--green)}.task:has(input:checked) span{color:#7b8492;text-decoration-color:#98a2b3}.task:has(input:checked)>span{text-decoration:line-through}.step.complete{border-color:#b9dfd4;background:#f8fffc}.step.complete .num{background:#daf4eb;color:var(--green)}.who{font-weight:750}.tag{display:inline-block;border-radius:6px;background:var(--soft);padding:2px 6px;color:#475467;font-size:11px;margin-left:4px}.note{border-left:4px solid var(--orange);background:#fff8f2;border-radius:8px;padding:10px 12px;margin:12px 0}.person h2{margin:0}.person .meta{color:var(--muted);font-size:13px;margin:2px 0 10px}
-    .progress-card{position:sticky;top:126px;z-index:4;border:1px solid #cfe0f7;border-radius:16px;padding:14px;margin:12px 0 16px;background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(23,105,224,.09);backdrop-filter:blur(12px)}.progress-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.progress-head span{font-size:13px;color:var(--blue);font-weight:800}.progress-track{height:12px;border-radius:999px;background:#e9eef5;overflow:hidden;margin:10px 0 7px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:inherit;transition:width .25s ease}.stage{margin:0;color:var(--muted);font-size:12px}
-    .person-menu{margin-top:12px}.person-task{border:1px solid var(--line)!important;border-radius:13px;padding:0!important;margin:9px 0;background:#fff;overflow:hidden}.person-task[open]{border-color:#c9d9ef!important;box-shadow:0 5px 16px rgba(16,24,40,.05)}.person-task summary{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:12px;list-style:none}.person-task summary::-webkit-details-marker{display:none}.person-task summary:after{content:'⌄';grid-column:3;color:var(--muted);font-size:20px;transition:transform .2s}.person-task[open] summary:after{transform:rotate(180deg)}.step-index{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:#eaf2ff;color:var(--blue);font-weight:800}.person-task summary b{display:block;color:var(--blue);font-size:12px}.person-task summary small{display:block;color:var(--ink);font-size:14px;font-weight:750;margin-top:1px}.person-body{border-top:1px solid var(--line);padding:12px 14px 14px}.person-body p{margin:0 0 10px}.person-body h4{margin:10px 0 5px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}.person-body ul{margin:0;padding-left:18px}.person-body li{margin:4px 0}.prep-tag{display:inline-block;background:#eef7f4;color:var(--green);font-size:11px;font-weight:750;border-radius:999px;padding:3px 7px;margin-bottom:8px}
-    details{border-top:1px solid var(--line);padding:11px 0}details:first-of-type{border-top:0}summary{cursor:pointer;font-weight:750}.ingredients{columns:2;padding-left:18px}.ingredients li{break-inside:avoid;margin:4px 0}.steps li{margin:7px 0}.yield{font-size:12px;color:var(--green);font-weight:750}.foot{color:var(--muted);font-size:12px;margin-top:18px}
-    .sketch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.sketch{overflow:hidden;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 5px 18px rgba(16,24,40,.045)}.sketch img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--soft)}.sketch figcaption{padding:12px 14px}.sketch b{display:block;margin-bottom:3px}.sketch span{display:block;color:var(--muted);font-size:12px}
-    @media(max-width:560px){.wrap{padding:13px}.ingredients{columns:1}.step,.person,.recipe{border-radius:13px}.head h1{font-size:19px}.sketch-grid{grid-template-columns:1fr}.sketch{border-radius:13px}.progress-card{top:121px}.progress-head{align-items:flex-start}.progress-head span{text-align:right}}
-    @media print{header{position:static}nav{display:none}.view{display:block!important;break-before:page}.view:first-child{break-before:auto}.step,.person,.recipe{box-shadow:none;break-inside:avoid}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>Brigada de cocina · Actividades</title>
+<style>
+:root {{
+  --bg:#f3f5f7;
+  --card:#fff;
+  --ink:#111827;
+  --muted:#667085;
+  --line:#e4e7ec;
+  --nav:#0f172a;
+  --accent:#2563eb;
+  --green:#067647;
+  --green-bg:#ecfdf3;
+  --orange:#b54708;
+  --orange-bg:#fff6ed;
+  --soft:#eff6ff;
+}}
+*{{box-sizing:border-box}}
+html{{scroll-behavior:smooth}}
+body{{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  line-height:1.45;
+  -webkit-tap-highlight-color:transparent;
+}}
+button{{font:inherit}}
+.header{{
+  position:sticky;top:0;z-index:40;background:rgba(15,23,42,.97);color:#fff;
+  padding-top:env(safe-area-inset-top);box-shadow:0 1px 8px rgba(0,0,0,.12)
+}}
+.header-main{{padding:12px 14px 10px}}
+.header-title{{font-size:18px;font-weight:850;margin:0}}
+.header-sub{{font-size:11px;opacity:.7;margin-top:2px}}
+.recipe-tabs{{display:flex;gap:8px;padding:0 12px 10px;overflow-x:auto;scrollbar-width:none}}
+.recipe-tabs::-webkit-scrollbar{{display:none}}
+.recipe-tab{{
+  flex:0 0 auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);
+  color:white;border-radius:999px;padding:9px 13px;font-weight:800;font-size:13px
+}}
+.recipe-tab.active{{background:#fff;color:var(--nav)}}
+main{{max-width:920px;margin:auto;padding:12px 12px calc(86px + env(safe-area-inset-bottom))}}
+.hero,.progress-card,.person-card,.plating-card,.image-card{{
+  background:var(--card);border:1px solid var(--line);border-radius:16px
+}}
+.hero{{padding:15px;margin-bottom:10px}}
+.hero h1{{font-size:22px;line-height:1.15;margin:0 0 6px}}
+.hero p{{margin:0;color:var(--muted);font-size:13px}}
+.critical{{
+  margin-top:12px;padding:11px 12px;background:var(--orange-bg);color:#7a2e0e;
+  border-left:4px solid #f79009;border-radius:10px;font-size:13px;font-weight:650
+}}
+.image-card{{overflow:hidden;margin-bottom:10px}}
+.image-button{{
+  width:100%;display:block;padding:0;border:0;background:white;cursor:zoom-in;text-align:left
+}}
+.image-wrap{{position:relative;aspect-ratio:16/10;background:#f8fafc;overflow:hidden}}
+.image-wrap img{{width:100%;height:100%;object-fit:contain;display:block}}
+.zoom-hint{{
+  position:absolute;right:9px;bottom:9px;background:rgba(15,23,42,.84);color:white;
+  border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800
+}}
+.image-caption{{padding:9px 11px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}}
+.progress-card{{padding:12px;margin-bottom:10px}}
+.progress-row{{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:7px}}
+.track{{height:9px;border-radius:999px;background:#e9edf2;overflow:hidden}}
+.fill{{height:100%;background:var(--accent);border-radius:999px;transition:width .2s ease}}
+.filters{{
+  display:flex;gap:7px;overflow-x:auto;padding:1px 0 10px;scrollbar-width:none
+}}
+.filters::-webkit-scrollbar{{display:none}}
+.filter{{
+  flex:0 0 auto;background:white;border:1px solid var(--line);border-radius:999px;
+  padding:9px 12px;font-size:12px;font-weight:800;color:#344054
+}}
+.filter.active{{background:var(--soft);border-color:#84adff;color:#1849a9}}
+.people{{display:grid;gap:10px}}
+.person-card{{overflow:hidden}}
+.person-head{{
+  padding:13px 13px 11px;background:#fafafa;border-bottom:1px solid var(--line)
+}}
+.person-title-row{{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}}
+.person-head h2{{font-size:18px;margin:0}}
+.person-role{{margin-top:2px;color:var(--muted);font-size:12px}}
+.badge{{background:var(--green-bg);color:var(--green);font-size:10px;font-weight:850;padding:5px 7px;border-radius:999px;white-space:nowrap}}
+.person-progress{{margin-top:9px}}
+.person-progress-label{{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-bottom:4px}}
+.person-progress .track{{height:6px}}
+.task{{border-bottom:1px solid var(--line)}}
+.task:last-child{{border-bottom:0}}
+.task-summary{{
+  width:100%;border:0;background:white;display:grid;grid-template-columns:30px 1fr 22px;
+  align-items:center;gap:8px;text-align:left;padding:12px 12px;cursor:pointer
+}}
+.check{{
+  width:26px;height:26px;border:2px solid #cbd5e1;border-radius:8px;
+  display:grid;place-items:center;font-weight:900;color:white;background:white
+}}
+.task.done .check{{background:var(--green);border-color:var(--green)}}
+.task.done .task-name{{text-decoration:line-through;color:#98a2b3}}
+.task-name{{font-size:13px;font-weight:800;line-height:1.3}}
+.chev{{font-size:18px;color:#98a2b3;transition:transform .18s ease;text-align:center}}
+.task.open .chev{{transform:rotate(180deg)}}
+.task-body{{display:none;padding:0 12px 13px 50px;background:white}}
+.task.open .task-body{{display:block}}
+.task-detail{{font-size:12px;color:#475467;margin:0}}
+.tip{{margin-top:8px;background:#f8fafc;border-radius:9px;padding:8px 9px;font-size:11px;color:#475467}}
+.tip b{{color:#1d2939}}
+.plating-card{{padding:13px;margin-top:10px}}
+.plating-card h3{{font-size:15px;margin:0 0 8px}}
+.plating-card ol{{margin:0;padding-left:20px}}
+.plating-card li{{margin:6px 0;font-size:12px;color:#475467}}
+.bottom-nav{{
+  position:fixed;left:0;right:0;bottom:0;z-index:35;background:rgba(255,255,255,.96);
+  border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  backdrop-filter:blur(12px)
+}}
+.bottom-inner{{max-width:920px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px}}
+.action{{
+  min-height:44px;border-radius:12px;border:1px solid var(--line);font-weight:850;font-size:13px;background:white;color:#344054
+}}
+.action.primary{{background:var(--nav);color:white;border-color:var(--nav)}}
+
+/* Lightbox */
+.modal{{
+  position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.94);display:none;
+  flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)
+}}
+.modal.open{{display:flex}}
+.modal-top{{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;color:white}}
+.modal-title{{font-size:13px;font-weight:750;max-width:75%}}
+.modal-close{{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:white;border-radius:999px;width:42px;height:42px;font-size:22px}}
+.modal-stage{{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:8px}}
+.modal-stage img{{display:block;max-width:none;width:1400px;height:auto;transform-origin:top center}}
+.modal-help{{color:#ddd;text-align:center;font-size:11px;padding:7px 10px 10px}}
+
+@media(min-width:700px){{
+  .header-main{{padding-left:18px;padding-right:18px}}
+  main{{padding:18px 18px 90px}}
+  .top-grid{{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:12px;align-items:start}}
+  .image-card{{grid-column:2;grid-row:1 / span 2;margin:0}}
+  .hero{{grid-column:1;margin:0}}
+  .progress-card{{grid-column:1;margin:0}}
+  .people{{grid-template-columns:1fr 1fr}}
+}}
+@media print{{
+  .header,.bottom-nav,.filters,.zoom-hint{{display:none!important}}
+  main{{max-width:none;padding:0}}
+  body{{background:white}}
+  .task-body{{display:block!important}}
+  .modal{{display:none!important}}
+}}
+</style>
 </head>
 <body>
-<header><div class="wrap head"><h1>Pescados II · Guía de trabajo</h1><p>7:30–9:00 a. m. · 2 preparaciones · 3 personas</p></div><div class="wrap"><nav id="nav"></nav></div></header>
-<main class="wrap">
-  <section class="view active" data-name="Cronograma y emplatado">
-    <div class="hero"><strong>Servicio a las 9:00 a. m.</strong><small>Todo se adelanta antes del pescado. Las dos cocciones principales se realizan al final.</small></div>
-    <div class="progress-card" aria-live="polite">
-      <div class="progress-head"><b>Progreso general</b><span id="progressText">0 de 21 tareas · 0%</span></div>
-      <div class="progress-track" role="progressbar" aria-label="Progreso de las preparaciones" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressBar"></div></div>
-      <p class="stage" id="stageText">Etapa actual: 1. Mise en place de las dos recetas</p>
-    </div>
-    <div class="note"><b>Regla de corte:</b> cebolla, champiñón y tocineta de la duxelle van en <b>brunoise uniforme</b>.</div>
-    <div class="note"><b>Ultracongelador disponible:</b> las quenelles requieren solo <b>8–10 minutos</b> de reserva en frío, hasta afirmar la superficie. No deben congelarse por completo.</div>
-    <div id="timeline"></div>
-    <h2>Bocetos de emplatado</h2>
-    <div class="hero"><strong>Referencia visual de los dos platos</strong><small>Usar como guía para conservar altura, equilibrio y limpieza durante el montaje final.</small></div>
-    <div class="sketch-grid">
-      <figure class="sketch">
-        <img src="boceto_pescado_meuniere.png" alt="Filete de pescado a la meunière con tres quenelles crocantes de ahuyama, kale frito y brotes" loading="lazy">
-        <figcaption><b>Pescado a la meunière</b><span>Tres quenelles pequeñas sobre el filete, kale frito y brotes; salsa en la base.</span></figcaption>
-      </figure>
-      <figure class="sketch">
-        <img src="boceto_salmon_naranja.png" alt="Salmón en salsa de naranja y ají dulce con repollo relleno y garbanzos fritos" loading="lazy">
-        <figcaption><b>Salmón con salsa de naranja</b><span>Repollo relleno de duxelle con altura y garbanzos fritos servidos crujientes.</span></figcaption>
-      </figure>
-    </div>
-    <p class="foot"></p>
-  </section>
-  <section class="view" data-name="Mariana"><div class="person"><h2>Mariana</h2><p class="meta">Salsa de naranja · croquetas · apoyo en repollo</p><div class="person-menu" id="marianaTasks"></div></div></section>
-  <section class="view" data-name="Juan Daniel"><div class="person"><h2>Juan Daniel</h2><p class="meta">Salmón · garbanzos · kale</p><div class="person-menu" id="juanTasks"></div></div></section>
-  <section class="view" data-name="Santiago"><div class="person"><h2>Santiago</h2><p class="meta">Repollo relleno · pescado a la meunière</p><div class="person-menu" id="santiagoTasks"></div></div></section>
-  <section class="view" data-name="Preparaciones">
-    <div class="hero"><strong>Ingredientes y paso a paso</strong><small>Cantidades de las fichas de clase; croquetas adaptadas al video enlazado.</small></div>
-    <div id="recipes"></div>
+
+<header class="header">
+  <div class="header-main">
+    <div class="header-title">Brigada de cocina</div>
+    <div class="header-sub">Santiago · Julián · Sofía · Ángela</div>
+  </div>
+  <nav class="recipe-tabs">
+    <button class="recipe-tab active" data-recipe="r1">Receta 1 · Lingote</button>
+    <button class="recipe-tab" data-recipe="r2">Receta 2 · Bullabesa</button>
+  </nav>
+</header>
+
+<main>
+  <div class="top-grid">
+    <section class="hero">
+      <h1 id="recipeName"></h1>
+      <p id="recipeSubtitle"></p>
+      <div class="critical" id="critical"></div>
+    </section>
+
+    <section class="image-card" id="imageCard">
+      <button class="image-button" id="openImage" type="button">
+        <div class="image-wrap">
+          <img id="recipeImage" alt="">
+          <span class="zoom-hint">Tocar para ampliar</span>
+        </div>
+        <div class="image-caption">Guía visual de emplatado. Toca la imagen para verla en grande.</div>
+      </button>
+    </section>
+
+    <section class="progress-card">
+      <div class="progress-row">
+        <b>Progreso general</b>
+        <span id="progressText">0 %</span>
+      </div>
+      <div class="track"><div class="fill" id="progressBar" style="width:0%"></div></div>
+    </section>
+  </div>
+
+  <div class="filters" aria-label="Filtrar por persona">
+    <button class="filter active" data-person="all">Todos</button>
+    <button class="filter" data-person="angela">Ángela</button>
+    <button class="filter" data-person="sofia">Sofía</button>
+    <button class="filter" data-person="santiago">Santiago</button>
+    <button class="filter" data-person="julian">Julián</button>
+  </div>
+
+  <section class="people" id="people"></section>
+
+  <section class="plating-card">
+    <h3>Orden de emplatado</h3>
+    <ol id="platingList"></ol>
   </section>
 </main>
+
+<nav class="bottom-nav">
+  <div class="bottom-inner">
+    <button class="action" id="resetBtn">Reiniciar receta</button>
+    <button class="action primary" id="printBtn">Imprimir / PDF</button>
+  </div>
+</nav>
+
+<div class="modal" id="imageModal" role="dialog" aria-modal="true">
+  <div class="modal-top">
+    <div class="modal-title" id="modalTitle"></div>
+    <button class="modal-close" id="closeModal" aria-label="Cerrar">×</button>
+  </div>
+  <div class="modal-stage">
+    <img id="modalImage" alt="">
+  </div>
+  <div class="modal-help">Desliza para recorrer la imagen ampliada. Usa el zoom del navegador si necesitas acercarte más.</div>
+</div>
+
 <script>
-const schedule=[
- ['7:30–7:40','Mise en place de las dos recetas',['Mariana|Pesar ingredientes y poner inmediatamente 250 g de ahuyama al vapor.','Juan Daniel|Disponer salmón, garbanzos, kale y fritura.','Santiago|Disponer pescado, repollo, ingredientes de duxelle y meunière.']],
- ['7:40–7:55','Salsas, cortes y porcionado',['Mariana|Iniciar salsa de naranja y reducir.','Juan Daniel|Filetear y porcionar el salmón; reservar en frío.','Santiago|Blanquear repollo e iniciar cortes de duxelle en brunoise.']],
- ['7:55–8:12','Bases y rellenos',['Mariana|Triturar y enfriar el puré; montar 2 claras e integrar la masa de croquetas.','Juan Daniel|Cocer, enfriar, pelar y secar los garbanzos.','Santiago|Cocinar duxelle con cebolla, champiñón y tocineta en brunoise.']],
- ['8:12–8:26','Formado y armado',['Mariana|Formar quenelles, ultracongelar 8–10 minutos y después ayudar con el repollo.','Juan Daniel|Cortar cebolla larga y perejil; lavar y secar completamente el kale.','Santiago|Integrar queso a la duxelle y armar 4 repollos rellenos.']],
- ['8:26–8:40','Horno y frituras',['Mariana|Finalizar la salsa y freír las quenelles desde las 8:34 hasta dorar.','Juan Daniel|Freír garbanzos; luego iniciar kale.','Santiago|Hornear repollos y organizar filetes, harina y salsa meunière.']],
- ['8:40–8:43','Control previo al pescado',['Mariana|Escurrir croquetas y ordenar componentes del emplatado.','Juan Daniel|Terminar kale, sazonar y precalentar sartén/horno del salmón.','Santiago|Secar, sazonar y pasar los filetes por harina; retirar exceso.']],
- ['8:43–9:00','Cocción final y emplatado',['Mariana|Disponer salsa, repollo y croquetas; apoyar el montaje de ambos platos.','Juan Daniel|Sellar y terminar el salmón; entregar con garbanzos.','Santiago|Cocinar pescado a la meunière, terminar su salsa y emplatar.']]
-];
-const personalTasks={
- mariana:[
-  {t:'7:30–7:40',n:'Mise en place y cocción de la ahuyama',r:'Ambos platos',a:'Pesar los ingredientes de sus preparaciones y poner inmediatamente la ahuyama al vapor hasta que quede muy blanda.',i:['Ahuyama 250 g','Ingredientes de la salsa de naranja previamente pesados','Vaporera, recipiente y tenedor']},
-  {t:'7:40–7:54',n:'Salsa de naranja y ají dulce',r:'Salmón',a:'Reducir el zumo con vino, ají dulce, jengibre, azúcar y condimentos. Finalizar con mantequilla y reservar caliente.',i:['Naranja 250 ml','Ají dulce 100 g, brunoise','Vino blanco 50 ml','Jengibre 10 g, rallado','Ajo en polvo 5 g','Azúcar 25 g','Mantequilla 30 g','Sal y pimienta c/n']},
-  {t:'7:54–8:12',n:'Masa de croquetas de ahuyama',r:'Pescado a la meunière',a:'Triturar la ahuyama, enfriar el puré, montar las claras e integrar la masa con movimientos envolventes.',i:['Puré de ahuyama 250 g','Claras 2 unidades','Harina 130 g, tamizada','Queso cheddar 300 g, rallado','Ajo 1 diente','Perejil y sal c/n']},
-  {t:'8:12–8:22',n:'Formado y ultracongelación',r:'Pescado a la meunière',a:'Formar quenelles pequeñas con dos cucharas y llevarlas 8–10 minutos al ultracongelador. Deben afirmar la superficie sin congelar el centro.',i:['Masa de croquetas preparada','2 cucharas','Bandeja limpia o papel siliconado']},
-  {t:'8:22–8:34',n:'Apoyo al repollo y control de salsa',r:'Salmón',a:'Ayudar a rellenar y cerrar las hojas de repollo; revisar textura, sazón y temperatura de la salsa de naranja.',i:['4 hojas de repollo blanqueadas','Duxelle y queso ya preparados','Hilo para bridar','Salsa de naranja preparada']},
-  {t:'8:34–8:42',n:'Fritura de las quenelles',r:'Pescado a la meunière',a:'Freír las quenelles a unos 170 °C, girándolas hasta lograr un dorado uniforme. Escurrir inmediatamente.',i:['Quenelles frías','Aceite vegetal suficiente','Papel absorbente','Sal c/n']},
-  {t:'8:42–9:00',n:'Organización y apoyo al emplatado',r:'Ambos platos',a:'Ordenar platos y componentes. Disponer salsa, repollo y croquetas sin humedecer los elementos crujientes.',i:['Salsa de naranja','Repollos rellenos','Croquetas de ahuyama','Platos blancos limpios']}
- ],
- juan:[
-  {t:'7:30–7:40',n:'Mise en place de salmón y frituras',r:'Salmón',a:'Organizar el puesto, pesar ingredientes y separar los elementos destinados al salmón, garbanzos y kale.',i:['Salmón 700 g','Garbanzos 100 g','Kale 100 g','Cebolla larga 50 g','Perejil 10 g','Aceite para fritura']},
-  {t:'7:40–7:55',n:'Fileteo y porcionado del salmón',r:'Salmón',a:'Filetear y porcionar el salmón, retirar espinas, secar cuidadosamente y reservar tapado en frío.',i:['Salmón 700 g','Sal y pimienta c/n','Pinza para espinas','Papel absorbente']},
-  {t:'7:55–8:14',n:'Preparación de los garbanzos',r:'Salmón',a:'Cocer si es necesario, enfriar, pelar y secar muy bien los garbanzos para evitar salpicaduras durante la fritura.',i:['Garbanzos 100 g','Agua c/n','Papel absorbente']},
-  {t:'8:14–8:30',n:'Cortes y preparación del kale',r:'Salmón y meunière',a:'Cortar cebolla larga y perejil; retirar tallos duros del kale, lavar y secar por completo. Preparar la zona de fritura.',i:['Cebolla larga 50 g','Perejil liso 10 g','Kale 100 g','Aceite para fritura 500 ml aprox.']},
-  {t:'8:30–8:42',n:'Fritura de garbanzos y kale',r:'Ambos platos',a:'Freír primero los garbanzos y después el kale, siempre por separado. Escurrir y sazonar inmediatamente.',i:['Garbanzos secos','Kale completamente seco','Aceite caliente','Sal y pimienta c/n']},
-  {t:'8:42–8:43',n:'Control previo del salmón',r:'Salmón',a:'Precalentar la sartén y verificar el horno a 180 °C. Confirmar que las porciones estén secas y sazonadas.',i:['Porciones de salmón','Sartén caliente','Horno a 180 °C']},
-  {t:'8:43–8:55',n:'Cocción final del salmón',r:'Salmón',a:'Sellar el salmón y terminarlo unos 5 minutos en horno, o hasta alcanzar el punto solicitado. Reposar brevemente.',i:['Salmón porcionado','Grasa de cocción c/n','Salsa de naranja lista']},
-  {t:'8:55–9:00',n:'Entrega para emplatado',r:'Salmón',a:'Entregar el salmón con los garbanzos crujientes y verificar que el kale conserve textura para el otro plato.',i:['Salmón cocido','Garbanzos fritos','Kale frito']}
- ],
- santiago:[
-  {t:'7:30–7:40',n:'Mise en place de pescado, repollo y duxelle',r:'Ambos platos',a:'Organizar el puesto y separar ingredientes del pescado a la meunière, el repollo relleno y la duxelle.',i:['Pescados de agua dulce 2 unidades','Repollo 4 hojas','Champiñón 150 g','Cebolla 100 g','Tocineta 50 g','Ingredientes de meunière']},
-  {t:'7:40–8:05',n:'Blanqueado y duxelle en brunoise',r:'Salmón',a:'Blanquear las hojas de repollo. Cortar cebolla, champiñón y tocineta en brunoise uniforme; cocinar hasta obtener una duxelle seca.',i:['Repollo 4 hojas','Champiñón París 150 g','Cebolla cabezona 100 g','Tocineta 50 g','Mantequilla 20 g','Sal y pimienta c/n']},
-  {t:'8:05–8:26',n:'Relleno y armado del repollo',r:'Salmón',a:'Enfriar la duxelle, integrar el queso, rellenar las hojas, cerrar y bridar con apoyo de Mariana.',i:['Duxelle preparada','Queso campesino 80 g','4 hojas blanqueadas','Hilo para bridar']},
-  {t:'8:26–8:40',n:'Horneado y preparación de la meunière',r:'Ambos platos',a:'Hornear los repollos 10 minutos a 180 °C. Mientras tanto, filetear o revisar el pescado, retirar espinas y secar.',i:['Repollos rellenos','Filetes de pescado','Harina 100 g','Perejil 20 g','Limón 30 ml','Mantequillas y aceite']},
-  {t:'8:40–8:43',n:'Enharinado del pescado',r:'Pescado a la meunière',a:'Sazonar los filetes, pasarlos por harina y retirar completamente el exceso justo antes de cocinar.',i:['Filetes de pescado','Harina 100 g','Sal y pimienta blanca c/n']},
-  {t:'8:43–8:55',n:'Cocción y salsa meunière',r:'Pescado a la meunière',a:'Dorar los filetes con aceite y mantequilla clarificada. Preparar la mantequilla avellanada y terminar fuera del fuego con limón y perejil.',i:['Aceite de girasol 15 ml','Mantequilla clarificada 30 g','Mantequilla 100 g','Zumo de limón 30 ml','Perejil 20 g']},
-  {t:'8:55–9:00',n:'Emplatado final',r:'Pescado a la meunière',a:'Servir la salsa en la base, ubicar el pescado y colocar tres quenelles pequeñas encima. Terminar con kale y brotes sin perder crocancia.',i:['Pescado a la meunière','3 quenelles pequeñas por plato','Kale frito','Brotes','Salsa meunière']}
- ]
-};
-const recipes=[
- {n:'Salmón en salsa de naranja y ají dulce',y:'700 g de salmón · porcionar según servicio',i:['Salmón 700 g','Ají dulce 100 g, brunoise','Naranja 250 ml','Vino blanco 50 ml','Jengibre 10 g, rallado','Ajo en polvo 5 g','Azúcar 25 g','Mantequilla 30 g','Sal y pimienta c/n'],p:['Reducir zumo, vino, ají, jengibre, azúcar y condimentos. Reservar.','Porcionar, secar y sazonar el salmón.','Sellar en sartén y terminar 5 minutos a 180 °C o hasta el punto requerido.','Servir con la salsa caliente sin ocultar completamente el salmón.']},
- {n:'Repollo relleno con duxelle',y:'4 hojas rellenas',i:['Repollo 4 hojas','Champiñón París 150 g','Cebolla cabezona 100 g','Mantequilla 20 g','Queso campesino 80 g','Tocineta 50 g','Sal y pimienta c/n','Hilo para bridar'],p:['Cortar cebolla, champiñón y tocineta en brunoise.','Cocer las hojas a la inglesa, enfriar y escurrir.','Dorar tocineta; sudar cebolla y añadir champiñón hasta formar una pasta seca.','Enfriar, integrar tocineta y queso; rectificar sazón.','Rellenar, cerrar, bridar y hornear 10 minutos a 180 °C.']},
- {n:'Garbanzos fritos',y:'100 g',i:['Garbanzos 100 g, cocidos y pelados','Cebolla larga 50 g','Perejil liso 10 g','Aceite para fritura 500 ml','Sal y pimienta c/n'],p:['Cocer los garbanzos, enfriar, pelar y secar muy bien.','Freír hasta que estén dorados y crujientes.','Escurrir, sazonar y mezclar con cebolla larga y perejil.']},
- {n:'Croquetas de ahuyama en quenelle',y:'Receta original: 20 bocaditos · Servicio: 8 a 12 quenelles según tamaño',i:['Ahuyama 250 g','Claras de huevo 2 unidades','Harina de trigo todo uso 130 g, tamizada','Queso cheddar 300 g, rallado','Ajo 1 diente, machacado','Perejil finamente picado c/n','Sal c/n','Aceite vegetal suficiente para freír'],p:['Cocinar la ahuyama al vapor hasta que esté muy blanda. Si se cocina en agua, escurrirla completamente.','Triturarla caliente con un tenedor hasta obtener un puré y extenderlo para enfriarlo a temperatura ambiente.','Montar las 2 claras a punto de nieve y reservar.','Mezclar el puré frío con sal, harina tamizada, cheddar rallado, ajo machacado y perejil.','Incorporar las claras con movimientos suaves y envolventes. La masa debe quedar compacta, suave, pastosa y ligeramente pegajosa.','Formar porciones uniformes con dos cucharas para darles forma de quenelle.','Método original: refrigerar una hora. Adaptación de clase: disponerlas separadas sobre una bandeja y llevarlas 8–10 minutos al ultracongelador, solo hasta que la superficie esté firme. No congelar el centro.','Freír en aceite caliente a fuego medio-alto, aproximadamente 170 °C, girándolas hasta obtener un dorado uniforme.','Escurrir inmediatamente sobre papel absorbente y servir calientes.'],note:'El ultracongelador reduce considerablemente el tiempo de reserva. Revisar las quenelles a los 8 minutos: deben sostener la forma, pero continuar suaves en el interior. No añadir queso en el centro; los 300 g de cheddar se mezclan rallados en toda la masa.'},
- {n:'Pescado a la meunière',y:'2 pescados de ±600 g cada uno · filetes resultantes',i:['Pescado de agua dulce 2 unidades','Aceite de girasol 15 ml','Mantequilla clarificada 30 g','Harina 100 g','Sal y pimienta blanca c/n','Mantequilla 100 g','Perejil 20 g','Zumo de limón 30 ml'],p:['Filetear, retirar espinas, secar y sazonar. Mantener frío hasta el final.','Pasar por harina y retirar completamente el exceso.','Dorar con aceite y mantequilla clarificada. Retirar.','En la misma sartén, dorar 100 g de mantequilla; fuera del fuego añadir limón y perejil.','Bañar solo al servir para conservar superficie dorada.']},
- {n:'Kale frito',y:'100 g',i:['Kale 100 g','Aceite para fritura c/n','Sal c/n'],p:['Lavar, retirar tallos duros y secar completamente.','Freír a 160–170 °C en tandas cortas.','Escurrir y salar inmediatamente.']}
-];
-function renderPersonal(id,tasks){document.querySelector(id).innerHTML=tasks.map((x,i)=>`<details class="person-task"><summary><span class="step-index">${i+1}</span><span><b>${x.t}</b><small>${x.n}</small></span></summary><div class="person-body"><span class="prep-tag">${x.r}</span><p>${x.a}</p><h4>Ingredientes y elementos necesarios</h4><ul>${x.i.map(v=>`<li>${v}</li>`).join('')}</ul></div></details>`).join('')}
-renderPersonal('#marianaTasks',personalTasks.mariana);
-renderPersonal('#juanTasks',personalTasks.juan);
-renderPersonal('#santiagoTasks',personalTasks.santiago);
-document.querySelector('#timeline').innerHTML=schedule.map((s,i)=>`<article class="step"><div class="step-top"><span class="num">${i+1}</span><div><span class="time">${s[0]}</span><h3>${s[1]}</h3></div></div>${s[2].map((t,j)=>{let [w,a]=t.split('|');return `<label class="task"><input type="checkbox" data-k="${i}-${j}"><span><span class="who">${w}</span><span class="tag">En paralelo</span><br>${a}</span></label>`}).join('')}</article>`).join('');
-document.querySelector('#recipes').innerHTML=recipes.map((r,i)=>`<article class="recipe"><details ${i<2?'open':''}><summary>${i+1}. ${r.n}<br><span class="yield">${r.y}</span></summary><h3>Ingredientes</h3><ul class="ingredients">${r.i.map(x=>`<li>${x}</li>`).join('')}</ul><h3>Paso a paso</h3><ol class="steps">${r.p.map(x=>`<li>${x}</li>`).join('')}</ol>${r.note?`<div class="note">${r.note}</div>`:''}</details></article>`).join('');
-const views=[...document.querySelectorAll('.view')],nav=document.querySelector('#nav');views.forEach((v,i)=>{let b=document.createElement('button');b.className='tab'+(i?'':' active');b.textContent=v.dataset.name;b.onclick=()=>{views.forEach(x=>x.classList.remove('active'));[...nav.children].forEach(x=>x.classList.remove('active'));v.classList.add('active');b.classList.add('active');scrollTo(0,0)};nav.appendChild(b)});
-const checks=[...document.querySelectorAll('input[data-k]')];
-function updateProgress(){
- const done=checks.filter(c=>c.checked).length,total=checks.length,pct=Math.round(done/total*100);
- document.querySelector('#progressBar').style.width=pct+'%';
- document.querySelector('#progressText').textContent=`${done} de ${total} tareas · ${pct}%`;
- const track=document.querySelector('.progress-track');track.setAttribute('aria-valuenow',pct);
- const cards=[...document.querySelectorAll('.step')];let current=-1;
- cards.forEach((card,i)=>{const complete=[...card.querySelectorAll('input')].every(c=>c.checked);card.classList.toggle('complete',complete);if(current<0&&!complete)current=i});
- document.querySelector('#stageText').textContent=current<0?'Servicio listo: todas las tareas están completadas.':`Etapa actual: ${current+1}. ${schedule[current][1]} · ${schedule[current][0]}`;
-}
-checks.forEach(c=>{c.checked=localStorage.getItem('p2-'+c.dataset.k)==='1';c.onchange=()=>{localStorage.setItem('p2-'+c.dataset.k,c.checked?'1':'0');updateProgress()}});
-updateProgress();
-</script></body></html>
+const recipes = {data_json};
+let currentRecipe = 'r1';
+let personFilter = 'all';
+
+const key = (rid,pid,idx) => `brigada-mobile-v3:${{rid}}:${{pid}}:${{idx}}`;
+const isDone = (rid,pid,idx) => localStorage.getItem(key(rid,pid,idx)) === '1';
+const setDone = (rid,pid,idx,val) => localStorage.setItem(key(rid,pid,idx), val ? '1':'0');
+const esc = s => String(s).replace(/[&<>"']/g,m=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}}[m]));
+
+function render(){{
+  const r = recipes[currentRecipe];
+  document.getElementById('recipeName').textContent = r.name;
+  document.getElementById('recipeSubtitle').textContent = r.subtitle;
+  document.getElementById('critical').textContent = r.critical;
+  document.getElementById('recipeImage').src = r.image || '';
+  document.getElementById('recipeImage').alt = r.image_alt || '';
+  document.getElementById('imageCard').style.display = r.image ? '' : 'none';
+
+  document.querySelectorAll('.recipe-tab').forEach(b=>b.classList.toggle('active',b.dataset.recipe===currentRecipe));
+  document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b.dataset.person===personFilter));
+
+  let total=0, done=0;
+  const people = document.getElementById('people');
+  people.innerHTML='';
+
+  Object.entries(r.people).forEach(([pid,p])=>{{
+    total += p.tasks.length;
+    done += p.tasks.filter((_,i)=>isDone(currentRecipe,pid,i)).length;
+    if(personFilter!=='all' && personFilter!==pid) return;
+
+    const pDone = p.tasks.filter((_,i)=>isDone(currentRecipe,pid,i)).length;
+    const pct = Math.round((pDone/p.tasks.length)*100);
+
+    const card=document.createElement('article');
+    card.className='person-card';
+    card.innerHTML=`
+      <div class="person-head">
+        <div class="person-title-row">
+          <div>
+            <h2>${{esc(p.name)}}</h2>
+            <div class="person-role">${{esc(p.role)}}</div>
+          </div>
+          <span class="badge">${{esc(p.badge || 'Actividad')}}</span>
+        </div>
+        <div class="person-progress">
+          <div class="person-progress-label"><span>Progreso</span><span>${{pDone}}/${{p.tasks.length}} · ${{pct}} %</span></div>
+          <div class="track"><div class="fill" style="width:${{pct}}%"></div></div>
+        </div>
+      </div>
+      <div class="task-list"></div>
+    `;
+    const list=card.querySelector('.task-list');
+
+    p.tasks.forEach((t,idx)=>{{
+      const completed=isDone(currentRecipe,pid,idx);
+      const item=document.createElement('div');
+      item.className='task'+(completed?' done':'');
+      item.innerHTML=`
+        <button class="task-summary" type="button">
+          <span class="check">${{completed?'✓':''}}</span>
+          <span class="task-name">${{idx+1}}. ${{esc(t.title)}}</span>
+          <span class="chev">⌄</span>
+        </button>
+        <div class="task-body">
+          <p class="task-detail">${{esc(t.detail)}}</p>
+          <div class="tip"><b>Clave de sabor/técnica:</b> ${{esc(t.tip)}}</div>
+        </div>
+      `;
+      const summary=item.querySelector('.task-summary');
+      const check=item.querySelector('.check');
+
+      summary.addEventListener('click',(e)=>{{
+        if(e.target===check){{
+          setDone(currentRecipe,pid,idx,!isDone(currentRecipe,pid,idx));
+          render();
+          return;
+        }}
+        item.classList.toggle('open');
+      }});
+      list.appendChild(item);
+    }});
+
+    people.appendChild(card);
+  }});
+
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('progressText').textContent = `${{done}} de ${{total}} · ${{pct}} %`;
+  document.getElementById('progressBar').style.width = pct+'%';
+
+  const pl=document.getElementById('platingList');
+  pl.innerHTML='';
+  r.plating.forEach(x=>{{
+    const li=document.createElement('li');
+    li.textContent=x;
+    pl.appendChild(li);
+  }});
+}}
+
+document.querySelectorAll('.recipe-tab').forEach(b=>b.addEventListener('click',()=>{{
+  currentRecipe=b.dataset.recipe;
+  personFilter='all';
+  render();
+  window.scrollTo({{top:0,behavior:'smooth'}});
+}}));
+
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{{
+  personFilter=b.dataset.person;
+  render();
+}}));
+
+document.getElementById('resetBtn').addEventListener('click',()=>{{
+  const r=recipes[currentRecipe];
+  Object.entries(r.people).forEach(([pid,p])=>p.tasks.forEach((_,idx)=>localStorage.removeItem(key(currentRecipe,pid,idx))));
+  render();
+}});
+
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+
+const modal=document.getElementById('imageModal');
+const modalImg=document.getElementById('modalImage');
+const modalTitle=document.getElementById('modalTitle');
+
+document.getElementById('openImage').addEventListener('click',()=>{{
+  const r=recipes[currentRecipe];
+  modalImg.src=r.image;
+  modalImg.alt=r.image_alt || '';
+  modalTitle.textContent=r.name+' · Emplatado';
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}});
+
+function closeModal(){{
+  modal.classList.remove('open');
+  document.body.style.overflow='';
+}}
+document.getElementById('closeModal').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{{ if(e.target===modal) closeModal(); }});
+document.addEventListener('keydown',e=>{{ if(e.key==='Escape') closeModal(); }});
+
+render();
+</script>
+</body>
+</html>
+"""
+
+out.write_text(html_doc, encoding="utf-8")
+print(f"Archivo actualizado: {out}")
+print(f"Tamaño: {out.stat().st_size / 1024 / 1024:.2f} MB")
