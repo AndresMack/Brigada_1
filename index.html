@@ -1,2921 +1,981 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
-
-<title>Brigada de Cocina · Dos Recetas</title>
-
-<style>
-:root{
-  --bg:#f3f5f7;
-  --card:#ffffff;
-  --ink:#111827;
-  --muted:#667085;
-  --line:#e4e7ec;
-  --nav:#0f172a;
-  --accent:#2563eb;
-  --green:#067647;
-  --green-bg:#ecfdf3;
-  --orange:#b54708;
-  --orange-bg:#fff6ed;
-  --soft:#eff6ff;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  line-height:1.45;
-  -webkit-tap-highlight-color:transparent;
-}
-
-button{
-  font:inherit;
-}
-
-/* =========================================
-   CABECERA
-========================================= */
-
-.header{
-  position:sticky;
-  top:0;
-  z-index:40;
-  background:rgba(15,23,42,.97);
-  color:#fff;
-  padding-top:env(safe-area-inset-top);
-  box-shadow:0 1px 8px rgba(0,0,0,.12);
-}
-
-.header-main{
-  padding:12px 14px 10px;
-}
-
-.header-title{
-  font-size:18px;
-  font-weight:850;
-  margin:0;
-}
-
-.header-sub{
-  font-size:11px;
-  opacity:.7;
-  margin-top:2px;
-}
-
-.recipe-tabs{
-  display:flex;
-  gap:8px;
-  padding:0 12px 10px;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-
-.recipe-tabs::-webkit-scrollbar{
-  display:none;
-}
-
-.recipe-tab{
-  flex:0 0 auto;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:999px;
-  padding:9px 13px;
-  font-weight:800;
-  font-size:13px;
-  cursor:pointer;
-}
-
-.recipe-tab.active{
-  background:#fff;
-  color:var(--nav);
-}
-
-/* =========================================
-   CONTENIDO
-========================================= */
-
-main{
-  max-width:920px;
-  margin:auto;
-  padding:12px 12px calc(90px + env(safe-area-inset-bottom));
-}
-
-.hero,
-.progress-card,
-.person-card,
-.plating-card,
-.image-card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:16px;
-}
-
-.hero{
-  padding:15px;
-  margin-bottom:10px;
-}
-
-.hero h1{
-  font-size:22px;
-  line-height:1.15;
-  margin:0 0 6px;
-}
-
-.hero p{
-  margin:0;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.critical{
-  margin-top:12px;
-  padding:11px 12px;
-  background:var(--orange-bg);
-  color:#7a2e0e;
-  border-left:4px solid #f79009;
-  border-radius:10px;
-  font-size:13px;
-  font-weight:650;
-}
-
-/* =========================================
-   IMAGEN
-========================================= */
-
-.image-card{
-  overflow:hidden;
-  margin-bottom:10px;
-}
-
-.image-button{
-  width:100%;
-  display:block;
-  padding:0;
-  border:0;
-  background:white;
-  cursor:zoom-in;
-  text-align:left;
-}
-
-.image-wrap{
-  position:relative;
-  aspect-ratio:16/10;
-  background:#f8fafc;
-  overflow:hidden;
-}
-
-.image-wrap img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-}
-
-.zoom-hint{
-  position:absolute;
-  right:9px;
-  bottom:9px;
-  background:rgba(15,23,42,.85);
-  color:white;
-  border-radius:999px;
-  padding:7px 10px;
-  font-size:11px;
-  font-weight:800;
-}
-
-.image-caption{
-  padding:9px 11px;
-  color:var(--muted);
-  font-size:12px;
-  border-top:1px solid var(--line);
-}
-
-/* =========================================
-   PROGRESO
-========================================= */
-
-.progress-card{
-  padding:12px;
-  margin-bottom:10px;
-}
-
-.progress-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  font-size:12px;
-  margin-bottom:7px;
-}
-
-.track{
-  height:9px;
-  border-radius:999px;
-  background:#e9edf2;
-  overflow:hidden;
-}
-
-.fill{
-  height:100%;
-  background:var(--accent);
-  border-radius:999px;
-  transition:width .2s ease;
-}
-
-/* =========================================
-   FILTROS PERSONAS
-========================================= */
-
-.filters{
-  display:flex;
-  gap:7px;
-  overflow-x:auto;
-  padding:1px 0 10px;
-  scrollbar-width:none;
-}
-
-.filters::-webkit-scrollbar{
-  display:none;
-}
-
-.filter{
-  flex:0 0 auto;
-  background:white;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:9px 12px;
-  font-size:12px;
-  font-weight:800;
-  color:#344054;
-  cursor:pointer;
-}
-
-.filter.active{
-  background:var(--soft);
-  border-color:#84adff;
-  color:#1849a9;
-}
-
-/* =========================================
-   PERSONAS
-========================================= */
-
-.people{
-  display:grid;
-  gap:10px;
-}
-
-.person-card{
-  overflow:hidden;
-}
-
-.person-head{
-  padding:13px 13px 11px;
-  background:#fafafa;
-  border-bottom:1px solid var(--line);
-}
-
-.person-title-row{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.person-head h2{
-  font-size:18px;
-  margin:0;
-}
-
-.person-role{
-  margin-top:2px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.badge{
-  background:var(--green-bg);
-  color:var(--green);
-  font-size:10px;
-  font-weight:850;
-  padding:5px 7px;
-  border-radius:999px;
-  white-space:nowrap;
-}
-
-.person-progress{
-  margin-top:9px;
-}
-
-.person-progress-label{
-  display:flex;
-  justify-content:space-between;
-  color:var(--muted);
-  font-size:10px;
-  margin-bottom:4px;
-}
-
-.person-progress .track{
-  height:6px;
-}
-
-/* =========================================
-   TAREAS
-========================================= */
-
-.task{
-  border-bottom:1px solid var(--line);
-}
-
-.task:last-child{
-  border-bottom:0;
-}
-
-.task-summary{
-  width:100%;
-  border:0;
-  background:white;
-  display:grid;
-  grid-template-columns:30px 1fr 22px;
-  align-items:center;
-  gap:8px;
-  text-align:left;
-  padding:12px;
-  cursor:pointer;
-}
-
-.check{
-  width:26px;
-  height:26px;
-  border:2px solid #cbd5e1;
-  border-radius:8px;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  color:white;
-  background:white;
-}
-
-.task.done .check{
-  background:var(--green);
-  border-color:var(--green);
-}
-
-.task.done .task-name{
-  text-decoration:line-through;
-  color:#98a2b3;
-}
-
-.task-name{
-  font-size:13px;
-  font-weight:800;
-  line-height:1.3;
-}
-
-.chev{
-  font-size:18px;
-  color:#98a2b3;
-  transition:transform .18s ease;
-  text-align:center;
-}
-
-.task.open .chev{
-  transform:rotate(180deg);
-}
-
-.task-body{
-  display:none;
-  padding:0 12px 13px 50px;
-  background:white;
-}
-
-.task.open .task-body{
-  display:block;
-}
-
-.task-detail{
-  font-size:12px;
-  color:#475467;
-  margin:0;
-}
-
-.tip{
-  margin-top:8px;
-  background:#f8fafc;
-  border-radius:9px;
-  padding:8px 9px;
-  font-size:11px;
-  color:#475467;
-}
-
-.tip b{
-  color:#1d2939;
-}
-
-/* =========================================
-   EMPLATADO
-========================================= */
-
-.plating-card{
-  padding:13px;
-  margin-top:10px;
-}
-
-.plating-card h3{
-  font-size:15px;
-  margin:0 0 8px;
-}
-
-.plating-card ol{
-  margin:0;
-  padding-left:20px;
-}
-
-.plating-card li{
-  margin:6px 0;
-  font-size:12px;
-  color:#475467;
-}
-
-/* =========================================
-   BARRA INFERIOR
-========================================= */
-
-.bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:35;
-  background:rgba(255,255,255,.96);
-  border-top:1px solid var(--line);
-  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
-  backdrop-filter:blur(12px);
-}
-
-.bottom-inner{
-  max-width:920px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.action{
-  min-height:44px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  font-weight:850;
-  font-size:13px;
-  background:white;
-  color:#344054;
-  cursor:pointer;
-}
-
-.action.primary{
-  background:var(--nav);
-  color:white;
-  border-color:var(--nav);
-}
-
-/* =========================================
-   IMAGEN AMPLIADA
-========================================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  background:rgba(0,0,0,.95);
-  display:none;
-  flex-direction:column;
-  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-}
-
-.modal.open{
-  display:flex;
-}
-
-.modal-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 12px;
-  color:white;
-}
-
-.modal-title{
-  font-size:13px;
-  font-weight:750;
-  max-width:75%;
-}
-
-.modal-close{
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.12);
-  color:white;
-  border-radius:999px;
-  width:42px;
-  height:42px;
-  font-size:22px;
-  cursor:pointer;
-}
-
-.modal-stage{
-  flex:1;
-  overflow:auto;
-  display:flex;
-  align-items:flex-start;
-  justify-content:flex-start;
-  padding:8px;
-}
-
-.modal-stage img{
-  display:block;
-  width:1400px;
-  max-width:none;
-  height:auto;
-}
-
-.modal-help{
-  color:#ddd;
-  text-align:center;
-  font-size:11px;
-  padding:7px 10px 10px;
-}
-
-/* =========================================
-   PANTALLAS GRANDES
-========================================= */
-
-@media(min-width:700px){
-
-  .header-main{
-    padding-left:18px;
-    padding-right:18px;
-  }
-
-  main{
-    padding:18px 18px 90px;
-  }
-
-  .top-grid{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 330px;
-    gap:12px;
-    align-items:start;
-  }
-
-  .image-card{
-    grid-column:2;
-    grid-row:1 / span 2;
-    margin:0;
-  }
-
-  .hero{
-    grid-column:1;
-    margin:0;
-  }
-
-  .progress-card{
-    grid-column:1;
-    margin:0;
-  }
-
-  .people{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-/* =========================================
-   IMPRESIÓN
-========================================= */
-
-@media print{
-
-  .header,
-  .bottom-nav,
-  .filters,
-  .zoom-hint{
-    display:none!important;
-  }
-
-  main{
-    max-width:none;
-    padding:0;
-  }
-
-  body{
-    background:white;
-  }
-
-  .task-body{
-    display:block!important;
-  }
-
-  .modal{
-    display:none!important;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>5s — Página en pausa</title>
+
+  <meta
+    name="description"
+    content="Página temporal para el lanzamiento de una nueva receta."
+  >
+
+  <style>
+    :root {
+      --fondo: #000904;
+      --verde: #00ef61;
+      --verde-claro: #d8ffe6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      overflow: hidden;
+      background: var(--fondo);
+      color: var(--verde-claro);
+      font-family: "Courier New", Courier, monospace;
+    }
+
+    .standby-shell {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      min-height: 100vh;
+      min-height: 100dvh;
+      place-items: center;
+      overflow: hidden;
+      padding: 64px 24px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(0, 72, 31, 0.14),
+          transparent 52%
+        );
+    }
+
+    #matrix {
+      position: fixed;
+      z-index: -4;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.58;
+      pointer-events: none;
+    }
+
+    .vignette {
+      position: fixed;
+      z-index: -3;
+      inset: 0;
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle,
+          transparent 18%,
+          rgba(0, 7, 2, 0.55) 60%,
+          #000 112%
+        );
+    }
+
+    .scanlines {
+      position: fixed;
+      z-index: 10;
+      inset: 0;
+      opacity: 0.16;
+      pointer-events: none;
+
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 3px,
+          rgba(0, 0, 0, 0.8) 3px 4px
+        );
+    }
+
+    .system-header,
+    .system-footer {
+      position: fixed;
+      z-index: 7;
+      left: 28px;
+      right: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(116, 255, 168, 0.62);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .system-header {
+      top: 22px;
+    }
+
+    .system-footer {
+      bottom: 20px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--verde);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--verde);
+      box-shadow: 0 0 12px var(--verde);
+      animation: pulse 1.25s steps(2) infinite;
+    }
+
+    .terminal-card {
+      position: relative;
+      z-index: 2;
+      width: min(720px, 100%);
+
+      border:
+        1px solid rgba(0, 239, 97, 0.34);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(0, 19, 8, 0.91),
+          rgba(0, 7, 3, 0.96)
+        );
+
+      box-shadow:
+        0 0 0 1px rgba(0, 239, 97, 0.05),
+        0 0 70px rgba(0, 239, 97, 0.11),
+        inset 0 0 65px rgba(0, 239, 97, 0.025);
+
+      backdrop-filter: blur(7px);
+      animation: boot 0.65s ease-out both;
+    }
+
+    .terminal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.09;
+      pointer-events: none;
+
+      background-image:
+        linear-gradient(
+          90deg,
+          transparent 49.8%,
+          var(--verde) 50%,
+          transparent 50.2%
+        );
+    }
+
+    .terminal-bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 16px;
+
+      border-bottom:
+        1px solid rgba(0, 239, 97, 0.18);
+
+      color: rgba(139, 255, 179, 0.55);
+      font-size: 9px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .terminal-bar > :last-child {
+      justify-self: end;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dots i {
+      width: 6px;
+      height: 6px;
+
+      border:
+        1px solid rgba(0, 239, 97, 0.62);
+
+      border-radius: 50%;
+    }
+
+    .terminal-dots i:first-child {
+      background: var(--verde);
+      box-shadow: 0 0 8px var(--verde);
+    }
+
+    .terminal-body {
+      padding:
+        clamp(32px, 7vw, 64px)
+        clamp(22px, 8vw, 72px)
+        42px;
+
+      text-align: center;
+    }
+
+    .access-line {
+      margin: 0 0 28px;
+      color: rgba(113, 255, 166, 0.58);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+    }
+
+    .access-line span {
+      color: var(--verde);
+    }
+
+    .icon-lock {
+      position: relative;
+      width: 46px;
+      height: 54px;
+      margin: 0 auto 26px;
+
+      filter:
+        drop-shadow(
+          0 0 10px rgba(0, 239, 97, 0.35)
+        );
+    }
+
+    .lock-shackle {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      width: 26px;
+      height: 27px;
+
+      border: 2px solid var(--verde);
+      border-bottom: 0;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .lock-body {
+      position: absolute;
+      inset: 19px 0 0;
+      display: grid;
+      place-items: center;
+
+      border: 2px solid var(--verde);
+      background: #001c0b;
+      color: var(--verde);
+
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    h1 {
+      position: relative;
+      margin: 0;
+      color: #e2ffec;
+      font-size: clamp(28px, 6vw, 54px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+
+      text-shadow:
+        0 0 8px rgba(0, 239, 97, 0.72),
+        0 0 24px rgba(0, 239, 97, 0.3);
+    }
+
+    h1::before,
+    h1::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    h1::before {
+      color: #00ff66;
+      clip-path: inset(15% 0 64% 0);
+      animation: glitch 2.2s infinite steps(2);
+    }
+
+    h1::after {
+      color: #b6ffd1;
+      clip-path: inset(67% 0 12% 0);
+      animation: glitch 1.9s infinite steps(2) reverse;
+    }
+
+    .main-message {
+      margin: 18px 0 0;
+      color: rgba(180, 255, 206, 0.64);
+      font-size: clamp(13px, 2.2vw, 17px);
+      line-height: 1.75;
+      letter-spacing: 0.04em;
+    }
+
+    .main-message strong {
+      color: var(--verde);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .cursor {
+      animation: blink 0.75s steps(2) infinite;
+    }
+
+    .countdown-block {
+      width: min(330px, 100%);
+      margin: 34px auto 0;
+      padding-top: 26px;
+
+      border-top:
+        1px solid rgba(0, 239, 97, 0.16);
+    }
+
+    .countdown-label {
+      margin: 0 0 7px;
+      color: rgba(137, 255, 178, 0.5);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+    }
+
+    .countdown {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 9px;
+      color: var(--verde);
+    }
+
+    #seconds {
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+
+      text-shadow:
+        0 0 18px rgba(0, 239, 97, 0.45);
+    }
+
+    .countdown small {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+    }
+
+    .progress-track {
+      height: 2px;
+      margin-top: 16px;
+      overflow: hidden;
+      background: rgba(0, 239, 97, 0.12);
+    }
+
+    #progress {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin-left: auto;
+      background: var(--verde);
+      box-shadow: 0 0 12px var(--verde);
+      transition: width 0.85s linear;
+    }
+
+    .corner {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: var(--verde);
+
+      filter:
+        drop-shadow(0 0 5px var(--verde));
+    }
+
+    .corner-tl {
+      top: -5px;
+      left: -5px;
+      border-top: 2px solid;
+      border-left: 2px solid;
+    }
+
+    .corner-tr {
+      top: -5px;
+      right: -5px;
+      border-top: 2px solid;
+      border-right: 2px solid;
+    }
+
+    .corner-bl {
+      bottom: -5px;
+      left: -5px;
+      border-bottom: 2px solid;
+      border-left: 2px solid;
+    }
+
+    .corner-br {
+      right: -5px;
+      bottom: -5px;
+      border-right: 2px solid;
+      border-bottom: 2px solid;
+    }
+
+    /* Pantalla final cuando el navegador no puede cerrarse */
+
+    .disconnect-screen {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      overflow: hidden;
+      background: #000;
+      text-align: center;
+    }
+
+    .disconnect-content {
+      position: relative;
+      z-index: 3;
+      width: min(700px, 100%);
+    }
+
+    .disconnect-small {
+      margin: 0 0 20px;
+      color: rgba(0, 239, 97, 0.6);
+      font-size: 11px;
+      letter-spacing: 0.35em;
+    }
+
+    .disconnect-title {
+      margin: 0;
+      color: var(--verde);
+      font-size: clamp(34px, 7vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+
+      text-shadow:
+        0 0 10px var(--verde),
+        0 0 35px rgba(0, 239, 97, 0.65);
+    }
+
+    .disconnect-message {
+      margin: 24px 0 0;
+      color: rgba(164, 255, 197, 0.65);
+      font-size: 13px;
+      line-height: 1.7;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .disconnect-line {
+      width: min(400px, 80%);
+      height: 2px;
+      margin: 30px auto;
+      background: var(--verde);
+      box-shadow: 0 0 15px var(--verde);
+      animation: lineClose 1.2s ease forwards;
+    }
+
+    @keyframes boot {
+      from {
+        opacity: 0;
+        transform: scaleY(0.05);
+        filter: brightness(3);
+      }
+
+      55% {
+        opacity: 1;
+        transform: scaleY(0.05);
+      }
+
+      to {
+        opacity: 1;
+        transform: scaleY(1);
+        filter: brightness(1);
+      }
+    }
+
+    @keyframes pulse {
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes glitch {
+      0%,
+      88%,
+      100% {
+        transform: translate(0);
+      }
+
+      90% {
+        transform: translate(4px, -1px);
+      }
+
+      94% {
+        transform: translate(-4px, 1px);
+      }
+    }
+
+    @keyframes lineClose {
+      from {
+        width: min(400px, 80%);
+      }
+
+      to {
+        width: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .standby-shell {
+        padding-inline: 16px;
+      }
+
+      .system-header,
+      .system-footer {
+        left: 16px;
+        right: 16px;
+      }
+
+      .system-id,
+      .system-footer span:last-child,
+      .terminal-bar > :last-child {
+        display: none;
+      }
+
+      .system-header {
+        justify-content: flex-end;
+      }
+
+      .terminal-bar {
+        grid-template-columns: 1fr auto;
+      }
+
+      .terminal-bar > span {
+        justify-self: end;
+      }
+
+      .terminal-body {
+        padding-bottom: 32px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .terminal-card,
+      h1::before,
+      h1::after,
+      .status-dot,
+      .cursor {
+        animation: none;
+      }
+
+      .scanlines {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<header class="header">
-
-  <div class="header-main">
-    <div class="header-title">
-      Brigada de cocina
-    </div>
-
-    <div class="header-sub">
-      Santiago · Julián · Sofía · Ángela
-    </div>
-  </div>
-
-  <nav class="recipe-tabs">
-
-    <button
-      class="recipe-tab active"
-      data-recipe="r1">
-      Receta 1 · Lingote
-    </button>
-
-    <button
-      class="recipe-tab"
-      data-recipe="r2">
-      Receta 2 · Bullabesa
-    </button>
-
-  </nav>
-
-</header>
-
-
-<main>
-
-  <div class="top-grid">
-
-    <section class="hero">
-
-      <h1 id="recipeName"></h1>
-
-      <p id="recipeSubtitle"></p>
-
-      <div
-        class="critical"
-        id="critical">
-      </div>
-
-    </section>
-
-
-    <section
-      class="image-card"
-      id="imageCard">
-
-      <button
-        class="image-button"
-        id="openImage"
-        type="button">
-
-        <div class="image-wrap">
-
-          <img
-            id="recipeImage"
-            src=""
-            alt="">
-
-          <span class="zoom-hint">
-            Tocar para ampliar
-          </span>
-
-        </div>
-
-        <div class="image-caption">
-          Guía visual de emplatado. Toca la imagen para verla en grande.
-        </div>
-
-      </button>
-
-    </section>
-
-
-    <section class="progress-card">
-
-      <div class="progress-row">
-
-        <b>
-          Progreso general
-        </b>
-
-        <span id="progressText">
-          0 %
-        </span>
-
-      </div>
-
-      <div class="track">
-
-        <div
-          class="fill"
-          id="progressBar"
-          style="width:0%">
-        </div>
-
-      </div>
-
-    </section>
-
-  </div>
-
-
-  <div
-    class="filters"
-    aria-label="Filtrar por persona">
-
-    <button
-      class="filter active"
-      data-person="all">
-      Todos
-    </button>
-
-    <button
-      class="filter"
-      data-person="angela">
-      Ángela
-    </button>
-
-    <button
-      class="filter"
-      data-person="sofia">
-      Sofía
-    </button>
-
-    <button
-      class="filter"
-      data-person="santiago">
-      Santiago
-    </button>
-
-    <button
-      class="filter"
-      data-person="julian">
-      Julián
-    </button>
-
-  </div>
-
-
-  <section
-    class="people"
-    id="people">
-  </section>
-
-
-  <section class="plating-card">
-
-    <h3>
-      Orden de emplatado
-    </h3>
-
-    <ol id="platingList"></ol>
-
-  </section>
-
-</main>
-
-
-<nav class="bottom-nav">
-
-  <div class="bottom-inner">
-
-    <button
-      class="action"
-      id="resetBtn">
-      Reiniciar receta
-    </button>
-
-    <button
-      class="action primary"
-      id="printBtn">
-      Imprimir / PDF
-    </button>
-
-  </div>
-
-</nav>
-
-
-<!-- ======================================
-     MODAL DE IMAGEN
-======================================= -->
-
-<div
-  class="modal"
-  id="imageModal"
-  role="dialog"
-  aria-modal="true">
-
-  <div class="modal-top">
+  <main
+    id="mainPage"
+    class="standby-shell"
+  >
+    <canvas
+      id="matrix"
+      aria-hidden="true"
+    ></canvas>
 
     <div
-      class="modal-title"
-      id="modalTitle">
-    </div>
+      class="vignette"
+      aria-hidden="true"
+    ></div>
 
-    <button
-      class="modal-close"
-      id="closeModal"
-      aria-label="Cerrar">
-      ×
-    </button>
+    <div
+      class="scanlines"
+      aria-hidden="true"
+    ></div>
 
-  </div>
+    <header
+      class="system-header"
+      aria-label="Estado del sistema"
+    >
+      <span class="system-id">
+        SYS://RECETARIO.ROOT
+      </span>
 
+      <span class="status">
+        <i class="status-dot"></i>
+        STANDBY_MODE
+      </span>
+    </header>
 
-  <div class="modal-stage">
+    <section
+      class="terminal-card"
+      aria-live="polite"
+    >
+      <span class="corner corner-tl"></span>
+      <span class="corner corner-tr"></span>
+      <span class="corner corner-bl"></span>
+      <span class="corner corner-br"></span>
 
-    <img
-      id="modalImage"
-      src=""
-      alt="">
+      <div class="terminal-bar">
+        <div
+          class="terminal-dots"
+          aria-hidden="true"
+        >
+          <i></i>
+          <i></i>
+          <i></i>
+        </div>
 
-  </div>
+        <span>recipe_protocol.exe</span>
+        <span>ENC: AES-256</span>
+      </div>
 
+      <div class="terminal-body">
+        <p class="access-line">
+          <span>&gt;</span>
+          ACCESO TEMPORALMENTE SUSPENDIDO
+        </p>
 
-  <div class="modal-help">
-    Desliza para recorrer la imagen ampliada.
-    Puedes utilizar el zoom del navegador para acercarte más.
-  </div>
+        <div
+          class="icon-lock"
+          aria-hidden="true"
+        >
+          <span class="lock-shackle"></span>
+          <span class="lock-body">R</span>
+        </div>
 
-</div>
+        <h1 data-text="PÁGINA FUERA DE USO">
+          PÁGINA FUERA DE USO
+        </h1>
 
+        <p class="main-message">
+          Se habilita para una nueva receta
+          <br>
 
-<script>
+          <strong>
+            próximamente<span class="cursor">_</span>
+          </strong>
+        </p>
 
-/* =========================================
-   DATOS DE LAS RECETAS
-========================================= */
+        <div class="countdown-block">
+          <p class="countdown-label">
+            CIERRE AUTOMÁTICO EN
+          </p>
 
-const recipes = {
+          <div
+            id="countdown"
+            class="countdown"
+            aria-label="5 segundos"
+          >
+            <span id="seconds">05</span>
+            <small>SEG</small>
+          </div>
 
-  /* =====================================
-     RECETA 1
-  ===================================== */
+          <div
+            class="progress-track"
+            aria-hidden="true"
+          >
+            <span id="progress"></span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  r1: {
+    <footer class="system-footer">
+      <span>NODE_07 // SECURE_CONNECTION</span>
+      <span>© KITCHEN NETWORK</span>
+    </footer>
+  </main>
 
-    name:
-      "Receta 1 · Lingote dorado de pescado",
-
-    subtitle:
-      "Lingote de pescado de mar con mousseline de salmón, beurre blanc de limón y tomillo, puré de papa con clorofila y vegetales contemporáneos.",
-
-    critical:
-      "Punto crítico de sabor: para 500 g de pescado blanco utilizar como referencia 5 g de sal fina, equivalente aproximadamente al 1 %. Mezclar con ralladura fina de limón, distribuir uniformemente y refrigerar entre 15 y 20 minutos. No agregar jugo de limón durante este reposo.",
-
+  <script>
     /*
-    ========================================
-    IMAGEN RECETA 1
-
-    Sube este archivo al mismo directorio
-    de este HTML en GitHub.
-    ========================================
-    */
-
-    image:
-      "emplatado_lingote_pescado.png",
-
-    imageAlt:
-      "Emplatado del lingote dorado de pescado",
-
-
-    people: {
-
-
-      /* =================================
-         ÁNGELA
-      ================================= */
-
-      angela: {
-
-        name:
-          "Ángela",
-
-        role:
-          "Responsable principal del pescado y del armado y cocción del lingote",
-
-        badge:
-          "Pescado",
-
-        tasks: [
-
-          {
-            title:
-              "Revisar y acondicionar el pescado",
-
-            detail:
-              "Trabajar sobre una bandeja fría. Revisar cada filete al tacto, retirar todas las espinas con pinza, recortar bordes irregulares y secar cuidadosamente con papel absorbente.",
-
-            tip:
-              "No lavar el pescado bajo el grifo. El exceso de agua reduce el sabor y dificulta conseguir un buen dorado."
-          },
-
-          {
-            title:
-              "Sazonar el pescado con precisión",
-
-            detail:
-              "Para 500 g de pescado blanco pesar aproximadamente 5 g de sal fina. Mezclarla con ralladura fina de limón y una cantidad moderada de pimienta blanca. Distribuirla de manera uniforme por ambas caras de los filetes.",
-
-            tip:
-              "El pescado debe quedar bien sazonado porque posteriormente estará acompañado por puré y salsa. Pesar la sal evita diferencias entre porciones."
-          },
-
-          {
-            title:
-              "Reposar el pescado en frío",
-
-            detail:
-              "Colocar los filetes sazonados en una bandeja, cubrirlos y refrigerar entre 15 y 20 minutos a una temperatura aproximada de 0 a 4 °C. Después del reposo, secar ligeramente la humedad superficial.",
-
-            tip:
-              "La sal penetra en el pescado y la ralladura de limón aporta aroma. No usar jugo de limón porque la acidez comenzaría a modificar la proteína."
-          },
-
-          {
-            title:
-              "Seleccionar las piezas del lingote",
-
-            detail:
-              "Elegir dos piezas de pescado con tamaño y grosor similares. Alinear los filetes y recortar únicamente lo necesario para conseguir una forma rectangular y uniforme.",
-
-            tip:
-              "Un grosor homogéneo permite que el lingote se cocine de manera pareja."
-          },
-
-          {
-            title:
-              "Armar el lingote con la mousseline elaborada por Sofía",
-
-            detail:
-              "Extender una pieza de pescado y colocar una capa uniforme de mousseline de salmón de aproximadamente 6 a 8 milímetros. Dejar un pequeño margen libre en los bordes y cubrir con la segunda pieza de pescado.",
-
-            tip:
-              "No colocar demasiada mousseline. Un exceso de relleno puede salir por los bordes durante la cocción."
-          },
-
-          {
-            title:
-              "Compactar el lingote",
-
-            detail:
-              "Presionar suavemente las piezas para nivelarlas. Envolver firmemente con película únicamente para darle forma y conseguir un bloque uniforme.",
-
-            tip:
-              "La presión debe ser suficiente para compactar, pero no tanta como para expulsar el relleno."
-          },
-
-          {
-            title:
-              "Llevar nuevamente a frío",
-
-            detail:
-              "Refrigerar el lingote ya formado durante aproximadamente 10 a 15 minutos. Retirar completamente la película antes de cocinar.",
-
-            tip:
-              "Este segundo reposo en frío estabiliza la estructura y facilita conseguir un dorado más limpio."
-          },
-
-          {
-            title:
-              "Dorar en mantequilla y tomillo",
-
-            detail:
-              "Secar nuevamente la superficie del lingote. Calentar una sartén, agregar mantequilla y tomillo. Colocar primero la cara de presentación y dejarla quieta hasta obtener un color dorado uniforme. Girar cuidadosamente.",
-
-            tip:
-              "La mantequilla debe estar espumosa y aromática, pero nunca quemada."
-          },
-
-          {
-            title:
-              "Bañar continuamente con la mantequilla",
-
-            detail:
-              "Inclinar ligeramente la sartén y utilizar una cuchara para bañar varias veces el lingote con la mantequilla caliente aromatizada con tomillo.",
-
-            tip:
-              "Este procedimiento aporta sabor, brillo y un tostado más homogéneo."
-          },
-
-          {
-            title:
-              "Finalizar la cocción",
-
-            detail:
-              "Terminar en horno aproximadamente entre 150 y 160 °C hasta alcanzar alrededor de 63 °C en el centro del lingote.",
-
-            tip:
-              "La temperatura interna es una referencia mucho más precisa que cocinar únicamente por tiempo."
-          },
-
-          {
-            title:
-              "Reposar antes del corte",
-
-            detail:
-              "Retirar el lingote del horno y dejar reposar aproximadamente 2 minutos antes de realizar cualquier corte.",
-
-            tip:
-              "El reposo ayuda a estabilizar los jugos y evita que el relleno se desplace."
-          },
-
-          {
-            title:
-              "Realizar el corte de presentación",
-
-            detail:
-              "Cortar uno de los extremos del lingote en diagonal para mostrar claramente el contraste entre el pescado blanco y la mousseline rosada de salmón.",
-
-            tip:
-              "Limpiar cuidadosamente la superficie del corte antes del emplatado."
-          }
-
-        ]
-
-      },
-
-
-      /* =================================
-         SOFÍA
-      ================================= */
-
-      sofia: {
-
-        name:
-          "Sofía",
-
-        role:
-          "Responsable de la mousseline de salmón y apoyo directo de Ángela",
-
-        badge:
-          "Mousseline",
-
-        tasks: [
-
-          {
-            title:
-              "Preparar una estación completamente fría",
-
-            detail:
-              "Mantener el salmón, la crema de leche, la clara de huevo, el recipiente y las cuchillas del procesador muy fríos antes de comenzar.",
-
-            tip:
-              "La temperatura baja ayuda a mantener estable la emulsión."
-          },
-
-          {
-            title:
-              "Limpiar y pesar el salmón",
-
-            detail:
-              "Limpiar aproximadamente 100 g de salmón, retirar piel y espinas y mantenerlo refrigerado hasta el momento de procesarlo.",
-
-            tip:
-              "El salmón debe permanecer frío durante todo el procedimiento."
-          },
-
-          {
-            title:
-              "Sazonar el salmón",
-
-            detail:
-              "Agregar aproximadamente entre 1,5 y 2 g de sal fina al salmón y una pequeña cantidad de pimienta blanca.",
-
-            tip:
-              "Agregar la sal al comienzo favorece la extracción de proteínas y mejora la capacidad de ligar de la mousseline."
-          },
-
-          {
-            title:
-              "Procesar el salmón",
-
-            detail:
-              "Procesar el salmón frío hasta obtener una pasta completamente homogénea y ligeramente pegajosa.",
-
-            tip:
-              "Procesar en intervalos cortos para impedir que aumente demasiado la temperatura."
-          },
-
-          {
-            title:
-              "Incorporar la clara",
-
-            detail:
-              "Agregar la clara de huevo y continuar procesando hasta integrarla completamente.",
-
-            tip:
-              "La mezcla debe conservar una textura uniforme antes de incorporar la crema."
-          },
-
-          {
-            title:
-              "Agregar la crema fría",
-
-            detail:
-              "Incorporar la crema de leche muy fría poco a poco mientras se procesa hasta obtener una mezcla fina, cremosa y estable.",
-
-            tip:
-              "No agregar toda la crema de una sola vez porque puede dificultar la emulsión."
-          },
-
-          {
-            title:
-              "Perfumar con ralladura de limón",
-
-            detail:
-              "Agregar ralladura muy fina de limón, evitando completamente la parte blanca de la cáscara.",
-
-            tip:
-              "La ralladura aporta aroma cítrico sin la acidez directa del jugo."
-          },
-
-          {
-            title:
-              "Realizar prueba de sazón",
-
-            detail:
-              "Tomar una pequeña porción de mousseline y cocinarla aparte en sartén o agua caliente. Probarla y ajustar la sal si fuera necesario.",
-
-            tip:
-              "Nunca probar la mousseline cruda para verificar el punto de sal."
-          },
-
-          {
-            title:
-              "Tamizar la mousseline",
-
-            detail:
-              "Pasar la preparación por un tamiz fino para conseguir una textura más delicada y uniforme.",
-
-            tip:
-              "Este paso hace que el relleno tenga una sensación más refinada en boca."
-          },
-
-          {
-            title:
-              "Enfriar antes del armado",
-
-            detail:
-              "Cubrir la mousseline y refrigerarla durante aproximadamente 10 minutos antes de entregarla a Ángela.",
-
-            tip:
-              "Debe quedar cremosa pero firme y sostenerse sobre una cuchara."
-          },
-
-          {
-            title:
-              "Apoyar el armado del lingote",
-
-            detail:
-              "Ayudar a Ángela a mantener las piezas alineadas, disponer la mousseline fría y compactar el lingote.",
-
-            tip:
-              "Ángela mantiene el control principal del pescado, la sazón final y la cocción."
-          }
-
-        ]
-
-      },
-
-
-      /* =================================
-         SANTIAGO
-      ================================= */
-
-      santiago: {
-
-        name:
-          "Santiago",
-
-        role:
-          "Puré de papa con clorofila de espinaca",
-
-        badge:
-          "Puré",
-
-        tasks: [
-
-          {
-            title:
-              "Preparar las papas",
-
-            detail:
-              "Pelar las papas y cortarlas en tamaños uniformes para garantizar una cocción pareja.",
-
-            tip:
-              "Los trozos deben tener tamaños similares."
-          },
-
-          {
-            title:
-              "Cocinar desde agua fría",
-
-            detail:
-              "Colocar las papas en agua fría con sal y llevarlas progresivamente a cocción hasta que estén completamente tiernas.",
-
-            tip:
-              "Comenzar desde agua fría permite una cocción uniforme desde el exterior hasta el centro."
-          },
-
-          {
-            title:
-              "Cocer la espinaca",
-
-            detail:
-              "Cocer la espinaca brevemente a la inglesa.",
-
-            tip:
-              "La cocción debe ser corta para conservar un color verde intenso."
-          },
-
-          {
-            title:
-              "Enfriar inmediatamente la espinaca",
-
-            detail:
-              "Pasar la espinaca rápidamente a agua fría o agua con hielo para detener la cocción.",
-
-            tip:
-              "El choque térmico ayuda a fijar el color."
-          },
-
-          {
-            title:
-              "Extraer la clorofila",
-
-            detail:
-              "Procesar la espinaca con una pequeña cantidad de agua de cocción y posteriormente tamizar.",
-
-            tip:
-              "Utilizar poca agua para evitar diluir demasiado el color."
-          },
-
-          {
-            title:
-              "Concentrar la clorofila",
-
-            detail:
-              "Llevar el líquido obtenido a fuego muy bajo hasta concentrar la clorofila.",
-
-            tip:
-              "No permitir que se queme o se vuelva de color oliva."
-          },
-
-          {
-            title:
-              "Escurrir completamente las papas",
-
-            detail:
-              "Cuando estén cocidas, retirar toda el agua y dejar que eliminen el exceso de humedad.",
-
-            tip:
-              "Una papa demasiado húmeda produce un puré aguado."
-          },
-
-          {
-            title:
-              "Pasar las papas",
-
-            detail:
-              "Utilizar prensa o pasapurés mientras todavía estén calientes.",
-
-            tip:
-              "No licuar ni procesar la papa porque puede volverse gomosa."
-          },
-
-          {
-            title:
-              "Montar el puré con mantequilla",
-
-            detail:
-              "Agregar mantequilla progresivamente y mezclar suavemente hasta lograr una textura lisa y sedosa.",
-
-            tip:
-              "Evitar batir agresivamente."
-          },
-
-          {
-            title:
-              "Agregar la clorofila",
-
-            detail:
-              "Incorporar progresivamente la clorofila hasta obtener un color verde intenso y homogéneo.",
-
-            tip:
-              "Agregar poco a poco permite controlar mejor el color y la textura."
-          },
-
-          {
-            title:
-              "Rectificar sazón",
-
-            detail:
-              "Probar el puré y ajustar cuidadosamente sal y pimienta.",
-
-            tip:
-              "El puré debe tener buen sabor por sí solo, aunque ligeramente menos salado que el pescado."
-          },
-
-          {
-            title:
-              "Mantener caliente",
-
-            detail:
-              "Reservar al baño María con película en contacto hasta el momento de emplatar.",
-
-            tip:
-              "La película evita que se forme una costra superficial."
-          }
-
-        ]
-
-      },
-
-
-      /* =================================
-         JULIÁN
-      ================================= */
-
-      julian: {
-
-        name:
-          "Julián",
-
-        role:
-          "Beurre blanc cítrico y vegetales contemporáneos",
-
-        badge:
-          "Salsa + vegetales",
-
-        tasks: [
-
-          {
-            title:
-              "Iniciar la reducción del beurre blanc",
-
-            detail:
-              "Colocar vino blanco, fumet y tomillo en una olla pequeña y reducir a fuego medio hasta concentrar considerablemente el sabor.",
-
-            tip:
-              "La reducción debe tener sabor intenso antes de incorporar los lácteos."
-          },
-
-          {
-            title:
-              "Retirar el tomillo",
-
-            detail:
-              "Cuando la reducción haya adquirido suficiente aroma, retirar las ramas de tomillo.",
-
-            tip:
-              "Un contacto demasiado prolongado puede generar notas vegetales excesivas."
-          },
-
-          {
-            title:
-              "Incorporar crema",
-
-            detail:
-              "Agregar crema de leche y reducir suavemente hasta que la salsa cubra ligeramente el dorso de una cuchara.",
-
-            tip:
-              "No se busca una salsa pesada. Debe quedar más ligera que la antigua salsa normanda."
-          },
-
-          {
-            title:
-              "Montar con mantequilla fría",
-
-            detail:
-              "Bajar el fuego e incorporar mantequilla fría en pequeños cubos mientras se bate continuamente.",
-
-            tip:
-              "La mantequilla debe emulsionar progresivamente."
-          },
-
-          {
-            title:
-              "Evitar que hierva después del montaje",
-
-            detail:
-              "Una vez incorporada la mantequilla, mantener la salsa tibia sin permitir un hervor fuerte.",
-
-            tip:
-              "Una temperatura excesiva puede separar la emulsión."
-          },
-
-          {
-            title:
-              "Terminar con limón",
-
-            detail:
-              "Fuera del fuego, añadir jugo de limón poco a poco hasta obtener un equilibrio entre acidez, mantequilla y sabor del fumet.",
-
-            tip:
-              "El limón debe refrescar el paladar, no dominar el sabor del pescado."
-          },
-
-          {
-            title:
-              "Preparar cintas de zucchini",
-
-            detail:
-              "Utilizar pelador o mandolina para obtener cintas largas y finas de zucchini.",
-
-            tip:
-              "Mantenerlas secas y cocinar únicamente al final."
-          },
-
-          {
-            title:
-              "Preparar cintas de zanahoria",
-
-            detail:
-              "Cortar la zanahoria en cintas largas y delgadas utilizando pelador o mandolina.",
-
-            tip:
-              "Las cintas deben conservar cierta firmeza después de la cocción."
-          },
-
-          {
-            title:
-              "Preparar apio crujiente",
-
-            detail:
-              "Cortar el apio en láminas finas al sesgo y colocarlo durante algunos minutos en agua con hielo.",
-
-            tip:
-              "El agua fría intensifica el carácter crujiente."
-          },
-
-          {
-            title:
-              "Secar completamente el apio",
-
-            detail:
-              "Retirar del agua con hielo y secar muy bien antes de utilizarlo.",
-
-            tip:
-              "El exceso de agua puede afectar la presentación y diluir la salsa."
-          },
-
-          {
-            title:
-              "Marcar la cebolla larga",
-
-            detail:
-              "Cortar la cebolla larga en segmentos de aproximadamente 5 a 6 cm. Dorar rápidamente en sartén caliente con una pequeña cantidad de mantequilla.",
-
-            tip:
-              "Buscar zonas tostadas manteniendo cierta firmeza."
-          },
-
-          {
-            title:
-              "Saltear primero la zanahoria",
-
-            detail:
-              "Colocar las cintas de zanahoria en sartén caliente con una pequeña cantidad de mantequilla.",
-
-            tip:
-              "La zanahoria necesita unos segundos adicionales de cocción respecto al zucchini."
-          },
-
-          {
-            title:
-              "Agregar el zucchini",
-
-            detail:
-              "Incorporar las cintas de zucchini y saltear únicamente hasta que estén flexibles pero todavía firmes.",
-
-            tip:
-              "No deben quedar blandas. Se busca una textura al dente."
-          },
-
-          {
-            title:
-              "Formar el nido contemporáneo de vegetales",
-
-            detail:
-              "Mezclar suavemente las cintas de zucchini y zanahoria con el apio crujiente. Utilizar una pinza para enrollarlas y crear un pequeño nido con altura.",
-
-            tip:
-              "La altura aporta una apariencia contemporánea sin necesidad de tornear ningún vegetal."
-          },
-
-          {
-            title:
-              "Agregar la cebolla larga marcada",
-
-            detail:
-              "Colocar uno o dos segmentos de cebolla larga apoyados junto al nido de vegetales.",
-
-            tip:
-              "La parte tostada debe quedar visible."
-          },
-
-          {
-            title:
-              "Terminación de los vegetales",
-
-            detail:
-              "Ajustar con sal, pimienta y una cantidad mínima de ralladura o gotas de limón.",
-
-            tip:
-              "El cítrico debe conectar los vegetales con la salsa sin hacer que todos los componentes tengan exactamente el mismo sabor."
-          }
-
-        ]
-
-      }
-
-    },
-
-
-    plating: [
-
-      "Trazar una lágrima limpia de puré de papa con clorofila de espinaca.",
-
-      "Colocar el lingote de pescado parcialmente sobre la zona más gruesa del puré, dejando completamente visible su superficie dorada.",
-
-      "Orientar hacia el comensal el extremo cortado en diagonal para mostrar la mousseline de salmón.",
-
-      "Servir el beurre blanc alrededor y parcialmente debajo del pescado. No cubrir completamente la superficie dorada.",
-
-      "Formar un pequeño nido vertical con las cintas de zucchini y zanahoria.",
-
-      "Incorporar el apio crujiente dentro del nido.",
-
-      "Colocar la cebolla larga marcada junto a los vegetales dejando visible la parte tostada.",
-
-      "Finalizar el pescado con brotes frescos y una cantidad mínima de ralladura fina de limón."
-
-    ]
-
-  },
-
-
-  /* =====================================
-     RECETA 2
-  ===================================== */
-
-  r2: {
-
-    name:
-      "Receta 2 · Sopa de pescado estilo bullabesa",
-
-    subtitle:
-      "Bullabesa con mero, pargo y corvina, papas, tomates cherry, crostones con rouille y queso emmental.",
-
-    critical:
-      "Ángela mantiene el control exclusivo de los tres pescados. Santiago elabora la rouille y luego puede apoyar a Julián con los crostones. Sofía trabaja las guarniciones.",
-
-
-    /*
-    ========================================
-    IMAGEN RECETA 2
-
-    Sube este archivo al mismo directorio
-    del HTML en GitHub.
-    ========================================
-    */
-
-    image:
-      "emplatado_bullabesa.png",
-
-    imageAlt:
-      "Emplatado de sopa de pescado estilo bullabesa",
-
-
-    people: {
-
-
-      /* =================================
-         ÁNGELA
-      ================================= */
-
-      angela: {
-
-        name:
-          "Ángela",
-
-        role:
-          "Responsable exclusiva del mero, pargo y corvina",
-
-        badge:
-          "Pescado",
-
-        tasks: [
-
-          {
-            title:
-              "Acondicionar las porciones",
-
-            detail:
-              "Revisar las porciones de mero, pargo y corvina. Retirar espinas, secar y organizar cada especie por separado.",
-
-            tip:
-              "El pescado debe entrar seco a la sartén para conseguir un mejor dorado."
-          },
-
-          {
-            title:
-              "Sazonar",
-
-            detail:
-              "Aplicar sal y pimienta de manera uniforme sobre cada una de las porciones.",
-
-            tip:
-              "Verificar que todos los lados reciban sazón."
-          },
-
-          {
-            title:
-              "Calentar la sartén",
-
-            detail:
-              "Calentar aceite de oliva antes de incorporar el pescado.",
-
-            tip:
-              "La sartén debe estar suficientemente caliente para sellar sin pegar."
-          },
-
-          {
-            title:
-              "Dorar los pescados",
-
-            detail:
-              "Dorar cada pescado comenzando por su mejor cara de presentación. En el caso del pargo, comenzar por el lado de la piel.",
-
-            tip:
-              "No mover la pieza inmediatamente después de colocarla."
-          },
-
-          {
-            title:
-              "Girar cuidadosamente",
-
-            detail:
-              "Girar los pescados y completar el dorado de los lados restantes.",
-
-            tip:
-              "Utilizar una espátula amplia para evitar que se rompan."
-          },
-
-          {
-            title:
-              "Incorporar sopa de pescado",
-
-            detail:
-              "Agregar una cantidad de sopa de pescado caliente para finalizar la cocción.",
-
-            tip:
-              "La sopa debe estar previamente caliente para no disminuir bruscamente la temperatura."
-          },
-
-          {
-            title:
-              "Terminar la cocción",
-
-            detail:
-              "Tapar y cocinar a fuego bajo aproximadamente entre 5 y 10 minutos, dependiendo del grosor de cada pieza.",
-
-            tip:
-              "Controlar especialmente las piezas más delgadas."
-          },
-
-          {
-            title:
-              "Reservar para el servicio",
-
-            detail:
-              "Retirar los pescados al alcanzar el punto adecuado y mantenerlos calientes únicamente durante el tiempo necesario antes del emplatado.",
-
-            tip:
-              "Una espera prolongada puede resecar el pescado."
-          }
-
-        ]
-
-      },
-
-
-      /* =================================
-         SANTIAGO
-      ================================= */
-
-      santiago: {
-
-        name:
-          "Santiago",
-
-        role:
-          "Rouille y apoyo de crostones",
-
-        badge:
-          "Rouille",
-
-        tasks: [
-
-          {
-            title:
-              "Cocinar la papa",
-
-            detail:
-              "Lavar, pelar y cocinar la papa desde agua fría hasta que esté completamente tierna.",
-
-            tip:
-              "Escurrir muy bien antes de continuar."
-          },
-
-          {
-            title:
-              "Pisar la papa",
-
-            detail:
-              "Procesar manualmente la papa hasta obtener una textura homogénea.",
-
-            tip:
-              "Evitar dejar grumos grandes."
-          },
-
-          {
-            title:
-              "Agregar yema, ajo y páprika",
-
-            detail:
-              "Incorporar la yema, el ajo finamente picado y la páprika.",
-
-            tip:
-              "Integrar completamente antes de comenzar la emulsión."
-          },
-
-          {
-            title:
-              "Emulsionar la rouille",
-
-            detail:
-              "Añadir aceite de oliva progresivamente hasta obtener una salsa cremosa y estable.",
-
-            tip:
-              "Agregar el aceite poco a poco."
-          },
-
-          {
-            title:
-              "Rectificar sazón",
-
-            detail:
-              "Probar y ajustar sal, ajo o páprika si fuera necesario.",
-
-            tip:
-              "La rouille debe tener carácter porque acompaña una sopa intensa."
-          },
-
-          {
-            title:
-              "Reservar",
-
-            detail:
-              "Cubrir la rouille y mantenerla lista para el montaje.",
-
-            tip:
-              "Evitar que se forme una costra superficial."
-          },
-
-          {
-            title:
-              "Apoyar el corte de baguette",
-
-            detail:
-              "Cuando la rouille esté terminada, ayudar a Julián cortando la baguette en rodajas.",
-
-            tip:
-              "Mantener un grosor uniforme."
-          },
-
-          {
-            title:
-              "Hornear los crostones",
-
-            detail:
-              "Rociar las rodajas con aceite de oliva y hornear aproximadamente 5 minutos a 180 °C.",
-
-            tip:
-              "Buscar bordes crujientes."
-          },
-
-          {
-            title:
-              "Montar la rouille",
-
-            detail:
-              "Colocar una porción de rouille sobre cada crostón.",
-
-            tip:
-              "No utilizar una cantidad excesiva."
-          },
-
-          {
-            title:
-              "Agregar queso y gratinar",
-
-            detail:
-              "Cubrir con queso emmental y gratinar justo antes del servicio.",
-
-            tip:
-              "Servir el crostón recién gratinado para conservar su textura."
-          }
-
-        ]
-
-      },
-
-
-      /* =================================
-         JULIÁN
-      ================================= */
-
-      julian: {
-
-        name:
-          "Julián",
-
-        role:
-          "Sopa de pescado estilo bullabesa y coordinación de crostones",
-
-        badge:
-          "Bullabesa",
-
-        tasks: [
-
-          {
-            title:
-              "Preparar los aromáticos",
-
-            detail:
-              "Cortar tomate, cebolla e hinojo. Preparar el ajo y el anís.",
-
-            tip:
-              "Tener toda la mise en place lista antes de comenzar el dorado."
-          },
-
-          {
-            title:
-              "Dorar cabezas y recortes",
-
-            detail:
-              "Dorar cabezas, espinas y recortes de pescado en aceite de oliva.",
-
-            tip:
-              "El dorado aporta profundidad de sabor."
-          },
-
-          {
-            title:
-              "Agregar las verduras",
-
-            detail:
-              "Incorporar los vegetales preparados y cocinarlos junto con los recortes.",
-
-            tip:
-              "Raspar el fondo para recuperar los sabores adheridos."
-          },
-
-          {
-            title:
-              "Desglasar con vino blanco",
-
-            detail:
-              "Agregar vino blanco y remover el fondo de la olla.",
-
-            tip:
-              "Reducir hasta disminuir claramente el aroma alcohólico."
-          },
-
-          {
-            title:
-              "Incorporar fumet",
-
-            detail:
-              "Añadir el fumet de pescado junto con los aromáticos y condimentos.",
-
-            tip:
-              "El fumet debe cubrir suficientemente los ingredientes."
-          },
-
-          {
-            title:
-              "Cocinar a fuego bajo",
-
-            detail:
-              "Mantener la preparación aproximadamente 1 hora a fuego bajo.",
-
-            tip:
-              "Evitar un hervor demasiado agresivo."
-          },
-
-          {
-            title:
-              "Procesar la sopa",
-
-            detail:
-              "Procesar cuidadosamente la preparación hasta extraer el máximo sabor.",
-
-            tip:
-              "Realizarlo con precaución por la temperatura."
-          },
-
-          {
-            title:
-              "Colar",
-
-            detail:
-              "Pasar la sopa por colador fino para obtener una textura más limpia.",
-
-            tip:
-              "Evitar residuos de espinas o sólidos gruesos."
-          },
-
-          {
-            title:
-              "Rectificar sazón",
-
-            detail:
-              "Probar la sopa caliente y ajustar la cantidad de sal y especias.",
-
-            tip:
-              "La percepción de la sal cambia con la temperatura."
-          },
-
-          {
-            title:
-              "Mantener caliente",
-
-            detail:
-              "Reservar la bullabesa caliente hasta que Ángela termine los pescados.",
-
-            tip:
-              "No reducir excesivamente durante la espera."
-          },
-
-          {
-            title:
-              "Coordinar los crostones",
-
-            detail:
-              "Trabajar junto con Santiago para que la baguette con rouille y queso gratinado llegue al plato en el último momento.",
-
-            tip:
-              "El crostón debe permanecer crujiente."
-          }
-
-        ]
-
-      },
-
-
-      /* =================================
-         SOFÍA
-      ================================= */
-
-      sofia: {
-
-        name:
-          "Sofía",
-
-        role:
-          "Papas y tomates cherry fritos",
-
-        badge:
-          "Guarniciones",
-
-        tasks: [
-
-          {
-            title:
-              "Lavar y pelar las papas",
-
-            detail:
-              "Preparar las papas y cortarlas en tamaños uniformes.",
-
-            tip:
-              "El tamaño uniforme ayuda a controlar la cocción."
-          },
-
-          {
-            title:
-              "Cocinar las papas en fumet",
-
-            detail:
-              "Colocar las papas en fumet con sal y pimienta.",
-
-            tip:
-              "El fumet aporta más sabor que una cocción únicamente en agua."
-          },
-
-          {
-            title:
-              "Controlar el punto",
-
-            detail:
-              "Cocinar aproximadamente entre 10 y 15 minutos hasta conseguir una textura tierna pero firme.",
-
-            tip:
-              "Las papas deben mantener su forma."
-          },
-
-          {
-            title:
-              "Reservar las papas",
-
-            detail:
-              "Retirar cuidadosamente y mantener calientes.",
-
-            tip:
-              "Evitar que continúen cocinándose excesivamente."
-          },
-
-          {
-            title:
-              "Terminar con aceite de oliva",
-
-            detail:
-              "Agregar una pequeña cantidad de aceite de oliva antes del servicio.",
-
-            tip:
-              "No excederse porque el plato ya tiene rouille y sopa."
-          },
-
-          {
-            title:
-              "Preparar los tomates cherry",
-
-            detail:
-              "Lavar los tomates cherry y realizar un corte superficial en cruz.",
-
-            tip:
-              "El corte permite que la piel comience a abrirse durante la fritura."
-          },
-
-          {
-            title:
-              "Freír los tomates",
-
-            detail:
-              "Sumergir brevemente los tomates en aceite caliente hasta que la piel comience a desprenderse.",
-
-            tip:
-              "La pulpa debe permanecer jugosa y entera."
-          },
-
-          {
-            title:
-              "Escurrir y reservar",
-
-            detail:
-              "Retirar el exceso de aceite y mantener los tomates calientes hasta el emplatado.",
-
-            tip:
-              "Manipularlos cuidadosamente para que no se rompan."
-          }
-
-        ]
-
-      }
-
-    },
-
-
-    plating: [
-
-      "Servir la sopa de pescado estilo bullabesa caliente como base del plato.",
-
-      "Distribuir el mero, el pargo y la corvina sobre la sopa.",
-
-      "Acomodar las papas en la parte superior del plato.",
-
-      "Ubicar los tomates cherry fritos en uno de los costados.",
-
-      "Colocar el crostón con rouille y queso emmental gratinado en el lado opuesto.",
-
-      "Finalizar con hierbas frescas o cebollín y un toque ligero de aceite de oliva."
-
-    ]
-
-  }
-
-};
-
-
-/* =========================================
-   ESTADO
-========================================= */
-
-let currentRecipe = "r1";
-let personFilter = "all";
-
-
-function storageKey(recipeId, personId, taskIndex){
-
-  return (
-    "brigada-cocina:" +
-    recipeId +
-    ":" +
-    personId +
-    ":" +
-    taskIndex
-  );
-
-}
-
-
-function isDone(recipeId, personId, taskIndex){
-
-  return (
-    localStorage.getItem(
-      storageKey(
-        recipeId,
-        personId,
-        taskIndex
-      )
-    ) === "1"
-  );
-
-}
-
-
-function setDone(
-  recipeId,
-  personId,
-  taskIndex,
-  value
-){
-
-  localStorage.setItem(
-    storageKey(
-      recipeId,
-      personId,
-      taskIndex
-    ),
-    value ? "1" : "0"
-  );
-
-}
-
-
-/* =========================================
-   SEGURIDAD TEXTO
-========================================= */
-
-function escapeHTML(text){
-
-  return String(text).replace(
-    /[&<>"']/g,
-    function(character){
-
-      const entities = {
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-      };
-
-      return entities[character];
-
-    }
-  );
-
-}
-
-
-/* =========================================
-   RENDER
-========================================= */
-
-function render(){
-
-  const recipe =
-    recipes[currentRecipe];
-
-
-  /* ------------------------------
-     Información principal
-  ------------------------------ */
-
-  document
-    .getElementById("recipeName")
-    .textContent =
-      recipe.name;
-
-
-  document
-    .getElementById("recipeSubtitle")
-    .textContent =
-      recipe.subtitle;
-
-
-  document
-    .getElementById("critical")
-    .textContent =
-      recipe.critical;
-
-
-  /* ------------------------------
-     Imagen
-  ------------------------------ */
-
-  const image =
-    document.getElementById(
-      "recipeImage"
-    );
-
-
-  image.src =
-    recipe.image;
-
-
-  image.alt =
-    recipe.imageAlt;
-
-
-  /* ------------------------------
-     Tabs
-  ------------------------------ */
-
-  document
-    .querySelectorAll(
-      ".recipe-tab"
-    )
-    .forEach(function(button){
-
-      button
-        .classList
-        .toggle(
-          "active",
-          button.dataset.recipe ===
-          currentRecipe
-        );
-
-    });
-
-
-  /* ------------------------------
-     Filtros
-  ------------------------------ */
-
-  document
-    .querySelectorAll(
-      ".filter"
-    )
-    .forEach(function(button){
-
-      button
-        .classList
-        .toggle(
-          "active",
-          button.dataset.person ===
-          personFilter
-        );
-
-    });
-
-
-  /* ------------------------------
-     Personas
-  ------------------------------ */
-
-  const peopleContainer =
-    document.getElementById(
-      "people"
-    );
-
-
-  peopleContainer.innerHTML =
-    "";
-
-
-  let totalTasks = 0;
-  let completedTasks = 0;
-
-
-  Object.entries(
-    recipe.people
-  )
-  .forEach(function(entry){
-
-    const personId =
-      entry[0];
-
-    const person =
-      entry[1];
-
-
-    totalTasks +=
-      person.tasks.length;
-
-
-    const personCompleted =
-      person.tasks.filter(
-        function(task,index){
-
-          return isDone(
-            currentRecipe,
-            personId,
-            index
+     * EFECTO MATRIX
+     */
+
+    const canvas =
+      document.getElementById("matrix");
+
+    const context =
+      canvas.getContext("2d");
+
+    const characters =
+      "01アイウエオカキクケコサシスセソタチツテト<>/{}[]#$_";
+
+    const fontSize = 17;
+
+    let columns = 0;
+    let drops = [];
+    let previousTime = 0;
+    let matrixAnimation;
+
+    function resizeCanvas() {
+      const ratio = Math.min(
+        window.devicePixelRatio || 1,
+        2
+      );
+
+      canvas.width =
+        window.innerWidth * ratio;
+
+      canvas.height =
+        window.innerHeight * ratio;
+
+      canvas.style.width =
+        window.innerWidth + "px";
+
+      canvas.style.height =
+        window.innerHeight + "px";
+
+      context.setTransform(
+        ratio,
+        0,
+        0,
+        ratio,
+        0,
+        0
+      );
+
+      columns = Math.ceil(
+        window.innerWidth / fontSize
+      );
+
+      drops = Array.from(
+        { length: columns },
+        function () {
+          return Math.floor(
+            Math.random() *
+            (-window.innerHeight / fontSize)
           );
-
         }
-      ).length;
-
-
-    completedTasks +=
-      personCompleted;
-
-
-    if(
-      personFilter !== "all" &&
-      personFilter !== personId
-    ){
-      return;
+      );
     }
 
+    function drawMatrix(time) {
+      if (time - previousTime > 48) {
+        context.fillStyle =
+          "rgba(0, 8, 3, 0.13)";
 
-    const percentage =
-      Math.round(
-        (
-          personCompleted /
-          person.tasks.length
-        ) * 100
+        context.fillRect(
+          0,
+          0,
+          window.innerWidth,
+          window.innerHeight
+        );
+
+        context.font =
+          "600 " +
+          fontSize +
+          "px 'Courier New', monospace";
+
+        drops.forEach(
+          function (drop, index) {
+            const character =
+              characters[
+                Math.floor(
+                  Math.random() *
+                  characters.length
+                )
+              ];
+
+            const x =
+              index * fontSize;
+
+            const y =
+              drop * fontSize;
+
+            context.shadowBlur = 8;
+            context.shadowColor = "#00ff66";
+
+            context.fillStyle =
+              Math.random() > 0.975
+                ? "#caffdc"
+                : "#00ce52";
+
+            context.fillText(
+              character,
+              x,
+              y
+            );
+
+            context.shadowBlur = 0;
+
+            if (
+              y > window.innerHeight &&
+              Math.random() > 0.965
+            ) {
+              drops[index] = 0;
+            } else {
+              drops[index] =
+                drop + 1;
+            }
+          }
+        );
+
+        previousTime = time;
+      }
+
+      matrixAnimation =
+        requestAnimationFrame(drawMatrix);
+    }
+
+    resizeCanvas();
+
+    window.addEventListener(
+      "resize",
+      resizeCanvas
+    );
+
+    matrixAnimation =
+      requestAnimationFrame(drawMatrix);
+
+    /*
+     * CONTADOR REGRESIVO
+     */
+
+    const secondsElement =
+      document.getElementById("seconds");
+
+    const countdownElement =
+      document.getElementById("countdown");
+
+    const progressElement =
+      document.getElementById("progress");
+
+    let seconds = 5;
+
+    function updateCountdown() {
+      secondsElement.textContent =
+        String(seconds).padStart(2, "0");
+
+      countdownElement.setAttribute(
+        "aria-label",
+        seconds + " segundos"
       );
 
+      progressElement.style.width =
+        Math.max(0, seconds * 20) + "%";
 
-    const card =
-      document.createElement(
-        "article"
+      document.title =
+        seconds + "s — Página en pausa";
+    }
+
+    /*
+     * CIERRE DE LA PÁGINA
+     */
+
+    function attemptToClose() {
+      document.title =
+        "Cerrando conexión…";
+
+      /*
+       * Si la pestaña fue abierta mediante
+       * window.open(), el navegador permitirá
+       * cerrarla automáticamente.
+       */
+      if (
+        window.opener &&
+        !window.opener.closed
+      ) {
+        window.close();
+        return;
+      }
+
+      /*
+       * Los navegadores no permiten cerrar
+       * automáticamente una pestaña que el
+       * usuario abrió directamente.
+       *
+       * En ese caso se muestra una pantalla
+       * final de sistema desconectado.
+       */
+      showDisconnectedScreen();
+    }
+
+    function showDisconnectedScreen() {
+      cancelAnimationFrame(
+        matrixAnimation
       );
 
+      document.title =
+        "Sistema desconectado";
 
-    card.className =
-      "person-card";
+      document.body.innerHTML = `
+        <main class="disconnect-screen">
+          <canvas
+            id="finalMatrix"
+            aria-hidden="true"
+            style="
+              position:fixed;
+              inset:0;
+              width:100%;
+              height:100%;
+              opacity:0.22;
+            "
+          ></canvas>
 
+          <div class="scanlines"></div>
+          <div class="vignette"></div>
 
-    card.innerHTML = `
-
-      <div class="person-head">
-
-        <div class="person-title-row">
-
-          <div>
-
-            <h2>
-              ${escapeHTML(person.name)}
-            </h2>
-
-            <div class="person-role">
-              ${escapeHTML(person.role)}
-            </div>
-
-          </div>
-
-          <span class="badge">
-            ${escapeHTML(person.badge)}
-          </span>
-
-        </div>
-
-
-        <div class="person-progress">
-
-          <div class="person-progress-label">
-
-            <span>
-              Progreso
-            </span>
-
-            <span>
-              ${personCompleted}/${person.tasks.length}
-              ·
-              ${percentage} %
-            </span>
-
-          </div>
-
-
-          <div class="track">
-
-            <div
-              class="fill"
-              style="width:${percentage}%">
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="task-list">
-      </div>
-
-    `;
-
-
-    const taskList =
-      card.querySelector(
-        ".task-list"
-      );
-
-
-    person.tasks.forEach(
-      function(task,index){
-
-        const completed =
-          isDone(
-            currentRecipe,
-            personId,
-            index
-          );
-
-
-        const taskElement =
-          document.createElement(
-            "div"
-          );
-
-
-        taskElement.className =
-          "task" +
-          (
-            completed
-            ? " done"
-            : ""
-          );
-
-
-        taskElement.innerHTML = `
-
-          <button
-            class="task-summary"
-            type="button">
-
-            <span class="check">
-              ${completed ? "✓" : ""}
-            </span>
-
-            <span class="task-name">
-
-              ${index + 1}.
-              ${escapeHTML(task.title)}
-
-            </span>
-
-            <span class="chev">
-              ⌄
-            </span>
-
-          </button>
-
-
-          <div class="task-body">
-
-            <p class="task-detail">
-              ${escapeHTML(task.detail)}
+          <section
+            class="disconnect-content"
+            aria-live="assertive"
+          >
+            <p class="disconnect-small">
+              SESSION_TERMINATED
             </p>
 
-            <div class="tip">
+            <h1
+              class="disconnect-title"
+              data-text="SISTEMA DESCONECTADO"
+            >
+              SISTEMA DESCONECTADO
+            </h1>
 
-              <b>
-                Clave de sabor/técnica:
-              </b>
+            <div
+              class="disconnect-line"
+              aria-hidden="true"
+            ></div>
 
-              ${escapeHTML(task.tip)}
-
-            </div>
-
-          </div>
-
-        `;
-
-
-        const summary =
-          taskElement.querySelector(
-            ".task-summary"
-          );
-
-
-        const check =
-          taskElement.querySelector(
-            ".check"
-          );
-
-
-        summary.addEventListener(
-          "click",
-          function(event){
-
-            if(
-              event.target === check
-            ){
-
-              setDone(
-                currentRecipe,
-                personId,
-                index,
-                !isDone(
-                  currentRecipe,
-                  personId,
-                  index
-                )
-              );
-
-
-              render();
-
-              return;
-            }
-
-
-            taskElement
-              .classList
-              .toggle(
-                "open"
-              );
-
-          }
-        );
-
-
-        taskList.appendChild(
-          taskElement
-        );
-
-      }
-    );
-
-
-    peopleContainer.appendChild(
-      card
-    );
-
-  });
-
-
-  /* ------------------------------
-     Progreso general
-  ------------------------------ */
-
-  const totalPercentage =
-    totalTasks
-    ? Math.round(
-        (
-          completedTasks /
-          totalTasks
-        ) * 100
-      )
-    : 0;
-
-
-  document
-    .getElementById(
-      "progressText"
-    )
-    .textContent =
-      completedTasks +
-      " de " +
-      totalTasks +
-      " · " +
-      totalPercentage +
-      " %";
-
-
-  document
-    .getElementById(
-      "progressBar"
-    )
-    .style.width =
-      totalPercentage + "%";
-
-
-  /* ------------------------------
-     Emplatado
-  ------------------------------ */
-
-  const platingList =
-    document.getElementById(
-      "platingList"
-    );
-
-
-  platingList.innerHTML =
-    "";
-
-
-  recipe.plating.forEach(
-    function(step){
-
-      const item =
-        document.createElement(
-          "li"
-        );
-
-
-      item.textContent =
-        step;
-
-
-      platingList.appendChild(
-        item
-      );
-
+            <p class="disconnect-message">
+              La conexión ha finalizado correctamente.
+              <br>
+              Ya puedes cerrar esta pestaña.
+            </p>
+          </section>
+        </main>
+      `;
     }
-  );
 
-}
+    updateCountdown();
 
+    const countdownTimer =
+      setInterval(function () {
+        seconds -= 1;
 
-/* =========================================
-   CAMBIO DE RECETA
-========================================= */
+        updateCountdown();
 
-document
-  .querySelectorAll(
-    ".recipe-tab"
-  )
-  .forEach(function(button){
-
-    button.addEventListener(
-      "click",
-      function(){
-
-        currentRecipe =
-          button.dataset.recipe;
-
-
-        personFilter =
-          "all";
-
-
-        render();
-
-
-        window.scrollTo({
-          top:0,
-          behavior:"smooth"
-        });
-
-      }
-    );
-
-  });
-
-
-/* =========================================
-   FILTRO POR PERSONA
-========================================= */
-
-document
-  .querySelectorAll(
-    ".filter"
-  )
-  .forEach(function(button){
-
-    button.addEventListener(
-      "click",
-      function(){
-
-        personFilter =
-          button.dataset.person;
-
-
-        render();
-
-      }
-    );
-
-  });
-
-
-/* =========================================
-   REINICIAR
-========================================= */
-
-document
-  .getElementById(
-    "resetBtn"
-  )
-  .addEventListener(
-    "click",
-    function(){
-
-      const recipe =
-        recipes[currentRecipe];
-
-
-      Object.entries(
-        recipe.people
-      )
-      .forEach(
-        function(entry){
-
-          const personId =
-            entry[0];
-
-          const person =
-            entry[1];
-
-
-          person.tasks.forEach(
-            function(task,index){
-
-              localStorage.removeItem(
-                storageKey(
-                  currentRecipe,
-                  personId,
-                  index
-                )
-              );
-
-            }
+        if (seconds <= 0) {
+          clearInterval(
+            countdownTimer
           );
 
+          attemptToClose();
         }
-      );
-
-
-      render();
-
-    }
-  );
-
-
-/* =========================================
-   IMPRIMIR
-========================================= */
-
-document
-  .getElementById(
-    "printBtn"
-  )
-  .addEventListener(
-    "click",
-    function(){
-
-      window.print();
-
-    }
-  );
-
-
-/* =========================================
-   MODAL DE IMAGEN
-========================================= */
-
-const modal =
-  document.getElementById(
-    "imageModal"
-  );
-
-
-const modalImage =
-  document.getElementById(
-    "modalImage"
-  );
-
-
-const modalTitle =
-  document.getElementById(
-    "modalTitle"
-  );
-
-
-document
-  .getElementById(
-    "openImage"
-  )
-  .addEventListener(
-    "click",
-    function(){
-
-      const recipe =
-        recipes[currentRecipe];
-
-
-      modalImage.src =
-        recipe.image;
-
-
-      modalImage.alt =
-        recipe.imageAlt;
-
-
-      modalTitle.textContent =
-        recipe.name +
-        " · Emplatado";
-
-
-      modal.classList.add(
-        "open"
-      );
-
-
-      document.body.style.overflow =
-        "hidden";
-
-    }
-  );
-
-
-function closeImageModal(){
-
-  modal.classList.remove(
-    "open"
-  );
-
-
-  document.body.style.overflow =
-    "";
-
-}
-
-
-document
-  .getElementById(
-    "closeModal"
-  )
-  .addEventListener(
-    "click",
-    closeImageModal
-  );
-
-
-modal.addEventListener(
-  "click",
-  function(event){
-
-    if(
-      event.target === modal
-    ){
-
-      closeImageModal();
-
-    }
-
-  }
-);
-
-
-document.addEventListener(
-  "keydown",
-  function(event){
-
-    if(
-      event.key === "Escape"
-    ){
-
-      closeImageModal();
-
-    }
-
-  }
-);
-
-
-/* =========================================
-   INICIO
-========================================= */
-
-render();
-
-</script>
-
+      }, 1000);
+  </script>
 </body>
 </html>
