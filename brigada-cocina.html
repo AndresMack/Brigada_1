@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Brigada de cocina · 7:30–9:00</title>
+  <style>
+    :root{--bg:#fff;--surface:#f6f7f9;--card:rgba(255,255,255,.94);--ink:#111318;--muted:#6f737b;--line:#e6e8ec;--accent:#1769e0;--pale:#e9eef8;--shadow:0 10px 32px rgba(22,29,37,.08)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    .wrap{width:min(1080px,calc(100% - 32px));margin:34px auto 64px}.top{margin-bottom:24px;padding:8px 2px 22px;border-bottom:1px solid var(--line)}h1,h2,h3{letter-spacing:-.025em;line-height:1.15}h1{font-size:clamp(2rem,5vw,3.7rem);font-weight:800;margin:0 0 9px}h2,p{margin:0}.subtitle{color:var(--muted);font-size:.95rem}
+    .panel,.person{background:var(--card);border:1px solid rgba(225,228,234,.9);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}.panel{padding:22px;margin-bottom:20px}
+    .controls{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:22px}.controls label{width:min(360px,100%)}label span{display:block;font-size:.76rem;font-weight:700;letter-spacing:.04em;margin:0 0 7px;color:var(--muted)}select,button{font:inherit}select{width:100%;padding:13px 42px 13px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);font-weight:650;cursor:pointer}select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(23,105,224,.12)}
+    .progress-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:8px;font-size:.83rem;color:var(--muted)}.progress-head strong{color:var(--ink)}.progress-head>span:last-child{white-space:nowrap}.track{height:8px;background:var(--pale);border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:var(--accent);border-radius:inherit;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{background:var(--surface);border-radius:18px;padding:15px}.metric-name{color:var(--muted);font-size:.78rem}.metric-value{font-size:1.65rem;font-weight:800;line-height:1.15;margin-top:3px}
+    .people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.person{padding:22px;transition:transform .25s ease,box-shadow .25s ease}.person:hover{transform:translateY(-3px);box-shadow:0 16px 42px rgba(22,29,37,.11)}.person-head{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:17px}.person h2{font-size:1.45rem;font-weight:800}.count{background:var(--surface);border-radius:99px;padding:5px 10px;font-size:.78rem;font-weight:750;white-space:nowrap}.recipe-block{border-top:1px solid var(--line);padding-top:18px;margin-top:20px}.recipe-block h3{font-size:1.03rem;margin:0;font-weight:750}.role{font-size:.86rem;color:var(--muted);margin-top:5px}.recipe-progress{margin-top:13px}
+    .task-list{display:grid;gap:7px;margin-top:15px}.task{display:flex;gap:11px;align-items:flex-start;padding:10px 11px;border:1px solid transparent;border-radius:14px;cursor:pointer;transition:background-color .18s ease,border-color .18s ease}.task:hover{background:rgba(23,105,224,.045);border-color:rgba(23,105,224,.1)}.task input{appearance:none;width:20px;height:20px;margin:2px 0 0;border:1.5px solid #aeb4bd;border-radius:7px;background:#fff;flex:0 0 auto}.task input:checked{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 4px #fff}.task.done span{text-decoration:line-through;color:#9a9ea5}.time{display:block;color:var(--accent);font-size:.76rem;font-weight:750;margin-bottom:2px}
+    .footer{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:22px;color:var(--muted);font-size:.82rem}.reset{border:0;background:#111318;border-radius:14px;padding:11px 15px;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(17,19,24,.16)}
+    .recipe-images{margin-top:42px;padding-top:24px;border-top:1px solid var(--line)}.recipe-images>h2{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:7px}.recipe-images>.subtitle{margin-bottom:17px}.image-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.image-card{margin:0;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);cursor:zoom-in}.image-card:focus-visible{outline:3px solid rgba(23,105,224,.35);outline-offset:4px}.image-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--surface)}.image-card figcaption{padding:14px 16px;font-weight:750}
+    .lightbox{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px;background:rgba(12,15,20,.76);backdrop-filter:blur(14px);opacity:0;visibility:hidden;transition:.22s}.lightbox.open{opacity:1;visibility:visible}.lightbox-content{position:relative;width:min(960px,100%)}.lightbox img{display:block;width:100%;max-height:calc(100vh - 48px);object-fit:contain;border-radius:20px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.42)}.lightbox-close{position:absolute;top:12px;right:12px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(17,19,24,.85);color:#fff;font-size:1.7rem;line-height:1;cursor:pointer}body.lightbox-open{overflow:hidden}
+    @media(max-width:720px){.wrap{width:min(100% - 24px,560px);margin:18px auto 48px}.top h1{font-size:2.15rem}.controls,.footer{align-items:flex-start;flex-direction:column}.controls label{width:100%}.people,.image-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr);gap:9px}.metric{padding:13px}.metric-value{font-size:1.4rem}.panel,.person{border-radius:20px;padding:17px}.people{gap:15px}.person:hover{transform:none}.task{padding:11px 9px}.task span{font-size:.94rem}.lightbox{padding:12px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fill,.person,.task,.lightbox{transition:none}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top"><h1>Brigada de cocina</h1><p class="subtitle">Lentejas y ensalada tibia · Servicio de 7:30 a. m. a 9:00 a. m.</p></header>
+    <section class="metrics" id="metrics" aria-label="Progreso individual"></section>
+    <section class="panel">
+      <div class="controls"><label><span>PERSONA</span><select id="person"><option value="all">Toda la brigada</option><option value="claudia">Claudia</option><option value="juanpablo">Juan Pablo</option><option value="isabella">Isabella</option><option value="santiago">Santiago</option></select></label></div>
+      <div class="progress-head"><strong>Progreso general de las dos recetas</strong><span id="overallText">0 de 0 tareas · 0 %</span></div><div class="track"><div class="fill" id="overallFill"></div></div>
+    </section>
+    <section class="people" id="people" aria-live="polite"></section>
+    <footer class="footer"><span>Los cambios se guardan automáticamente en este navegador.</span><button class="reset" id="reset" type="button">Reiniciar todas las tareas</button></footer>
+    <section class="recipe-images" aria-labelledby="recipeImagesTitle">
+      <h2 id="recipeImagesTitle">Imágenes de las recetas</h2><p class="subtitle">Referencia visual del resultado final de cada plato.</p>
+      <div class="image-grid">
+        <figure class="image-card" tabindex="0" role="button" aria-label="Ampliar imagen de las lentejas"><!-- Imagen del montaje de las lentejas. --><img src="receta-1-v3.png" alt="Lámina de emplatado de lentejas españolas con la quenelle de mantequilla sobre la tostada"><figcaption>Receta 1 · Lentejas españolas</figcaption></figure>
+        <figure class="image-card" tabindex="0" role="button" aria-label="Ampliar imagen de la ensalada"><!-- Imagen del montaje de la ensalada. --><img src="receta-2-v1.png" alt="Lámina de emplatado de ensalada tibia con puré de frijol blanco, camarones, tomates y crocante"><figcaption>Receta 2 · Ensalada tibia con puré de frijol blanco</figcaption></figure>
+      </div>
+    </section>
+  </main>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada" aria-hidden="true"><div class="lightbox-content"><img id="lightboxImage" src="" alt=""><button class="lightbox-close" id="lightboxClose" type="button" aria-label="Cerrar imagen">&times;</button></div></div>
+  <script>
+    const recipes={
+      r1:{name:'Lentejas españolas',people:{
+        claudia:{name:'Claudia',role:'Lentejas españolas',tasks:[
+          {time:'7:30–7:45',text:'Mise en place: definir el perfil de las lentejas y alistar los ingredientes adicionales que quiera incorporar.'},
+          {time:'7:45–8:00',text:'Rehogar cebolla, ajo y pimentón; incorporar el vino tinto y dejar reducir.'},
+          {time:'8:00–8:15',text:'Añadir chorizo y tocineta; cocinar 5 minutos y construir la base con tomate, puré, paprika, laurel y fondo.'},
+          {time:'8:15–8:30',text:'Incorporar las lentejas e integrar los ingredientes adicionales elegidos para la preparación.'},
+          {time:'8:30–8:45',text:'Controlar la cocción a fuego suave, ajustar fondo, textura y sazón.'},
+          {time:'8:45–9:00',text:'Terminar con perejil, verificar consistencia y servir las lentejas en plato hondo.'}
+        ]},
+        juanpablo:{name:'Juan Pablo',role:'Mantequilla aromatizada + lentejas',tasks:[
+          {time:'7:30–7:45',text:'Mise en place: doble cincelado de cebolla, brunoise de pimentón, ajo picado, tomate concassé, chorizo en rodajas y tocineta en lardón.'},
+          {time:'7:45–8:00',text:'Alistar la mantequilla: cocinar suavemente el ajo y preparar perejil y una cantidad moderada de tomate seco.'},
+          {time:'8:00–8:15',text:'Elaborar la mantequilla aromatizada, rectificar y llevar al frío para que tome cuerpo.'},
+          {time:'8:15–8:30',text:'Trabajar con Claudia en la incorporación de lentejas, fondo y condimentos; controlar el hervor.'},
+          {time:'8:30–8:45',text:'Cortar y tostar el pan hasta dejarlo seco y crujiente; formar quenelles de mantequilla de 12–15 g.'},
+          {time:'8:45–9:00',text:'Ajustar junto con Claudia la terminación y disponer tostada y quenelle de mantequilla al lado, sin sumergirlas.'}
+        ]},
+        isabella:{name:'Isabella',role:'Sin tareas en esta receta',tasks:[]},
+        santiago:{name:'Santiago',role:'Sin tareas en esta receta',tasks:[]}
+      }},
+      r2:{name:'Ensalada tibia con puré de frijol blanco',people:{
+        claudia:{name:'Claudia',role:'Sin tareas en esta receta',tasks:[]},
+        juanpablo:{name:'Juan Pablo',role:'Sin tareas en esta receta',tasks:[]},
+        isabella:{name:'Isabella',role:'Crocante + preparaciones de la ensalada',tasks:[
+          {time:'7:30–7:45',text:'Mise en place: pesar los ingredientes del crocante, preparar tomates, ajo, tomillo, romero, camarones y vegetales de terminación.'},
+          {time:'7:45–8:00',text:'Mondar los tomates, cortar en octavos, retirar semillas, condimentar y llevar al horno a 120 °C.'},
+          {time:'8:00–8:20',text:'Elaborar la mezcla del crocante siguiendo el procedimiento del video y llevarla a cocción.'},
+          {time:'8:20–8:35',text:'Controlar el crocante hasta obtener una textura ligera y quebradiza; preparar aceitunas, albahaca, cebollas y rúgula.'},
+          {time:'8:35–8:45',text:'Saltear con Santiago los camarones con aceite de oliva y ajo; verificar sazón y reservar.'},
+          {time:'8:45–9:00',text:'Montar con Santiago los vegetales, tomates confitados y camarones alrededor de los puntos de puré; terminar con el crocante en posición vertical.'}
+        ]},
+        santiago:{name:'Santiago',role:'Puré de frijol blanco + preparaciones de la ensalada',tasks:[
+          {time:'7:30–7:45',text:'Paso 1 · Mise en place: alistar todos los frijoles remojados, cebolla, ajo, aceite de oliva, vinagre de Jerez, albahaca, sal y pimienta blanca.'},
+          {time:'7:45–8:00',text:'Paso 2 · Colocar los frijoles en agua fría, llevar al fuego y blanquear durante 15 minutos.'},
+          {time:'8:00–8:05',text:'Paso 3 · Colar y enjuagar los frijoles; mientras escurren, sudar suavemente la cebolla y el ajo sin dejar que tomen color.'},
+          {time:'8:05–8:45',text:'Paso 4 · Agregar los frijoles, cubrir con agua y cocinar 40 minutos o hasta que estén completamente tiernos. Controlar el líquido y preparar con Isabella los vegetales de terminación durante la cocción.'},
+          {time:'8:35–8:45',text:'Paso 5 · Mientras termina la cocción, saltear con Isabella los camarones en aceite de oliva y ajo; sazonar y reservar.'},
+          {time:'8:45–8:50',text:'Paso 6 · Colar todos los frijoles y reservar una pequeña cantidad del líquido de cocción. No dejar frijoles enteros para el plato.'},
+          {time:'8:50–8:55',text:'Paso 7 · Procesar todos los frijoles con la cebolla, el ajo, aceite de oliva, vinagre de Jerez, albahaca, sal y pimienta blanca. Añadir líquido de cocción solo si hace falta.'},
+          {time:'8:55–8:58',text:'Paso 8 · Pasar el puré por colador fino. Debe quedar muy liso, firme y moldeable, nunca líquido.'},
+          {time:'8:58–9:00',text:'Paso 9 · Formar tres puntos o pequeñas lágrimas de puré y montar con Isabella los tomates confitados, camarones, vegetales y crocante.'}
+        ]}
+      }}
+    };
+    const order=['claudia','juanpablo','isabella','santiago'],key='brigada-cocina-legumbres-v1';
+    let state;try{state=JSON.parse(localStorage.getItem(key))||{}}catch{state={}}
+    for(const[rid,r]of Object.entries(recipes)){state[rid]??={};for(const[pid,p]of Object.entries(r.people)){if(!Array.isArray(state[rid][pid])||state[rid][pid].length!==p.tasks.length)state[rid][pid]=p.tasks.map(()=>false)}}
+    const $=id=>document.getElementById(id),pct=(d,t)=>t?Math.round(d/t*100):0,save=()=>localStorage.setItem(key,JSON.stringify(state));
+    function progress(rid,pid){const a=state[rid][pid];return[a.filter(Boolean).length,a.length]}
+    function personProgress(pid){let d=0,t=0;for(const rid of Object.keys(recipes)){const x=progress(rid,pid);d+=x[0];t+=x[1]}return[d,t]}
+    function renderMetrics(){$('metrics').innerHTML=order.map(pid=>{const[d,t]=personProgress(pid);return`<div class="metric"><div class="metric-name">${recipes.r1.people[pid].name}</div><div class="metric-value">${pct(d,t)} %</div></div>`}).join('')}
+    function render(){const filter=$('person').value;$('people').innerHTML='';for(const pid of order){if(filter!=='all'&&filter!==pid)continue;const[pd,pt]=personProgress(pid),card=document.createElement('article');card.className='person';card.innerHTML=`<div class="person-head"><h2>${recipes.r1.people[pid].name}</h2><span class="count">${pd}/${pt}</span></div><div class="progress-head"><span>Progreso asignado</span><span>${pct(pd,pt)} %</span></div><div class="track"><div class="fill" style="width:${pct(pd,pt)}%"></div></div>`;for(const[rid,r]of Object.entries(recipes)){const p=r.people[pid];if(!p.tasks.length)continue;const[d,t]=progress(rid,pid),block=document.createElement('section');block.className='recipe-block';block.innerHTML=`<h3>Receta ${rid==='r1'?'1':'2'} · ${r.name}</h3><p class="role">${p.role}</p><div class="recipe-progress"><div class="progress-head"><span>Progreso</span><span>${d}/${t} · ${pct(d,t)} %</span></div><div class="track"><div class="fill" style="width:${pct(d,t)}%"></div></div></div><div class="task-list"></div>`;const list=block.querySelector('.task-list');p.tasks.forEach((task,i)=>{const row=document.createElement('label');row.className='task'+(state[rid][pid][i]?' done':'');row.innerHTML=`<input type="checkbox" ${state[rid][pid][i]?'checked':''}><span><b class="time">${task.time}</b>${task.text}</span>`;row.querySelector('input').addEventListener('change',e=>{state[rid][pid][i]=e.target.checked;save();render()});list.appendChild(row)});card.appendChild(block)}$('people').appendChild(card)}let done=0,total=0;for(const rid of Object.keys(recipes))for(const pid of order){const x=progress(rid,pid);done+=x[0];total+=x[1]}$('overallText').textContent=`${done} de ${total} tareas · ${pct(done,total)} %`;$('overallFill').style.width=pct(done,total)+'%';renderMetrics()}
+    $('person').addEventListener('change',render);$('reset').addEventListener('click',()=>{if(confirm('¿Reiniciar todas las tareas?')){for(const rid of Object.keys(state))for(const pid of Object.keys(state[rid]))state[rid][pid]=state[rid][pid].map(()=>false);save();render()}});render();
+    const lightbox=$('lightbox'),lightboxImage=$('lightboxImage'),lightboxClose=$('lightboxClose');let lastImageCard=null;function openLightbox(card){const image=card.querySelector('img');lastImageCard=card;lightboxImage.src=image.src;lightboxImage.alt=image.alt;lightbox.classList.add('open');lightbox.setAttribute('aria-hidden','false');document.body.classList.add('lightbox-open');lightboxClose.focus()}function closeLightbox(){lightbox.classList.remove('open');lightbox.setAttribute('aria-hidden','true');document.body.classList.remove('lightbox-open');lightboxImage.src='';if(lastImageCard)lastImageCard.focus()}document.querySelectorAll('.image-card').forEach(card=>{card.addEventListener('click',()=>openLightbox(card));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLightbox(card)}})});lightboxClose.addEventListener('click',closeLightbox);lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lightbox.classList.contains('open'))closeLightbox()});
+  </script>
+</body>
+</html>
