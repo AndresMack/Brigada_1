@@ -1,262 +1,981 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>Plan de trabajo · Cerdo</title>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>5s — Página en pausa</title>
+
+  <meta
+    name="description"
+    content="Página temporal para el lanzamiento de una nueva receta."
+  >
+
   <style>
-    :root{
-      --ink:#251b17;--muted:#756861;--line:#eadfd8;--paper:#fffdfb;
-      --soft:#faf5f0;--amber:#b85f20;--amber-soft:#fff0e3;
-      --wine:#7a2939;--green:#39705c;--green-soft:#edf7f2;--gold:#d89425;
-      --shadow:0 10px 30px rgba(72,42,25,.08)
+    :root {
+      --fondo: #000904;
+      --verde: #00ef61;
+      --verde-claro: #d8ffe6;
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:linear-gradient(180deg,#fffaf5 0,#fff 280px);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,input{font:inherit}
-    header{position:sticky;top:0;z-index:10;background:rgba(255,253,251,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-    .wrap{max-width:940px;margin:auto;padding:16px}
-    .head{padding-bottom:10px;display:flex;justify-content:space-between;gap:20px;align-items:flex-end}
-    .head h1{font-size:22px;margin:0 0 2px;letter-spacing:-.02em}.head p{margin:0;color:var(--muted);font-size:13px}
-    .clock{font-size:12px;color:var(--wine);font-weight:800;background:#f9ebee;border-radius:999px;padding:7px 10px;white-space:nowrap}
-    nav{display:flex;gap:7px;overflow:auto;padding-bottom:2px;scrollbar-width:none}
-    .tab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-weight:700;color:#554842;cursor:pointer}
-    .tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-    main{padding-top:18px;padding-bottom:60px}.view{display:none}.view.active{display:block}
-    .hero{background:linear-gradient(135deg,#fff1e5,#fffdfb 70%);border:1px solid #efd8c5;border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:var(--shadow)}
-    .hero strong{display:block;font-size:19px}.hero small{display:block;color:var(--muted);margin-top:3px}
-    .milestones{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}.milestone{background:rgba(255,255,255,.78);border:1px solid #ead7c7;border-radius:13px;padding:10px}.milestone b{display:block;color:var(--wine);font-size:12px}.milestone span{font-weight:750}
-    h2{font-size:19px;margin:24px 0 10px}h3{font-size:16px;margin:0}.subtle{color:var(--muted)}
-    .progress-card{position:sticky;top:127px;z-index:7;border:1px solid #e4cdbb;border-radius:17px;padding:14px;margin:12px 0 16px;background:rgba(255,253,251,.96);box-shadow:0 8px 24px rgba(89,48,23,.10);backdrop-filter:blur(12px)}
-    .progress-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.progress-head span{font-size:13px;color:var(--amber);font-weight:850}.progress-track{height:11px;border-radius:999px;background:#efe8e2;overflow:hidden;margin:10px 0 7px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--wine),var(--green));border-radius:inherit;transition:width .25s ease}.stage{margin:0;color:var(--muted);font-size:12px}.reset{border:0;background:none;color:var(--muted);font-size:11px;text-decoration:underline;cursor:pointer;padding:0;margin-top:7px}
-    .note-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.note{border-left:4px solid var(--gold);background:#fff9ef;border-radius:10px;padding:11px 13px;margin:0}.note strong{display:block;margin-bottom:2px}.note.danger{border-color:var(--wine);background:#fff4f5}.note.green{border-color:var(--green);background:var(--green-soft)}
-    .step,.person,.recipe{border:1px solid var(--line);border-radius:17px;padding:14px;margin:10px 0;background:#fff;box-shadow:0 6px 20px rgba(47,27,18,.045)}
-    .step-top{display:flex;gap:11px;align-items:flex-start}.num{display:grid;place-items:center;min-width:34px;height:34px;border-radius:11px;background:var(--amber-soft);color:var(--amber);font-weight:850}.time{font-weight:850;color:var(--amber);font-size:13px}.step.complete{border-color:#bcd8cb;background:#fbfffd}.step.complete .num{background:#daf0e5;color:var(--green)}
-    .task{display:grid;grid-template-columns:24px 1fr;gap:8px;margin-top:10px;padding-top:9px;border-top:1px solid #f1ebe7}.task input{width:18px;height:18px;accent-color:var(--green)}.task:has(input:checked)>span{color:#91847e;text-decoration:line-through}.who{font-weight:800}.tag{display:inline-block;border-radius:6px;background:var(--soft);padding:2px 6px;color:#6b5a51;font-size:11px;margin-left:4px}.tag.entry{background:#fff0df;color:#9d4b10}.tag.main1{background:#f7eaed;color:var(--wine)}.tag.main2{background:#eaf5f0;color:var(--green)}
-    .person h2{margin:0}.person .meta{color:var(--muted);font-size:13px;margin:2px 0 12px}.person-task{border:1px solid var(--line)!important;border-radius:14px;padding:0!important;margin:9px 0;background:#fff;overflow:hidden}.person-task[open]{border-color:#dfc4b1!important;box-shadow:0 5px 16px rgba(60,33,20,.05)}.person-task summary{display:grid;grid-template-columns:35px 1fr auto;gap:10px;align-items:center;padding:12px;list-style:none;cursor:pointer}.person-task summary::-webkit-details-marker{display:none}.person-task summary:after{content:'⌄';grid-column:3;color:var(--muted);font-size:20px;transition:transform .2s}.person-task[open] summary:after{transform:rotate(180deg)}.step-index{display:grid;place-items:center;width:33px;height:33px;border-radius:10px;background:var(--amber-soft);color:var(--amber);font-weight:850}.person-task summary b{display:block;color:var(--amber);font-size:12px}.person-task summary small{display:block;color:var(--ink);font-size:14px;font-weight:780;margin-top:1px}.person-body{border-top:1px solid var(--line);padding:12px 14px 14px}.person-body p{margin:0 0 10px}.person-body h4{margin:10px 0 5px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}.person-body ul{margin:0;padding-left:18px}.person-body li{margin:4px 0}.prep-tag{display:inline-block;background:var(--green-soft);color:var(--green);font-size:11px;font-weight:800;border-radius:999px;padding:3px 8px;margin-bottom:8px}
-    .person-done{display:flex;align-items:center;gap:9px;margin:0 14px 13px;padding:10px 11px;border:1px solid #cfe2d9;border-radius:11px;background:var(--green-soft);color:var(--green);font-weight:800;cursor:pointer}.person-done input{width:19px;height:19px;accent-color:var(--green)}.person-task.complete{border-color:#bcd8cb!important;background:#fbfffd}.person-task.complete .step-index{background:#daf0e5;color:var(--green)}.person-task.complete summary small{text-decoration:line-through;color:#877b75}.person-task.complete .person-done span:after{content:' · lista'}
-    details.recipe-card{border-top:1px solid var(--line);padding:11px 0}details.recipe-card:first-of-type{border-top:0}summary{cursor:pointer;font-weight:780}.ingredients{columns:2;padding-left:18px}.ingredients li{break-inside:avoid;margin:4px 0}.steps li{margin:7px 0}.yield{font-size:12px;color:var(--green);font-weight:800}.critical{display:inline-block;margin-top:8px;padding:7px 9px;border-radius:8px;background:#fff3e8;color:#8a4315;font-size:12px;font-weight:700}
-    .sketch-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.sketch{overflow:hidden;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:var(--shadow);margin:0}.sketch img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--soft)}.sketch figcaption{padding:12px 14px}.sketch b{display:block;margin-bottom:3px}.sketch span{display:block;color:var(--muted);font-size:12px}.plate-order{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.plate-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}.plate-card b{display:block;color:var(--wine);font-size:12px}.plate-card ol{margin:7px 0 0;padding-left:18px}.plate-card li{margin:4px 0;font-size:13px}.foot{color:var(--muted);font-size:12px;margin-top:18px}
-    @media(max-width:700px){.sketch-grid{grid-template-columns:1fr}.sketch img{aspect-ratio:16/10}.note-grid,.plate-order{grid-template-columns:1fr}.milestones{grid-template-columns:1fr}.head{align-items:flex-start}.clock{display:none}}
-    @media(max-width:560px){.wrap{padding:13px}.ingredients{columns:1}.step,.person,.recipe{border-radius:13px}.head h1{font-size:19px}.progress-card{top:121px}.progress-head{align-items:flex-start}.progress-head span{text-align:right}}
-    @media print{header{position:static}.progress-card{position:static}nav,.reset{display:none}.view{display:block!important;break-before:page}.view:first-child{break-before:auto}.step,.person,.recipe,.sketch{box-shadow:none;break-inside:avoid}.task input{display:none}.sketch-grid{grid-template-columns:repeat(3,1fr)}}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      overflow: hidden;
+      background: var(--fondo);
+      color: var(--verde-claro);
+      font-family: "Courier New", Courier, monospace;
+    }
+
+    .standby-shell {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      min-height: 100vh;
+      min-height: 100dvh;
+      place-items: center;
+      overflow: hidden;
+      padding: 64px 24px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(0, 72, 31, 0.14),
+          transparent 52%
+        );
+    }
+
+    #matrix {
+      position: fixed;
+      z-index: -4;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.58;
+      pointer-events: none;
+    }
+
+    .vignette {
+      position: fixed;
+      z-index: -3;
+      inset: 0;
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle,
+          transparent 18%,
+          rgba(0, 7, 2, 0.55) 60%,
+          #000 112%
+        );
+    }
+
+    .scanlines {
+      position: fixed;
+      z-index: 10;
+      inset: 0;
+      opacity: 0.16;
+      pointer-events: none;
+
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 3px,
+          rgba(0, 0, 0, 0.8) 3px 4px
+        );
+    }
+
+    .system-header,
+    .system-footer {
+      position: fixed;
+      z-index: 7;
+      left: 28px;
+      right: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(116, 255, 168, 0.62);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .system-header {
+      top: 22px;
+    }
+
+    .system-footer {
+      bottom: 20px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--verde);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--verde);
+      box-shadow: 0 0 12px var(--verde);
+      animation: pulse 1.25s steps(2) infinite;
+    }
+
+    .terminal-card {
+      position: relative;
+      z-index: 2;
+      width: min(720px, 100%);
+
+      border:
+        1px solid rgba(0, 239, 97, 0.34);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(0, 19, 8, 0.91),
+          rgba(0, 7, 3, 0.96)
+        );
+
+      box-shadow:
+        0 0 0 1px rgba(0, 239, 97, 0.05),
+        0 0 70px rgba(0, 239, 97, 0.11),
+        inset 0 0 65px rgba(0, 239, 97, 0.025);
+
+      backdrop-filter: blur(7px);
+      animation: boot 0.65s ease-out both;
+    }
+
+    .terminal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.09;
+      pointer-events: none;
+
+      background-image:
+        linear-gradient(
+          90deg,
+          transparent 49.8%,
+          var(--verde) 50%,
+          transparent 50.2%
+        );
+    }
+
+    .terminal-bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 16px;
+
+      border-bottom:
+        1px solid rgba(0, 239, 97, 0.18);
+
+      color: rgba(139, 255, 179, 0.55);
+      font-size: 9px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .terminal-bar > :last-child {
+      justify-self: end;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dots i {
+      width: 6px;
+      height: 6px;
+
+      border:
+        1px solid rgba(0, 239, 97, 0.62);
+
+      border-radius: 50%;
+    }
+
+    .terminal-dots i:first-child {
+      background: var(--verde);
+      box-shadow: 0 0 8px var(--verde);
+    }
+
+    .terminal-body {
+      padding:
+        clamp(32px, 7vw, 64px)
+        clamp(22px, 8vw, 72px)
+        42px;
+
+      text-align: center;
+    }
+
+    .access-line {
+      margin: 0 0 28px;
+      color: rgba(113, 255, 166, 0.58);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+    }
+
+    .access-line span {
+      color: var(--verde);
+    }
+
+    .icon-lock {
+      position: relative;
+      width: 46px;
+      height: 54px;
+      margin: 0 auto 26px;
+
+      filter:
+        drop-shadow(
+          0 0 10px rgba(0, 239, 97, 0.35)
+        );
+    }
+
+    .lock-shackle {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      width: 26px;
+      height: 27px;
+
+      border: 2px solid var(--verde);
+      border-bottom: 0;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .lock-body {
+      position: absolute;
+      inset: 19px 0 0;
+      display: grid;
+      place-items: center;
+
+      border: 2px solid var(--verde);
+      background: #001c0b;
+      color: var(--verde);
+
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    h1 {
+      position: relative;
+      margin: 0;
+      color: #e2ffec;
+      font-size: clamp(28px, 6vw, 54px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+
+      text-shadow:
+        0 0 8px rgba(0, 239, 97, 0.72),
+        0 0 24px rgba(0, 239, 97, 0.3);
+    }
+
+    h1::before,
+    h1::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    h1::before {
+      color: #00ff66;
+      clip-path: inset(15% 0 64% 0);
+      animation: glitch 2.2s infinite steps(2);
+    }
+
+    h1::after {
+      color: #b6ffd1;
+      clip-path: inset(67% 0 12% 0);
+      animation: glitch 1.9s infinite steps(2) reverse;
+    }
+
+    .main-message {
+      margin: 18px 0 0;
+      color: rgba(180, 255, 206, 0.64);
+      font-size: clamp(13px, 2.2vw, 17px);
+      line-height: 1.75;
+      letter-spacing: 0.04em;
+    }
+
+    .main-message strong {
+      color: var(--verde);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .cursor {
+      animation: blink 0.75s steps(2) infinite;
+    }
+
+    .countdown-block {
+      width: min(330px, 100%);
+      margin: 34px auto 0;
+      padding-top: 26px;
+
+      border-top:
+        1px solid rgba(0, 239, 97, 0.16);
+    }
+
+    .countdown-label {
+      margin: 0 0 7px;
+      color: rgba(137, 255, 178, 0.5);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+    }
+
+    .countdown {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 9px;
+      color: var(--verde);
+    }
+
+    #seconds {
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+
+      text-shadow:
+        0 0 18px rgba(0, 239, 97, 0.45);
+    }
+
+    .countdown small {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+    }
+
+    .progress-track {
+      height: 2px;
+      margin-top: 16px;
+      overflow: hidden;
+      background: rgba(0, 239, 97, 0.12);
+    }
+
+    #progress {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin-left: auto;
+      background: var(--verde);
+      box-shadow: 0 0 12px var(--verde);
+      transition: width 0.85s linear;
+    }
+
+    .corner {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: var(--verde);
+
+      filter:
+        drop-shadow(0 0 5px var(--verde));
+    }
+
+    .corner-tl {
+      top: -5px;
+      left: -5px;
+      border-top: 2px solid;
+      border-left: 2px solid;
+    }
+
+    .corner-tr {
+      top: -5px;
+      right: -5px;
+      border-top: 2px solid;
+      border-right: 2px solid;
+    }
+
+    .corner-bl {
+      bottom: -5px;
+      left: -5px;
+      border-bottom: 2px solid;
+      border-left: 2px solid;
+    }
+
+    .corner-br {
+      right: -5px;
+      bottom: -5px;
+      border-right: 2px solid;
+      border-bottom: 2px solid;
+    }
+
+    /* Pantalla final cuando el navegador no puede cerrarse */
+
+    .disconnect-screen {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      overflow: hidden;
+      background: #000;
+      text-align: center;
+    }
+
+    .disconnect-content {
+      position: relative;
+      z-index: 3;
+      width: min(700px, 100%);
+    }
+
+    .disconnect-small {
+      margin: 0 0 20px;
+      color: rgba(0, 239, 97, 0.6);
+      font-size: 11px;
+      letter-spacing: 0.35em;
+    }
+
+    .disconnect-title {
+      margin: 0;
+      color: var(--verde);
+      font-size: clamp(34px, 7vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+
+      text-shadow:
+        0 0 10px var(--verde),
+        0 0 35px rgba(0, 239, 97, 0.65);
+    }
+
+    .disconnect-message {
+      margin: 24px 0 0;
+      color: rgba(164, 255, 197, 0.65);
+      font-size: 13px;
+      line-height: 1.7;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .disconnect-line {
+      width: min(400px, 80%);
+      height: 2px;
+      margin: 30px auto;
+      background: var(--verde);
+      box-shadow: 0 0 15px var(--verde);
+      animation: lineClose 1.2s ease forwards;
+    }
+
+    @keyframes boot {
+      from {
+        opacity: 0;
+        transform: scaleY(0.05);
+        filter: brightness(3);
+      }
+
+      55% {
+        opacity: 1;
+        transform: scaleY(0.05);
+      }
+
+      to {
+        opacity: 1;
+        transform: scaleY(1);
+        filter: brightness(1);
+      }
+    }
+
+    @keyframes pulse {
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes glitch {
+      0%,
+      88%,
+      100% {
+        transform: translate(0);
+      }
+
+      90% {
+        transform: translate(4px, -1px);
+      }
+
+      94% {
+        transform: translate(-4px, 1px);
+      }
+    }
+
+    @keyframes lineClose {
+      from {
+        width: min(400px, 80%);
+      }
+
+      to {
+        width: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .standby-shell {
+        padding-inline: 16px;
+      }
+
+      .system-header,
+      .system-footer {
+        left: 16px;
+        right: 16px;
+      }
+
+      .system-id,
+      .system-footer span:last-child,
+      .terminal-bar > :last-child {
+        display: none;
+      }
+
+      .system-header {
+        justify-content: flex-end;
+      }
+
+      .terminal-bar {
+        grid-template-columns: 1fr auto;
+      }
+
+      .terminal-bar > span {
+        justify-self: end;
+      }
+
+      .terminal-body {
+        padding-bottom: 32px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .terminal-card,
+      h1::before,
+      h1::after,
+      .status-dot,
+      .cursor {
+        animation: none;
+      }
+
+      .scanlines {
+        display: none;
+      }
+    }
   </style>
 </head>
+
 <body>
-<header>
-  <div class="wrap head"><div><h1>Cerdo · Plan de trabajo</h1><p>80 minutos · 3 preparaciones · 4 integrantes</p></div><span class="clock">Ruta crítica: costillas 00:00</span></div>
-  <div class="wrap"><nav id="nav" aria-label="Secciones"></nav></div>
-</header>
-<main class="wrap">
-  <section class="view active" data-name="Cronograma">
-    <div class="hero">
-      <strong>Tres servicios, una sola ruta crítica</strong>
-      <small>Las costillas entran primero. La entrada se monta al minuto 48; las dos carnes principales se terminan al final para conservar jugosidad y crocancia.</small>
-      <div class="milestones">
-        <div class="milestone"><b>MINUTO 48</b><span>3 tacos listos</span></div>
-        <div class="milestone"><b>MINUTO 72</b><span>Chuleta emplatada</span></div>
-        <div class="milestone"><b>MINUTO 80</b><span>Costillas emplatadas</span></div>
+  <main
+    id="mainPage"
+    class="standby-shell"
+  >
+    <canvas
+      id="matrix"
+      aria-hidden="true"
+    ></canvas>
+
+    <div
+      class="vignette"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="scanlines"
+      aria-hidden="true"
+    ></div>
+
+    <header
+      class="system-header"
+      aria-label="Estado del sistema"
+    >
+      <span class="system-id">
+        SYS://RECETARIO.ROOT
+      </span>
+
+      <span class="status">
+        <i class="status-dot"></i>
+        STANDBY_MODE
+      </span>
+    </header>
+
+    <section
+      class="terminal-card"
+      aria-live="polite"
+    >
+      <span class="corner corner-tl"></span>
+      <span class="corner corner-tr"></span>
+      <span class="corner corner-bl"></span>
+      <span class="corner corner-br"></span>
+
+      <div class="terminal-bar">
+        <div
+          class="terminal-dots"
+          aria-hidden="true"
+        >
+          <i></i>
+          <i></i>
+          <i></i>
+        </div>
+
+        <span>recipe_protocol.exe</span>
+        <span>ENC: AES-256</span>
       </div>
-    </div>
-    <div class="progress-card" aria-live="polite">
-      <div class="progress-head"><b>Progreso general</b><span id="progressText">0 de 32 tareas · 0%</span></div>
-      <div class="progress-track" role="progressbar" aria-label="Progreso de las preparaciones" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressBar"></div></div>
-      <p class="stage" id="stageText">Etapa actual: 1. Arranque crítico</p>
-      <button class="reset" id="resetProgress" type="button">Reiniciar casillas</button>
-    </div>
-    <div class="note-grid">
-      <div class="note danger"><strong>Minuto 0: todos trabajan</strong>Mientras Santiago organiza las tres carnes, Ángela, Julián y Sofía completan simultáneamente el mise en place de sus estaciones.</div>
-      <div class="note"><strong>Límite de Santiago</strong>Entrega las costillas crudas organizadas antes del minuto 5. Después no interviene en su cocción, glaseado ni emplatado.</div>
-      <div class="note green"><strong>Responsables principales</strong>Ángela lidera el plato 1. Sofía lidera las costillas y el glaseado; Julián se encarga de los vegetales y la apoya.</div>
-      <div class="note"><strong>Una sola fritura organizada</strong>Primera fritura del patacón, luego chips y finalmente segunda fritura del patacón. Filtrar residuos entre tandas.</div>
-    </div>
-    <div id="timeline"></div>
-    <h2>Orden de montaje</h2>
-    <div class="plate-order">
-      <div class="plate-card"><b>ENTRADA · 00:45–00:48</b><ol><li>Patacón en U.</li><li>Cerdo glaseado.</li><li>Pico de gallo escurrido.</li></ol></div>
-      <div class="plate-card"><b>PLATO 1 · 01:08–01:12</b><ol><li>Puré y chuleta.</li><li>Salsa y piña.</li><li>Encurtidos y coral.</li></ol></div>
-      <div class="plate-card"><b>PLATO 2 · 01:14–01:20</b><ol><li>Salsa en base.</li><li>Tres costillas.</li><li>Ensalada y chips.</li></ol></div>
-    </div>
-  </section>
 
-  <section class="view" data-name="Santiago"><div class="person"><h2>Santiago</h2><p class="meta">Organización de carnes · 100% de la entrada · apoyo exclusivo al plato fuerte 1</p><div class="person-menu" id="santiagoTasks"></div></div></section>
-  <section class="view" data-name="Ángela"><div class="person"><h2>Ángela</h2><p class="meta">Puré de arracacha · piña asada · coral · apoyo en costillas</p><div class="person-menu" id="angelaTasks"></div></div></section>
-  <section class="view" data-name="Julián"><div class="person"><h2>Julián</h2><p class="meta">Costillas con Sofía · vegetales encurtidos y frescos · glaseado</p><div class="person-menu" id="julianTasks"></div></div></section>
-  <section class="view" data-name="Sofía"><div class="person"><h2>Sofía</h2><p class="meta">Costillas · chips de plátano · cocción y acabado del plato fuerte 2</p><div class="person-menu" id="sofiaTasks"></div></div></section>
+      <div class="terminal-body">
+        <p class="access-line">
+          <span>&gt;</span>
+          ACCESO TEMPORALMENTE SUSPENDIDO
+        </p>
 
-  <section class="view" data-name="Preparaciones">
-    <div class="hero"><strong>Cantidades y puntos críticos</strong><small>Las fichas están reducidas a lo necesario para el servicio acordado y organizadas según el tiempo disponible.</small></div>
-    <div id="recipes"></div>
-  </section>
+        <div
+          class="icon-lock"
+          aria-hidden="true"
+        >
+          <span class="lock-shackle"></span>
+          <span class="lock-body">R</span>
+        </div>
 
-  <section class="view" data-name="Emplatados">
-    <div class="hero"><strong>Referencias visuales</strong><small>Usarlas como orientación de volumen, separación y altura. Limpiar siempre el borde del plato antes de entregar.</small></div>
-    <div class="sketch-grid">
-      <figure class="sketch"><img src="emplatado_tacos.png" alt="Tres tacos de patacón con cerdo glaseado y pico de gallo"><figcaption><b>Entrada</b><span>Exactamente tres tacos; glaseado controlado y pico de gallo seco.</span></figcaption></figure>
-      <figure class="sketch"><img src="emplatado_chuleta.png" alt="Chuleta con puré de arracacha, piña, encurtidos y coral"><figcaption><b>Plato fuerte 1</b><span>La salsa baña parcialmente la chuleta; el coral se coloca al final.</span></figcaption></figure>
-      <figure class="sketch"><img src="emplatado_costillas.png" alt="Costillas glaseadas con ensalada fresca y chips de plátano"><figcaption><b>Plato fuerte 2</b><span>Tres costillas, ensalada fresca y chips alejados de la salsa.</span></figcaption></figure>
-    </div>
-    <p class="foot">Este HTML y las tres imágenes deben permanecer juntos dentro de la carpeta <b>plan_cerdo_clase</b>.</p>
-  </section>
-</main>
+        <h1 data-text="PÁGINA FUERA DE USO">
+          PÁGINA FUERA DE USO
+        </h1>
 
-<script>
-const schedule=[
-  {t:'00:00–00:08',n:'Organización y arranque crítico',x:[
-    ['Santiago','Tres preparaciones','Limpiar y porcionar las tres carnes. Entregar las costillas crudas listas a Julián y Sofía antes del minuto 5.'],
-    ['Ángela','Plato 1','Hacer el mise en place completo de puré, piña, coral y salsa; poner inmediatamente la arracacha a cocer.'],
-    ['Julián','Vegetales','Hacer el mise en place de mirepoix, encurtidos y ensalada fresca; preparar el líquido de encurtido.'],
-    ['Sofía','Plato 2','Hacer el mise en place de costillas, glaseado y chips; calentar la cocción y recibir las costillas para iniciarlas con Julián.']
-  ]},
-  {t:'00:08–00:20',n:'Primeras bases',x:[
-    ['Santiago','Entrada','Cortar el pico de gallo sin sazonar; hacer la primera fritura del plátano y prensar a 3 mm.'],
-    ['Ángela','Plato 1','Controlar la arracacha, porcionar la piña y dejar listas las mezclas del coral y la salsa de vino.'],
-    ['Julián','Vegetales','Poner zanahoria, cebolla y apio en encurtido; apoyar el control del hervor de las costillas.'],
-    ['Sofía','Plato 2','Liderar la cocción de las costillas e iniciar la reducción del glaseado de lulo y mango.']
-  ]},
-  {t:'00:20–00:32',n:'Salsas, puré y crocantes',x:[
-    ['Santiago','Entrada','Preparar la salsa de panela y dejarla en punto de glaseado.'],
-    ['Ángela','Plato 1','Escurrir la arracacha y preparar el puré con mantequilla; mantenerlo caliente y cubierto.'],
-    ['Julián','Vegetales','Cortar manzana, apio, cebolla roja y hierbabuena para la ensalada; reservar sin aliñar.'],
-    ['Sofía','Plato 2','Terminar el glaseado; cortar y freír los chips de plátano y conservarlos secos.']
-  ]},
-  {t:'00:32–00:45',n:'Entrada y guarniciones',x:[
-    ['Santiago','Entrada','Dar forma de U y hacer la segunda fritura de los patacones; dorar y glasear el cerdo.'],
-    ['Ángela','Plato 1','Cocinar varias piezas de falso coral y dejarlas secas sobre papel absorbente.'],
-    ['Julián','Plato 2','Controlar la terneza de las costillas con Sofía y dejar listos los vegetales de ambos platos.'],
-    ['Sofía','Plato 2','Controlar costillas y glaseado; preparar bandeja, brocha y horno para el acabado.']
-  ]},
-  {t:'00:45–00:50',n:'Servicio de la entrada y relevo',x:[
-    ['Santiago','Entrada','Sazonar y escurrir el pico de gallo; montar exactamente tres tacos y entregar.'],
-    ['Ángela','Plato 1','Asar la piña y glasearla con brandy, vino, miel, canela y sal.'],
-    ['Julián','Plato 2','Retirar las costillas tiernas, escurrirlas y secarlas muy bien.'],
-    ['Sofía','Plato 2','Precalentar horno o gratinador a 220 °C, preparar bandeja, brocha y glaseado.']
-  ]},
-  {t:'00:50–01:04',n:'Cocciones principales',x:[
-    ['Santiago','Plato 1','Ayudar exclusivamente en el primer fuerte: sellar las dos chuletas y entregarlas reposadas a Ángela.'],
-    ['Ángela','Plato 1','Finalizar la salsa de vino y pimienta; controlar puré, piña, coral y temperatura del plato 1.'],
-    ['Julián','Plato 2','Glasear y girar las costillas con Sofía; controlar que el azúcar no se queme.'],
-    ['Sofía','Plato 2','Aplicar las capas de glaseado y hornear entre cada una hasta caramelizar.']
-  ]},
-  {t:'01:04–01:12',n:'Primer plato fuerte',x:[
-    ['Santiago','Plato 1','Apoyar únicamente el montaje del primer fuerte y dejar lista la segunda chuleta para reserva.'],
-    ['Ángela','Plato 1','Terminar la salsa y liderar el emplatado completo de una porción de chuleta.'],
-    ['Julián','Vegetales','Escurrir los encurtidos del plato 1 y preparar la ensalada fresca del plato 2 sin aliñarla.'],
-    ['Sofía','Plato 2','Reposar las costillas glaseadas y revisar que los chips sigan crujientes.']
-  ]},
-  {t:'01:12–01:20',n:'Segundo plato fuerte y cierre',x:[
-    ['Santiago','Plato 1','Guardar la segunda porción del plato 1 con la salsa aparte y limpiar su estación. No intervenir en las costillas.'],
-    ['Ángela','Apoyo costillas','Ayudar en el montaje final de las costillas y verificar la limpieza del borde del plato.'],
-    ['Julián','Plato 2','Aliñar y escurrir la ensalada; disponer salsa, vegetales frescos y apoyar el montaje de las costillas.'],
-    ['Sofía','Plato 2','Emplatar tres costillas glaseadas, colocar los chips lejos de la salsa y entregar.']
-  ]}
-];
+        <p class="main-message">
+          Se habilita para una nueva receta
+          <br>
 
-const personalTasks={
-  santiago:[
-    {k:'0-0',t:'00:00–00:08',n:'Organizar las tres carnes',r:'Tres preparaciones',a:'Limpiar y porcionar cerdo de tacos, dos chuletas y costillas. Entregar las costillas crudas listas antes del minuto 5; después no intervenir en ese plato.',i:['Cerdo para tacos 120–135 g','2 chuletas de 180–220 g','Costillas 600–700 g','Tablas y cuchillos para carne cruda']},
-    {k:'1-0',t:'00:08–00:20',n:'Pico de gallo y primera fritura',r:'Entrada',a:'Cortar el pico sin sazonar. Freír tres porciones de plátano y prensarlas calientes hasta 3 mm.',i:['Plátano verde','Tomate, cebolla roja y cilantro','Aceite','Prensa o dos tablas']},
-    {k:'2-0',t:'00:20–00:32',n:'Salsa de panela',r:'Entrada',a:'Reducir panela, fondo, balsámico y limón hasta conseguir punto de glaseado.',i:['Panela 25 g','Fondo 40 ml','Balsámico 6 ml','Limón 5 ml','Mantequilla 5 g']},
-    {k:'3-0',t:'00:32–00:45',n:'Patacones y cerdo glaseado',r:'Entrada',a:'Formar la U, hacer la segunda fritura, dorar el cerdo y glasearlo.',i:['3 óvalos de plátano','Cerdo porcionado','Salsa de panela','Molde de taco']},
-    {k:'4-0',t:'00:45–00:50',n:'Montar y entregar la entrada',r:'Entrada',a:'Sazonar y escurrir el pico; montar exactamente tres tacos y entregar.',i:['3 patacones crujientes','Cerdo glaseado','Pico de gallo seco']},
-    {k:'5-0',t:'00:50–01:04',n:'Sellar las chuletas',r:'Plato 1',a:'Ayudar solamente en el primer fuerte: sellar las dos chuletas y entregarlas reposadas a Ángela.',i:['2 chuletas','Aceite','Mantequilla','Tomillo, sal y pimienta']},
-    {k:'6-0',t:'01:04–01:12',n:'Apoyar el primer emplatado',r:'Plato 1',a:'Ayudar a Ángela a montar el plato 1 y preparar la segunda chuleta para reserva.',i:['Chuletas reposadas','Pinzas','Plato caliente']},
-    {k:'7-0',t:'01:12–01:20',n:'Reservar y limpiar',r:'Plato 1',a:'Guardar la segunda porción con salsa aparte y limpiar las estaciones de entrada y plato 1. No intervenir en costillas.',i:['Recipientes separados','Paños','Etiquetas']}
-  ],
-  angela:[
-    {k:'0-1',t:'00:00–00:08',n:'Mise en place completo del plato 1',r:'Plato 1',a:'Pesar y ordenar puré, piña, coral y salsa. Pelar, cortar y poner inmediatamente la arracacha a cocer.',i:['Arracacha 300–350 g','Piña y líquidos','Ingredientes del coral','Fondo, vino y mantequilla']},
-    {k:'1-1',t:'00:08–00:20',n:'Control de arracacha y bases',r:'Plato 1',a:'Controlar la cocción, porcionar la piña y dejar medidas las mezclas del coral y la salsa.',i:['Piña 160 g','Brandy 20 ml','Vino blanco 30 ml','Agua, aceite y harina']},
-    {k:'2-1',t:'00:20–00:32',n:'Puré de arracacha',r:'Plato 1',a:'Triturar caliente, montar con mantequilla y ajustar con agua de cocción. mantener cubierto.',i:['Arracacha cocida','Mantequilla 40 g','Agua de cocción','Sal']},
-    {k:'3-1',t:'00:32–00:45',n:'Falso coral',r:'Plato 1',a:'Cocinar varias piezas finas de coral y mantenerlas completamente secas.',i:['Agua 60 ml','Aceite 20 ml','Harina 8 g','Sartén antiadherente']},
-    {k:'4-1',t:'00:45–00:50',n:'Piña asada',r:'Plato 1',a:'Dorar la piña y glasearla con brandy, vino, miel, canela y sal.',i:['Piña porcionada','Brandy','Vino','Miel','Canela y mantequilla']},
-    {k:'5-1',t:'00:50–01:04',n:'Salsa y control integral',r:'Plato 1',a:'Finalizar la salsa de vino y pimienta y controlar puré, piña, coral y temperatura de servicio.',i:['Fondo oscuro 200 ml','Vino tinto 60 ml','Balsámico','Pimienta y mantequilla']},
-    {k:'6-1',t:'01:04–01:12',n:'Liderar el plato fuerte 1',r:'Plato 1',a:'Montar puré, chuleta, salsa, piña, encurtidos y coral. Emplatar una porción completa.',i:['Todos los componentes listos','Plato caliente','Pinzas y cucharas']},
-    {k:'7-1',t:'01:12–01:20',n:'Apoyar el plato de costillas',r:'Plato 2',a:'Participar en el montaje final de las costillas y verificar limpieza del borde.',i:['Plato de presentación','Pinzas','Paño limpio']}
-  ],
-  julian:[
-    {k:'0-2',t:'00:00–00:08',n:'Mise en place de todos los vegetales',r:'Vegetales',a:'Preparar mirepoix, vegetales de encurtido y vegetales de la ensalada; hacer el líquido de encurtido.',i:['Zanahoria, puerro, cebollas y apio','Manzana y hierbabuena','Vinagre, agua, azúcar y sal']},
-    {k:'1-2',t:'00:08–00:20',n:'Encurtidos y apoyo de costillas',r:'Ambos fuertes',a:'Poner los vegetales en encurtido y apoyar a Sofía en el control del hervor.',i:['Vegetales cortados','Líquido caliente','Espumadera']},
-    {k:'2-2',t:'00:20–00:32',n:'Ensalada fresca sin aliñar',r:'Plato 2',a:'Cortar manzana, apio, cebolla e hierbabuena; reservar en frío sin limón ni sal.',i:['Manzana roja','Apio','Cebolla roja','Hierbabuena']},
-    {k:'3-2',t:'00:32–00:45',n:'Control de costillas y vegetales',r:'Ambos fuertes',a:'Verificar terneza con Sofía y dejar listos los vegetales de ambos platos.',i:['Costillas en cocción','Encurtidos','Ensalada cortada']},
-    {k:'4-2',t:'00:45–00:50',n:'Retirar y secar costillas',r:'Plato 2',a:'Retirar las costillas tiernas y secarlas perfectamente antes de glasear.',i:['Pinzas','Papel absorbente','Bandeja']},
-    {k:'5-2',t:'00:50–01:04',n:'Apoyar el glaseado',r:'Plato 2',a:'Girar y controlar las costillas mientras Sofía lidera las capas de glaseado.',i:['Costillas secas','Glaseado','Brocha','Horno a 220 °C']},
-    {k:'6-2',t:'01:04–01:12',n:'Preparar vegetales para servicio',r:'Ambos fuertes',a:'Escurrir encurtidos y organizar la ensalada fresca, todavía sin aliñar.',i:['Encurtidos','Ensalada','Limón y aceite']},
-    {k:'7-2',t:'01:12–01:20',n:'Aliñar y montar vegetales',r:'Plato 2',a:'Aliñar y escurrir la ensalada; disponerla y apoyar el montaje final.',i:['Limón 15 ml','Aceite 10 ml','Sal y pimienta','Pinzas']}
-  ],
-  sofia:[
-    {k:'0-3',t:'00:00–00:08',n:'Mise en place de costillas, glaseado y chips',r:'Plato 2',a:'Pesar todos los ingredientes, preparar olla, horno, bandeja, brocha, mandolina y aceite. Recibir las costillas e iniciar cocción.',i:['Costillas y aromáticos','Mango, lulo y fondo','Plátano verde','Equipo completo']},
-    {k:'1-3',t:'00:08–00:20',n:'Liderar costillas y glaseado',r:'Plato 2',a:'Controlar el hervor e iniciar la reducción de lulo y mango.',i:['Costillas en cocción','Mango 150 g','Lulo 150 g','Fondo 100 ml']},
-    {k:'2-3',t:'00:20–00:32',n:'Terminar glaseado y hacer chips',r:'Plato 2',a:'Llevar el glaseado a punto adherente; cortar, freír y escurrir los chips.',i:['Azúcar o panela','Vinagre','Plátano verde','Aceite de fritura']},
-    {k:'3-3',t:'00:32–00:45',n:'Control final de costillas',r:'Plato 2',a:'Verificar terneza, ajustar el glaseado y dejar lista la estación de acabado.',i:['Bandeja','Brocha','Horno a 220 °C','Papel absorbente']},
-    {k:'4-3',t:'00:45–00:50',n:'Preparar el acabado',r:'Plato 2',a:'Recibir las costillas secas, precalentar el horno y aplicar la primera capa de glaseado.',i:['Costillas secas','Glaseado','Brocha']},
-    {k:'5-3',t:'00:50–01:04',n:'Glasear en tres capas',r:'Plato 2',a:'Liderar el horneado, giro y aplicación de capas hasta caramelizar sin quemar.',i:['Horno a 220 °C','Temporizador','Bandeja']},
-    {k:'6-3',t:'01:04–01:12',n:'Reposar y controlar crocantes',r:'Plato 2',a:'Reposar las costillas sin taparlas por completo y revisar los chips.',i:['Costillas glaseadas','Rejilla','Chips secos']},
-    {k:'7-3',t:'01:12–01:20',n:'Liderar el emplatado de costillas',r:'Plato 2',a:'Montar tres costillas, salsa, ensalada y chips. Coordinar a Julián y Ángela y entregar.',i:['Salsa reservada','3 costillas','Ensalada','Chips']}
-  ]
-};
+          <strong>
+            próximamente<span class="cursor">_</span>
+          </strong>
+        </p>
 
-const recipes=[
-  {n:'Tres tacos de patacón con cerdo y pico de gallo',y:'3 tacos de entrada',i:['Plátano verde 1 unidad','Cerdo 120–135 g','Panela 25 g','Fondo 40 ml','Vinagre balsámico 6 ml','Limón 15 ml total','Mantequilla 5 g','Tomate 1 pequeño','Cebolla roja 20 g','Cilantro, sal y pimienta','Aceite para freír'],p:['Cortar tres cilindros y freír 4–5 minutos a 150–160 °C.','Prensar calientes hasta 3 mm y formar óvalos.','Reducir panela, fondo, balsámico y limón; montar con mantequilla.','Dar forma de U y freír a 175–180 °C hasta dorar.','Dorar el cerdo, glasearlo y montar con pico de gallo recién sazonado y escurrido.'],c:'Montar al minuto 45 y servir antes del 50. La salsa no debe acumularse dentro del patacón.'},
-  {n:'Chuleta con puré, piña, encurtidos y falso coral',y:'Preparar 2 porciones · emplatar 1',i:['2 chuletas de 180–220 g','Arracacha 300–350 g','Mantequilla 80 g aprox. entre componentes','Fondo oscuro de cerdo 200 ml','Vino tinto 60 ml','Piña 160 g','Brandy 20 ml','Vino blanco 30 ml','Miel 15 g','Canela','Zanahoria 50 g','Cebolla roja 40 g','Apio 30 g','Vinagre blanco 60 ml','Agua 120 ml total','Harina 8 g','Aceite 30 ml aprox.','Tomillo, laurel, sal y pimienta'],p:['Cocer la arracacha, triturar caliente y montar con mantequilla.','Encurtir zanahoria, cebolla y apio durante al menos 25 minutos.','Asar la piña; añadir brandy fuera de la llama, vino, miel y canela.','Cocinar el coral en sartén antiadherente y mantener seco.','Sellar dos chuletas, terminar en horno a 63–65 °C y reposar.','Desglasar con vino tinto, incorporar fondo y pimienta, reducir, colar y montar con mantequilla.','Emplatar una chuleta; guardar la segunda con la salsa aparte.'],c:'El coral se coloca en el último segundo y nunca sobre una zona húmeda.'},
-  {n:'Costillas glaseadas de lulo y mango',y:'2 porciones · emplatar 3 costillas',i:['Costillas separadas 600–700 g','Mango 150 g','Pulpa de lulo 150 g','Fondo oscuro 100 ml','Azúcar o panela 25–30 g','Vinagre blanco 15 ml','Limón 25 ml total','Mantequilla 15 g','Zanahoria, puerro, cebolla y apio para cocción','Laurel y tomillo','Manzana roja 1 unidad','Apio 1 tallo','Cebolla roja 25 g','Hierbabuena 8–10 hojas','Plátano verde 1 unidad','Aceites, sal y pimienta'],p:['Cocer las costillas separadas a hervor suave durante 40–45 minutos.','Reducir mango, lulo, fondo, azúcar y vinagre; reservar una parte como salsa.','Freír chips longitudinales y mantenerlos secos.','Secar las costillas, aplicar tres capas de glaseado y hornear entre capas a 220 °C.','Mezclar manzana, apio, cebolla y hierbabuena; aliñar y escurrir al servir.','Emplatar salsa, tres costillas, ensalada fresca y chips alejados de la humedad.'],c:'Si las costillas no están separadas o son muy gruesas, no alcanzarán terneza en 80 minutos sin olla a presión.'}
-];
+        <div class="countdown-block">
+          <p class="countdown-label">
+            CIERRE AUTOMÁTICO EN
+          </p>
 
-const roleClass={'Entrada':'entry','Plato 1':'main1','Plato 2':'main2','Vegetales':'main2','Apoyo costillas':'main2','Tres preparaciones':'entry','Ambos fuertes':''};
-function renderPersonal(id,tasks){document.querySelector(id).innerHTML=tasks.map((x,i)=>`<details class="person-task" data-task="${x.k}"><summary><span class="step-index">${i+1}</span><span><b>${x.t}</b><small>${x.n}</small></span></summary><div class="person-body"><span class="prep-tag">${x.r}</span><p>${x.a}</p><h4>Ingredientes y elementos</h4><ul>${x.i.map(v=>`<li>${v}</li>`).join('')}</ul></div><label class="person-done"><input type="checkbox" data-k="${x.k}"><span>Marcar procedimiento terminado</span></label></details>`).join('')}
-renderPersonal('#santiagoTasks',personalTasks.santiago);
-renderPersonal('#angelaTasks',personalTasks.angela);
-renderPersonal('#julianTasks',personalTasks.julian);
-renderPersonal('#sofiaTasks',personalTasks.sofia);
+          <div
+            id="countdown"
+            class="countdown"
+            aria-label="5 segundos"
+          >
+            <span id="seconds">05</span>
+            <small>SEG</small>
+          </div>
 
-document.querySelector('#timeline').innerHTML=schedule.map((s,i)=>`<article class="step"><div class="step-top"><span class="num">${i+1}</span><div><span class="time">${s.t}</span><h3>${s.n}</h3></div></div>${s.x.map((t,j)=>`<label class="task"><input type="checkbox" data-k="${i}-${j}"><span><span class="who">${t[0]}</span><span class="tag ${roleClass[t[1]]||''}">${t[1]}</span><br>${t[2]}</span></label>`).join('')}</article>`).join('');
+          <div
+            class="progress-track"
+            aria-hidden="true"
+          >
+            <span id="progress"></span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-document.querySelector('#recipes').innerHTML=recipes.map((r,i)=>`<article class="recipe"><details class="recipe-card" ${i===0?'open':''}><summary>${i+1}. ${r.n}<br><span class="yield">${r.y}</span></summary><h3>Ingredientes</h3><ul class="ingredients">${r.i.map(x=>`<li>${x}</li>`).join('')}</ul><h3>Procedimiento resumido</h3><ol class="steps">${r.p.map(x=>`<li>${x}</li>`).join('')}</ol><span class="critical">Punto crítico: ${r.c}</span></details></article>`).join('');
+    <footer class="system-footer">
+      <span>NODE_07 // SECURE_CONNECTION</span>
+      <span>© KITCHEN NETWORK</span>
+    </footer>
+  </main>
 
-const views=[...document.querySelectorAll('.view')],nav=document.querySelector('#nav');
-views.forEach((v,i)=>{const b=document.createElement('button');b.className='tab'+(i?'':' active');b.type='button';b.textContent=v.dataset.name;b.onclick=()=>{views.forEach(x=>x.classList.remove('active'));[...nav.children].forEach(x=>x.classList.remove('active'));v.classList.add('active');b.classList.add('active');scrollTo(0,0)};nav.appendChild(b)});
+  <script>
+    /*
+     * EFECTO MATRIX
+     */
 
-const checks=[...document.querySelectorAll('input[data-k]')];
-const taskKeys=[...new Set([...document.querySelectorAll('#timeline input[data-k]')].map(c=>c.dataset.k))];
-function updateProgress(){
-  const done=taskKeys.filter(k=>localStorage.getItem('cerdo-'+k)==='1').length,total=taskKeys.length,pct=Math.round(done/total*100);
-  document.querySelector('#progressBar').style.width=pct+'%';
-  document.querySelector('#progressText').textContent=`${done} de ${total} tareas · ${pct}%`;
-  document.querySelector('.progress-track').setAttribute('aria-valuenow',pct);
-  const cards=[...document.querySelectorAll('.step')];let current=-1;
-  cards.forEach((card,i)=>{const complete=[...card.querySelectorAll('input')].every(c=>c.checked);card.classList.toggle('complete',complete);if(current<0&&!complete)current=i});
-  document.querySelectorAll('.person-task').forEach(card=>card.classList.toggle('complete',card.querySelector('input[data-k]').checked));
-  document.querySelector('#stageText').textContent=current<0?'Servicio listo: todas las tareas están completadas.':`Etapa actual: ${current+1}. ${schedule[current].n} · ${schedule[current].t}`;
-}
-function setTaskState(key,state){
-  checks.filter(c=>c.dataset.k===key).forEach(c=>c.checked=state);
-  localStorage.setItem('cerdo-'+key,state?'1':'0');
-}
-checks.forEach(c=>{
-  c.checked=localStorage.getItem('cerdo-'+c.dataset.k)==='1';
-  c.onchange=()=>{
-    setTaskState(c.dataset.k,c.checked);
-    const personal=c.closest('.person-task');
-    if(personal&&c.checked){
-      personal.open=false;
-      let next=personal.nextElementSibling;
-      while(next&&next.querySelector('input[data-k]').checked)next=next.nextElementSibling;
-      if(next)next.open=true;
+    const canvas =
+      document.getElementById("matrix");
+
+    const context =
+      canvas.getContext("2d");
+
+    const characters =
+      "01アイウエオカキクケコサシスセソタチツテト<>/{}[]#$_";
+
+    const fontSize = 17;
+
+    let columns = 0;
+    let drops = [];
+    let previousTime = 0;
+    let matrixAnimation;
+
+    function resizeCanvas() {
+      const ratio = Math.min(
+        window.devicePixelRatio || 1,
+        2
+      );
+
+      canvas.width =
+        window.innerWidth * ratio;
+
+      canvas.height =
+        window.innerHeight * ratio;
+
+      canvas.style.width =
+        window.innerWidth + "px";
+
+      canvas.style.height =
+        window.innerHeight + "px";
+
+      context.setTransform(
+        ratio,
+        0,
+        0,
+        ratio,
+        0,
+        0
+      );
+
+      columns = Math.ceil(
+        window.innerWidth / fontSize
+      );
+
+      drops = Array.from(
+        { length: columns },
+        function () {
+          return Math.floor(
+            Math.random() *
+            (-window.innerHeight / fontSize)
+          );
+        }
+      );
     }
-    updateProgress();
-  };
-});
-document.querySelectorAll('.person-menu').forEach(menu=>{
-  const pending=[...menu.querySelectorAll('.person-task')].find(card=>!card.querySelector('input[data-k]').checked);
-  if(pending)pending.open=true;
-});
-document.querySelector('#resetProgress').onclick=()=>{
-  taskKeys.forEach(k=>{localStorage.removeItem('cerdo-'+k);setTaskState(k,false)});
-  document.querySelectorAll('.person-menu').forEach(menu=>{[...menu.querySelectorAll('.person-task')].forEach((card,i)=>card.open=i===0)});
-  updateProgress();
-};
-updateProgress();
-</script>
+
+    function drawMatrix(time) {
+      if (time - previousTime > 48) {
+        context.fillStyle =
+          "rgba(0, 8, 3, 0.13)";
+
+        context.fillRect(
+          0,
+          0,
+          window.innerWidth,
+          window.innerHeight
+        );
+
+        context.font =
+          "600 " +
+          fontSize +
+          "px 'Courier New', monospace";
+
+        drops.forEach(
+          function (drop, index) {
+            const character =
+              characters[
+                Math.floor(
+                  Math.random() *
+                  characters.length
+                )
+              ];
+
+            const x =
+              index * fontSize;
+
+            const y =
+              drop * fontSize;
+
+            context.shadowBlur = 8;
+            context.shadowColor = "#00ff66";
+
+            context.fillStyle =
+              Math.random() > 0.975
+                ? "#caffdc"
+                : "#00ce52";
+
+            context.fillText(
+              character,
+              x,
+              y
+            );
+
+            context.shadowBlur = 0;
+
+            if (
+              y > window.innerHeight &&
+              Math.random() > 0.965
+            ) {
+              drops[index] = 0;
+            } else {
+              drops[index] =
+                drop + 1;
+            }
+          }
+        );
+
+        previousTime = time;
+      }
+
+      matrixAnimation =
+        requestAnimationFrame(drawMatrix);
+    }
+
+    resizeCanvas();
+
+    window.addEventListener(
+      "resize",
+      resizeCanvas
+    );
+
+    matrixAnimation =
+      requestAnimationFrame(drawMatrix);
+
+    /*
+     * CONTADOR REGRESIVO
+     */
+
+    const secondsElement =
+      document.getElementById("seconds");
+
+    const countdownElement =
+      document.getElementById("countdown");
+
+    const progressElement =
+      document.getElementById("progress");
+
+    let seconds = 5;
+
+    function updateCountdown() {
+      secondsElement.textContent =
+        String(seconds).padStart(2, "0");
+
+      countdownElement.setAttribute(
+        "aria-label",
+        seconds + " segundos"
+      );
+
+      progressElement.style.width =
+        Math.max(0, seconds * 20) + "%";
+
+      document.title =
+        seconds + "s — Página en pausa";
+    }
+
+    /*
+     * CIERRE DE LA PÁGINA
+     */
+
+    function attemptToClose() {
+      document.title =
+        "Cerrando conexión…";
+
+      /*
+       * Si la pestaña fue abierta mediante
+       * window.open(), el navegador permitirá
+       * cerrarla automáticamente.
+       */
+      if (
+        window.opener &&
+        !window.opener.closed
+      ) {
+        window.close();
+        return;
+      }
+
+      /*
+       * Los navegadores no permiten cerrar
+       * automáticamente una pestaña que el
+       * usuario abrió directamente.
+       *
+       * En ese caso se muestra una pantalla
+       * final de sistema desconectado.
+       */
+      showDisconnectedScreen();
+    }
+
+    function showDisconnectedScreen() {
+      cancelAnimationFrame(
+        matrixAnimation
+      );
+
+      document.title =
+        "Sistema desconectado";
+
+      document.body.innerHTML = `
+        <main class="disconnect-screen">
+          <canvas
+            id="finalMatrix"
+            aria-hidden="true"
+            style="
+              position:fixed;
+              inset:0;
+              width:100%;
+              height:100%;
+              opacity:0.22;
+            "
+          ></canvas>
+
+          <div class="scanlines"></div>
+          <div class="vignette"></div>
+
+          <section
+            class="disconnect-content"
+            aria-live="assertive"
+          >
+            <p class="disconnect-small">
+              SESSION_TERMINATED
+            </p>
+
+            <h1
+              class="disconnect-title"
+              data-text="SISTEMA DESCONECTADO"
+            >
+              SISTEMA DESCONECTADO
+            </h1>
+
+            <div
+              class="disconnect-line"
+              aria-hidden="true"
+            ></div>
+
+            <p class="disconnect-message">
+              La conexión ha finalizado correctamente.
+              <br>
+              Ya puedes cerrar esta pestaña.
+            </p>
+          </section>
+        </main>
+      `;
+    }
+
+    updateCountdown();
+
+    const countdownTimer =
+      setInterval(function () {
+        seconds -= 1;
+
+        updateCountdown();
+
+        if (seconds <= 0) {
+          clearInterval(
+            countdownTimer
+          );
+
+          attemptToClose();
+        }
+      }, 1000);
+  </script>
 </body>
 </html>
